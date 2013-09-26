@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12E55" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Book" syncable="YES">
+        <attribute name="bookAuthor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookAuthorIntro" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookCoverImage" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="bookCoverUrlLarge" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookCoverUrlSmall" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookCreateTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="bookGuid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookInfoURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookIntro" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookISBN" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookStrongIntro" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookUpdateTime" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Book" positionX="160" positionY="192" width="128" height="255"/>
+    </elements>
+</model>
