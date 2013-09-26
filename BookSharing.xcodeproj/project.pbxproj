@@ -11,6 +11,14 @@
 		1012552417F28A5100D30132 /* TableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1012552217F28A5100D30132 /* TableCell.xib */; };
 		1012552717F2919B00D30132 /* DetailedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1012552617F2919B00D30132 /* DetailedViewController.m */; };
 		109318CA17F413A600C3ED26 /* SeachViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 109318C917F413A600C3ED26 /* SeachViewController.m */; };
+		10E6B19717F4230800AD814E /* BooksHtml.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E6B19617F4230800AD814E /* BooksHtml.m */; };
+		10E6B19A17F4231F00AD814E /* SearchBooksTW.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E6B19917F4231F00AD814E /* SearchBooksTW.m */; };
+		10E6B1A117F4276200AD814E /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E6B19C17F4276200AD814E /* TFHpple.m */; };
+		10E6B1A217F4276200AD814E /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E6B19E17F4276200AD814E /* TFHppleElement.m */; };
+		10E6B1A317F4276200AD814E /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E6B1A017F4276200AD814E /* XPathQuery.m */; };
+		10E6B1A517F4277B00AD814E /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 10E6B1A417F4277B00AD814E /* libxml2.2.dylib */; };
+		10E6B1A717F42E8400AD814E /* Searching.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10E6B1A617F42E8400AD814E /* Searching.xib */; };
+		10E6B1AA17F4349800AD814E /* Searching.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E6B1A917F4349800AD814E /* Searching.m */; };
 		10EBD26D17F170F4002B49F0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10EBD26C17F170F4002B49F0 /* Foundation.framework */; };
 		10EBD26F17F170F4002B49F0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10EBD26E17F170F4002B49F0 /* CoreGraphics.framework */; };
 		10EBD27117F170F4002B49F0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10EBD27017F170F4002B49F0 /* UIKit.framework */; };
@@ -53,6 +61,20 @@
 		1012552617F2919B00D30132 /* DetailedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedViewController.m; sourceTree = "<group>"; };
 		109318C817F413A600C3ED26 /* SeachViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeachViewController.h; sourceTree = "<group>"; };
 		109318C917F413A600C3ED26 /* SeachViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeachViewController.m; sourceTree = "<group>"; };
+		10E6B19517F4230800AD814E /* BooksHtml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksHtml.h; sourceTree = "<group>"; };
+		10E6B19617F4230800AD814E /* BooksHtml.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksHtml.m; sourceTree = "<group>"; };
+		10E6B19817F4231F00AD814E /* SearchBooksTW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBooksTW.h; sourceTree = "<group>"; };
+		10E6B19917F4231F00AD814E /* SearchBooksTW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBooksTW.m; sourceTree = "<group>"; };
+		10E6B19B17F4276200AD814E /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
+		10E6B19C17F4276200AD814E /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
+		10E6B19D17F4276200AD814E /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
+		10E6B19E17F4276200AD814E /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
+		10E6B19F17F4276200AD814E /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
+		10E6B1A017F4276200AD814E /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
+		10E6B1A417F4277B00AD814E /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
+		10E6B1A617F42E8400AD814E /* Searching.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Searching.xib; sourceTree = "<group>"; };
+		10E6B1A817F4349800AD814E /* Searching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Searching.h; sourceTree = "<group>"; };
+		10E6B1A917F4349800AD814E /* Searching.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Searching.m; sourceTree = "<group>"; };
 		10EBD26917F170F4002B49F0 /* BookSharing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookSharing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10EBD26C17F170F4002B49F0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		10EBD26E17F170F4002B49F0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -92,6 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10E6B1A517F4277B00AD814E /* libxml2.2.dylib in Frameworks */,
 				10EBD2B217F1836F002B49F0 /* CoreData.framework in Frameworks */,
 				10EBD26F17F170F4002B49F0 /* CoreGraphics.framework in Frameworks */,
 				10EBD27117F170F4002B49F0 /* UIKit.framework in Frameworks */,
@@ -134,6 +157,7 @@
 		10EBD26B17F170F4002B49F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				10E6B1A417F4277B00AD814E /* libxml2.2.dylib */,
 				10EBD2B117F1836F002B49F0 /* CoreData.framework */,
 				10EBD26C17F170F4002B49F0 /* Foundation.framework */,
 				10EBD26E17F170F4002B49F0 /* CoreGraphics.framework */,
@@ -146,11 +170,14 @@
 		10EBD27217F170F4002B49F0 /* BookSharing */ = {
 			isa = PBXGroup;
 			children = (
+				10EBD27E17F170F4002B49F0 /* Main.storyboard */,
 				1012552017F28A5100D30132 /* TableCell.h */,
 				1012552117F28A5100D30132 /* TableCell.m */,
 				1012552217F28A5100D30132 /* TableCell.xib */,
+				10E6B1A617F42E8400AD814E /* Searching.xib */,
+				10E6B1A817F4349800AD814E /* Searching.h */,
+				10E6B1A917F4349800AD814E /* Searching.m */,
 				10EBD2B917F188E0002B49F0 /* menu@2x.png */,
-				10EBD27E17F170F4002B49F0 /* Main.storyboard */,
 				10EBD2AB17F18346002B49F0 /* Books.xcdatamodeld */,
 				10EBD2AE17F1835F002B49F0 /* AppDelegate.h */,
 				10EBD2AF17F1835F002B49F0 /* AppDelegate.m */,
@@ -204,6 +231,12 @@
 		10EBD2A417F171A8002B49F0 /* SDKs */ = {
 			isa = PBXGroup;
 			children = (
+				10E6B19B17F4276200AD814E /* TFHpple.h */,
+				10E6B19C17F4276200AD814E /* TFHpple.m */,
+				10E6B19D17F4276200AD814E /* TFHppleElement.h */,
+				10E6B19E17F4276200AD814E /* TFHppleElement.m */,
+				10E6B19F17F4276200AD814E /* XPathQuery.h */,
+				10E6B1A017F4276200AD814E /* XPathQuery.m */,
 				10EBD2A117F171A0002B49F0 /* SWRevealViewController.h */,
 				10EBD2A217F171A0002B49F0 /* SWRevealViewController.m */,
 			);
@@ -213,6 +246,10 @@
 		10EBD2C117F19452002B49F0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				10E6B19817F4231F00AD814E /* SearchBooksTW.h */,
+				10E6B19917F4231F00AD814E /* SearchBooksTW.m */,
+				10E6B19517F4230800AD814E /* BooksHtml.h */,
+				10E6B19617F4230800AD814E /* BooksHtml.m */,
 				10EBD2BE17F193B2002B49F0 /* BookListData.h */,
 				10EBD2BF17F193B2002B49F0 /* BookListData.m */,
 				10EBD2BB17F193A5002B49F0 /* BookInfo.h */,
@@ -299,6 +336,7 @@
 			files = (
 				10EBD28517F170F4002B49F0 /* Images.xcassets in Resources */,
 				10EBD2BA17F188E0002B49F0 /* menu@2x.png in Resources */,
+				10E6B1A717F42E8400AD814E /* Searching.xib in Resources */,
 				10EBD27717F170F4002B49F0 /* InfoPlist.strings in Resources */,
 				10EBD28017F170F4002B49F0 /* Main.storyboard in Resources */,
 				1012552417F28A5100D30132 /* TableCell.xib in Resources */,
@@ -321,17 +359,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				10EBD27917F170F4002B49F0 /* main.m in Sources */,
+				10E6B19A17F4231F00AD814E /* SearchBooksTW.m in Sources */,
 				10EBD2AD17F18346002B49F0 /* Books.xcdatamodeld in Sources */,
 				1012552717F2919B00D30132 /* DetailedViewController.m in Sources */,
 				109318CA17F413A600C3ED26 /* SeachViewController.m in Sources */,
 				10EBD2B817F18590002B49F0 /* SlideViewController.m in Sources */,
 				10EBD2A317F171A0002B49F0 /* SWRevealViewController.m in Sources */,
 				10EBD2BD17F193A5002B49F0 /* BookInfo.m in Sources */,
+				10E6B1AA17F4349800AD814E /* Searching.m in Sources */,
+				10E6B1A217F4276200AD814E /* TFHppleElement.m in Sources */,
 				10EBD2AA17F181B6002B49F0 /* MainViewController.m in Sources */,
 				10EBD2B017F1835F002B49F0 /* AppDelegate.m in Sources */,
+				10E6B1A117F4276200AD814E /* TFHpple.m in Sources */,
 				10EBD2B517F183BC002B49F0 /* BookListViewController.m in Sources */,
+				10E6B19717F4230800AD814E /* BooksHtml.m in Sources */,
 				1012552317F28A5100D30132 /* TableCell.m in Sources */,
 				10EBD2C017F193B2002B49F0 /* BookListData.m in Sources */,
+				10E6B1A317F4276200AD814E /* XPathQuery.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +504,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BookSharing/BookSharing-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				INFOPLIST_FILE = "BookSharing/BookSharing-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -473,6 +522,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BookSharing/BookSharing-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				INFOPLIST_FILE = "BookSharing/BookSharing-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

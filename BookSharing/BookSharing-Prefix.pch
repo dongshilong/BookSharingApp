@@ -15,4 +15,28 @@
     #import <Foundation/Foundation.h>
     #import <CoreData/CoreData.h>
     #import "AppDelegate.h"
+
+
+//#define DEBUG_BOOK_SEARCH
+//#define DEBUG_VIEW
+
+
+#ifdef DEBUG_BOOK_SEARCH
+#   define BOOKS_SEARCH_LOG(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#   define BOOKS_SEARCH_LOG(...)
+#endif
+
+#define BOOKS_ERROR_LOG(fmt, ...) NSLog((@"ERROR !! %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+
+#ifdef DEBUG_VIEW
+#   define VIEW_LOG(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#   define VIEW_LOG(...)
+#endif
+
+#define VIEW_ERROR_LOG(fmt, ...) NSLog((@"ERROR !! %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+
 #endif

@@ -47,6 +47,7 @@
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
     // 4. Setup UI activity
+    self.navigationItem.title = @"Book List";
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.clearsSelectionOnViewWillAppear = NO;
 
