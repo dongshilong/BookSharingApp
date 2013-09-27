@@ -11,19 +11,29 @@
 #import "BooksHtml.h"
 #import "Searching.h"
 
-@interface SeachViewController : UIViewController <UISearchBarDelegate> {
-    BOOL SeguePerformed;
+@interface SeachViewController : UIViewController
+                    <UISearchBarDelegate, UISearchDisplayDelegate,
+                    UITableViewDataSource, UITableViewDelegate> {
+    BOOL ShowSearchResult;
 }
 
-@property (weak, nonatomic) IBOutlet UISearchBar *SearchBar;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *bookListButton;
+@property (weak, nonatomic)     IBOutlet UISearchBar        *SearchBar;
+@property (strong, nonatomic)   IBOutlet UIBarButtonItem    *sidebarButton;
+@property (strong, nonatomic)   IBOutlet UIBarButtonItem    *bookListButton;
+@property (weak, nonatomic)     IBOutlet UIButton           *BarCodeReaderBtn;
+@property (weak, nonatomic)     IBOutlet UITableView        *TableView;
 
-@property (weak, nonatomic)     Searching *SearchingView;
-@property (strong, atomic)      BooksHtml *BookSearch;
-@property (nonatomic, strong)   BookInfo  *BookInfoObj;
+@property (strong, atomic)      NSMutableArray  *TableDataSec0;
+@property (strong, atomic)      NSMutableArray  *SearchBookInfoObjArray;
+
+@property (weak, nonatomic)     Searching   *SearchingView;
+@property (strong, atomic)      BooksHtml   *BookSearch;
+@property (nonatomic, strong)   BookInfo    *BookInfoObj;
+
+
 
 - (IBAction)BookListBtn:(id)sender;
+- (IBAction)BarCodeReaderBtn:(id)sender;
 
 
 @end

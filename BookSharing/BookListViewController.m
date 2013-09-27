@@ -165,10 +165,8 @@
         }
         
     } else {
-        
         return nil;
     }
-    
     return sectionStr;
 }
 
@@ -204,7 +202,6 @@
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"--- %i", indexPath.row);
     [self performSegueWithIdentifier:@"BookDetailedInfo" sender:nil];
     return indexPath;
 }

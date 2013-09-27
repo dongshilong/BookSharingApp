@@ -18,7 +18,7 @@
 
 
 //#define DEBUG_BOOK_SEARCH
-//#define DEBUG_VIEW
+#define DEBUG_VIEW
 
 
 #ifdef DEBUG_BOOK_SEARCH

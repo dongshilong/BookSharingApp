@@ -89,13 +89,13 @@
     return BookCoverURLArray;
 }
 
--(BookInfo *) Books_ExtractToSingleBookInfoObjWithDictionary : (NSDictionary *) SearchBooksDic
+-(BookInfo *) Books_ExtractToSingleBookInfoObjWithDictionary : (NSDictionary *) SearchBooksDic ByIndex : (NSUInteger) Index
 {
     BookInfo *BookInfoObj = [[BookInfo alloc] init];
     
-    BookInfoObj.BookName = [[self Books_ExtractToBookNameArrayWithDictionary:SearchBooksDic] objectAtIndex:0];
-    BookInfoObj.BookAuthor = [[self Books_ExtractToBookAuthorArrayWithDictionary:SearchBooksDic] objectAtIndex:0];
-    BookInfoObj.BookInfoURL = [[self Books_ExtractToBookDetailedUrlArrayWithDictionary:SearchBooksDic] objectAtIndex:0];
+    BookInfoObj.BookName = [[self Books_ExtractToBookNameArrayWithDictionary:SearchBooksDic] objectAtIndex:Index];
+    BookInfoObj.BookAuthor = [[self Books_ExtractToBookAuthorArrayWithDictionary:SearchBooksDic] objectAtIndex:Index];
+    BookInfoObj.BookInfoURL = [[self Books_ExtractToBookDetailedUrlArrayWithDictionary:SearchBooksDic] objectAtIndex:Index];
     
     return BookInfoObj;
 }
@@ -123,6 +123,7 @@
                                         
                     if (_BookSearchDic != nil) {
                         BOOKS_SEARCH_LOG(@"NOTIFICATION  = %i", NotificationSent);
+                        
                         if (NotificationSent == NO) {
                             [self Books_SendStatusNotificationWithValue:BOOK_SEARCH_RESULT_TABLE_DONE];
                             NotificationSent = YES;

@@ -135,6 +135,36 @@
     return BookCoverURL;
 }
 
+//
+// 在 HTML DATA 中找到 搜尋結果數目
+//
+-(NSInteger) BooksTW_PrepareSearchResultByHtmlData : (NSData *)HtmlData
+{
+    NSInteger SearchResult = 0;
+    TFHpple *HtmlParser = [TFHpple hppleWithHTMLData:HtmlData];
+    
+    NSLog(@"Books_PrepareSearchResultByHtmlData ");
+    
+    
+    NSString *SearchResultXpathQueryString = @"//div[1]/div[1]/div/ul/li[2]/span";
+    NSArray *SearchResultNodes = [HtmlParser searchWithXPathQuery:SearchResultXpathQueryString];
+    
+    if ( (SearchResultNodes == nil) || ([SearchResultNodes count] == 0)) {
+        return 0;
+    } else {
+        
+        // To get search result number
+        TFHppleElement *element = [SearchResultNodes objectAtIndex:0];
+        //NSLog(@"%@", [[element firstChild] content]);
+        SearchResult = [[[element firstChild] content] intValue];
+        //_SearchResultNum = SearchResult;
+    }
+    
+    
+    return SearchResult;
+    
+}
+
 
 //
 // 在 HTML DATA 中建立搜尋結果表格
@@ -151,6 +181,7 @@
         return nil;
     }
     */
+    NSLog(@"=== %i ===", [self BooksTW_PrepareSearchResultByHtmlData:SearchResultHtmlData]);
     
     TFHpple         *HtmlParser = [TFHpple hppleWithHTMLData:SearchResultHtmlData];
     NSString        *SearchResultXpathQueryString;
