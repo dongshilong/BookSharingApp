@@ -15,6 +15,7 @@
                     <UISearchBarDelegate, UISearchDisplayDelegate,
                     UITableViewDataSource, UITableViewDelegate> {
     BOOL ShowSearchResult;
+    CGPoint BarcodeDefaultLocation;
 }
 
 @property (weak, nonatomic)     IBOutlet UISearchBar        *SearchBar;
@@ -23,8 +24,11 @@
 @property (weak, nonatomic)     IBOutlet UIButton           *BarCodeReaderBtn;
 @property (weak, nonatomic)     IBOutlet UITableView        *TableView;
 
+@property (strong, atomic)      NSString        *NotificationState_OLD;
 @property (strong, atomic)      NSMutableArray  *TableDataSec0;
 @property (strong, atomic)      NSMutableArray  *SearchBookInfoObjArray;
+@property (strong, atomic)      NSMutableArray  *TableCoverImageArray;
+
 
 @property (weak, nonatomic)     Searching   *SearchingView;
 @property (strong, atomic)      BooksHtml   *BookSearch;
@@ -33,7 +37,6 @@
 
 
 - (IBAction)BookListBtn:(id)sender;
-- (IBAction)BarCodeReaderBtn:(id)sender;
 
 
 @end

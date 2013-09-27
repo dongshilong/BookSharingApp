@@ -96,12 +96,16 @@
     BookInfoObj.BookName = [[self Books_ExtractToBookNameArrayWithDictionary:SearchBooksDic] objectAtIndex:Index];
     BookInfoObj.BookAuthor = [[self Books_ExtractToBookAuthorArrayWithDictionary:SearchBooksDic] objectAtIndex:Index];
     BookInfoObj.BookInfoURL = [[self Books_ExtractToBookDetailedUrlArrayWithDictionary:SearchBooksDic] objectAtIndex:Index];
+    BookInfoObj.BookCoverURL = [[self Books_ExtractToBookCoverUrlArrayWithDictionary:SearchBooksDic] objectAtIndex:Index];
     
     return BookInfoObj;
 }
-
-
-
+/*
+-(NSInteger) Books_GetBooksDicSize : (NSDictionary  *) SearchBooksDic
+{
+    [SearchBooksDic ]
+}
+*/
 
 #pragma mark - State Machine
 -(void) Books_StateMachine

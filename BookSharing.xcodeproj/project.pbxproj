@@ -11,6 +11,8 @@
 		1012552317F28A5100D30132 /* TableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1012552117F28A5100D30132 /* TableCell.m */; };
 		1012552417F28A5100D30132 /* TableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1012552217F28A5100D30132 /* TableCell.xib */; };
 		1012552717F2919B00D30132 /* DetailedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1012552617F2919B00D30132 /* DetailedViewController.m */; };
+		1091586617F5802700AD0984 /* TableCellSmall.m in Sources */ = {isa = PBXBuildFile; fileRef = 1091586417F5802700AD0984 /* TableCellSmall.m */; };
+		1091586717F5802700AD0984 /* TableCellSmall.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1091586517F5802700AD0984 /* TableCellSmall.xib */; };
 		109318CA17F413A600C3ED26 /* SeachViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 109318C917F413A600C3ED26 /* SeachViewController.m */; };
 		10E6B19717F4230800AD814E /* BooksHtml.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E6B19617F4230800AD814E /* BooksHtml.m */; };
 		10E6B19A17F4231F00AD814E /* SearchBooksTW.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E6B19917F4231F00AD814E /* SearchBooksTW.m */; };
@@ -61,6 +63,9 @@
 		1012552217F28A5100D30132 /* TableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableCell.xib; sourceTree = "<group>"; };
 		1012552517F2919B00D30132 /* DetailedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailedViewController.h; sourceTree = "<group>"; };
 		1012552617F2919B00D30132 /* DetailedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedViewController.m; sourceTree = "<group>"; };
+		1091586317F5802700AD0984 /* TableCellSmall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableCellSmall.h; sourceTree = "<group>"; };
+		1091586417F5802700AD0984 /* TableCellSmall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableCellSmall.m; sourceTree = "<group>"; };
+		1091586517F5802700AD0984 /* TableCellSmall.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableCellSmall.xib; sourceTree = "<group>"; };
 		109318C817F413A600C3ED26 /* SeachViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeachViewController.h; sourceTree = "<group>"; };
 		109318C917F413A600C3ED26 /* SeachViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeachViewController.m; sourceTree = "<group>"; };
 		10E6B19517F4230800AD814E /* BooksHtml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksHtml.h; sourceTree = "<group>"; };
@@ -137,6 +142,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1091586817F583C600AD0984 /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				1091586317F5802700AD0984 /* TableCellSmall.h */,
+				1091586417F5802700AD0984 /* TableCellSmall.m */,
+				1091586517F5802700AD0984 /* TableCellSmall.xib */,
+				1012552017F28A5100D30132 /* TableCell.h */,
+				1012552117F28A5100D30132 /* TableCell.m */,
+				1012552217F28A5100D30132 /* TableCell.xib */,
+				10E6B1A617F42E8400AD814E /* Searching.xib */,
+				10E6B1A817F4349800AD814E /* Searching.h */,
+				10E6B1A917F4349800AD814E /* Searching.m */,
+			);
+			name = SubViews;
+			sourceTree = "<group>";
+		};
 		10EBD26017F170F4002B49F0 = {
 			isa = PBXGroup;
 			children = (
@@ -176,12 +197,6 @@
 				109318C917F413A600C3ED26 /* SeachViewController.m */,
 				10EBD2C117F19452002B49F0 /* Models */,
 				10EBD27E17F170F4002B49F0 /* Main.storyboard */,
-				1012552017F28A5100D30132 /* TableCell.h */,
-				1012552117F28A5100D30132 /* TableCell.m */,
-				1012552217F28A5100D30132 /* TableCell.xib */,
-				10E6B1A617F42E8400AD814E /* Searching.xib */,
-				10E6B1A817F4349800AD814E /* Searching.h */,
-				10E6B1A917F4349800AD814E /* Searching.m */,
 				10EBD2B917F188E0002B49F0 /* menu@2x.png */,
 				100ABA0E17F4900200601973 /* BarcodeReader.png */,
 				10EBD2AB17F18346002B49F0 /* Books.xcdatamodeld */,
@@ -195,6 +210,7 @@
 				10EBD2B417F183BC002B49F0 /* BookListViewController.m */,
 				1012552517F2919B00D30132 /* DetailedViewController.h */,
 				1012552617F2919B00D30132 /* DetailedViewController.m */,
+				1091586817F583C600AD0984 /* SubViews */,
 				10EBD2A417F171A8002B49F0 /* SDKs */,
 				10EBD28417F170F4002B49F0 /* Images.xcassets */,
 				10EBD27317F170F4002B49F0 /* Supporting Files */,
@@ -341,6 +357,7 @@
 				10EBD2BA17F188E0002B49F0 /* menu@2x.png in Resources */,
 				10E6B1A717F42E8400AD814E /* Searching.xib in Resources */,
 				10EBD27717F170F4002B49F0 /* InfoPlist.strings in Resources */,
+				1091586717F5802700AD0984 /* TableCellSmall.xib in Resources */,
 				100ABA0F17F4900200601973 /* BarcodeReader.png in Resources */,
 				10EBD28017F170F4002B49F0 /* Main.storyboard in Resources */,
 				1012552417F28A5100D30132 /* TableCell.xib in Resources */,
@@ -372,6 +389,7 @@
 				10EBD2BD17F193A5002B49F0 /* BookInfo.m in Sources */,
 				10E6B1AA17F4349800AD814E /* Searching.m in Sources */,
 				10E6B1A217F4276200AD814E /* TFHppleElement.m in Sources */,
+				1091586617F5802700AD0984 /* TableCellSmall.m in Sources */,
 				10EBD2AA17F181B6002B49F0 /* MainViewController.m in Sources */,
 				10EBD2B017F1835F002B49F0 /* AppDelegate.m in Sources */,
 				10E6B1A117F4276200AD814E /* TFHpple.m in Sources */,

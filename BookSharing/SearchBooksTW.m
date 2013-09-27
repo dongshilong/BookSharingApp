@@ -122,7 +122,7 @@
     NSArray *SearchResultNodes = [HtmlParser searchWithXPathQuery:SearchResultXpathQueryString];
     if ((SearchResultNodes == nil) || ([SearchResultNodes count] == 0)) {
         
-        BOOKS_ERROR_LOG(@"node not found");
+        BOOKS_ERROR_LOG(@"BooksTW_TableBookCoverURLScapting node not found");
         return nil;
         
     } else {
@@ -181,7 +181,7 @@
         return nil;
     }
     */
-    NSLog(@"=== %i ===", [self BooksTW_PrepareSearchResultByHtmlData:SearchResultHtmlData]);
+    //NSLog(@"=== %i ===", [self BooksTW_PrepareSearchResultByHtmlData:SearchResultHtmlData]);
     
     TFHpple         *HtmlParser = [TFHpple hppleWithHTMLData:SearchResultHtmlData];
     NSString        *SearchResultXpathQueryString;
@@ -228,7 +228,7 @@
         [TempBookAuthorArray addObject:[self BooksTW_TableBookAuthorStringScapting:SearchResultHtmlData WithIndex:i]];
         
         // 3.4 Find Book Cover URL for Table display  BooksTW_TableBookCoverURLScapting
-        [TempBookCoverURLArray addObject:[self BooksTW_TableBookCoverURLScapting:SearchResultHtmlData WithIndex:i]];
+        [TempBookCoverURLArray addObject:[NSURL URLWithString:[self BooksTW_TableBookCoverURLScapting:SearchResultHtmlData WithIndex:i] ]];
     }
     
     // 3. Build up dictionary
