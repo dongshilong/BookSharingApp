@@ -195,6 +195,8 @@
 			children = (
 				109318C817F413A600C3ED26 /* SeachViewController.h */,
 				109318C917F413A600C3ED26 /* SeachViewController.m */,
+				1012552517F2919B00D30132 /* DetailedViewController.h */,
+				1012552617F2919B00D30132 /* DetailedViewController.m */,
 				10EBD2C117F19452002B49F0 /* Models */,
 				10EBD27E17F170F4002B49F0 /* Main.storyboard */,
 				10EBD2B917F188E0002B49F0 /* menu@2x.png */,
@@ -208,8 +210,6 @@
 				10EBD2A917F181B6002B49F0 /* MainViewController.m */,
 				10EBD2B317F183BC002B49F0 /* BookListViewController.h */,
 				10EBD2B417F183BC002B49F0 /* BookListViewController.m */,
-				1012552517F2919B00D30132 /* DetailedViewController.h */,
-				1012552617F2919B00D30132 /* DetailedViewController.m */,
 				1091586817F583C600AD0984 /* SubViews */,
 				10EBD2A417F171A8002B49F0 /* SDKs */,
 				10EBD28417F170F4002B49F0 /* Images.xcassets */,

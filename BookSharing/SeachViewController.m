@@ -8,6 +8,8 @@
 
 #import "SeachViewController.h"
 #import "TableCellSmall.h"
+#import "DetailedViewController.h"
+
 @interface SeachViewController ()
 
 @end
@@ -43,6 +45,7 @@
     // 3. Init Flags
     ShowSearchResult = NO;
     _NotificationState_OLD = @"Init";
+    _LocalIndexPath = [[NSIndexPath alloc] init];
     
     // 4. Init Data
     BarcodeDefaultLocation = CGPointMake(_BarCodeReaderBtn.center.x, _BarCodeReaderBtn.center.y);
@@ -60,7 +63,10 @@
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    
     [_SearchBar resignFirstResponder];
+    [_TableView deselectRowAtIndexPath:_LocalIndexPath animated:NO];
+
     [self RemoveLoadingView];
 }
 
@@ -218,8 +224,7 @@
                          //
                          //
                          [self performSelector:@selector(getTableImage)];
-                         
-                         
+                        
                          dispatch_async( dispatch_get_main_queue(), ^{
                              // Add code here to update the UI/send notifications based on the
                              // results of the background processing
@@ -227,8 +232,9 @@
                              
                          });
                      });
-                 } else {
                      
+                 } else {
+                     VIEW_LOG(@"There's no result");
                  }
              }
          }
@@ -333,20 +339,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    }
+    static NSString *CellIdentifier;
     
     if ((indexPath.section == 0) && (indexPath.row == 0)) {
         // Set the first cell as CLEAR BTN
-        [cell.textLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:18]];
-        cell.textLabel.textAlignment = NSTextAlignmentCenter;
-        cell.textLabel.text = @"     Click to clear search results";
-        cell.detailTextLabel.text = nil;
-        cell.imageView.image = nil;
+        CellIdentifier = @"ClearCell";
+        
+    } else {
+        
+        CellIdentifier = @"Cell";
+        
+    }
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     if (indexPath.section == 1) {
@@ -363,14 +371,15 @@
                 cell.imageView.image = [UIImage imageWithData:[_TableCoverImageArray objectAtIndex:indexPath.row]];
             }
         }
-       
-        
     }
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    _LocalIndexPath = indexPath;
+    
     if (((indexPath.section == 0) && (indexPath.row == 0))) {
         _SearchBar.text = @"";
         [_TableDataSec0 removeAllObjects];
@@ -384,8 +393,25 @@
         [_TableCoverImageArray removeAllObjects];
         _NotificationState_OLD = @"Init";
         
+    } else {
+        
+        VIEW_LOG(@"select at index path section : %i - row : %i", indexPath.section, indexPath.row);
     }
 
+}
+
+
+
+#pragma mark - Navigation
+
+// In a story board-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"BookDetailedInfo"])
+    {
+        DetailedViewController *destViewController = segue.destinationViewController;
+        destViewController.FatherView = SearchBookView;
+    }
 }
 
 
@@ -405,6 +431,12 @@
     
     [self.navigationController pushViewController:View animated:YES];
     
+}
+
+- (IBAction)BarcodeReaderBtn:(id)sender
+{
+    VIEW_LOG(@"BarcodeReaderBtn");
+    [_SearchBar resignFirstResponder];
 }
 
 

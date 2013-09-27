@@ -28,7 +28,7 @@
 @property (strong, atomic)      NSMutableArray  *TableDataSec0;
 @property (strong, atomic)      NSMutableArray  *SearchBookInfoObjArray;
 @property (strong, atomic)      NSMutableArray  *TableCoverImageArray;
-
+@property (strong, nonatomic)   NSIndexPath     *LocalIndexPath;
 
 @property (weak, nonatomic)     Searching   *SearchingView;
 @property (strong, atomic)      BooksHtml   *BookSearch;
@@ -37,6 +37,7 @@
 
 
 - (IBAction)BookListBtn:(id)sender;
+- (IBAction)BarcodeReaderBtn:(id)sender;
 
 
 @end

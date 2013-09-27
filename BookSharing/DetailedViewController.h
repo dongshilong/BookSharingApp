@@ -10,4 +10,11 @@
 
 @interface DetailedViewController : UIViewController
 
+typedef enum {
+    ListBookView = 0x00,
+    SearchBookView,
+} FatherViewController;
+
+@property FatherViewController FatherView;
+
 @end

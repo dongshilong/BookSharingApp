@@ -26,6 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    VIEW_LOG(@"From %i", _FatherView);
 	// Do any additional setup after loading the view.
 }
 
