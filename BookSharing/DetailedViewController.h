@@ -13,7 +13,11 @@
 #import "DetailedScroller.h"
 #import "Searching.h"
 
-@interface DetailedViewController : UIViewController
+@interface DetailedViewController : UIViewController <NSURLConnectionDelegate> {
+    NSURLConnection     *BookCoverConn;
+    NSMutableData       *_responseData;
+
+}
 
 typedef enum {
     ListBookView = 0x00,

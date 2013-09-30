@@ -40,6 +40,8 @@
         if (_BookInfoObj.BookCoverImage != nil) {
             
             _BookInfoHeaderView.BookCoverView.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
+            _BookInfoHeaderView.BookNameLab.text = _BookInfoObj.BookName;
+            
             // TODO: [Casper] Tty to get detailed information
             VIEW_LOG(@"%@", [_BookInfoObj.BookInfoURL absoluteString]);
             [self FireDetailedInfoWithBookInfoURL:_BookInfoObj.BookInfoURL];
@@ -66,6 +68,8 @@
     // 4. Set flag
     _NotificationState_OLD = @"Init";
     
+    // 5. init image data
+    _responseData = [[NSMutableData alloc] init];
 	// Do any additional setup after loading the view.
 }
 
@@ -103,6 +107,13 @@
                  VIEW_LOG(@"BOOK_DETAILED_BOOK_INFO_PAGE_DONE");
                  VIEW_LOG(@"%@", [_BookInfoQuery.BookInfoObj.BookCoverHDURL absoluteString]);
                  
+                 // TODO: [Casper] To Pass whole information to view layer
+                 _BookInfoObj.BookCoverHDURL = _BookInfoQuery.BookInfoObj.BookCoverHDURL;
+                 
+                 if (_BookInfoObj.BookCoverHDURL != nil) {
+                     [self FireBookCoverHDQueryConnectionWithBookCoverHDURL:_BookInfoObj.BookCoverHDURL];
+                     // CHECK CONNECTION
+                 }
                  
                  [self RemoveLoadingView];
              }
@@ -124,10 +135,17 @@
     
     // Enable loading icon on the status bar
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    
 
 }
 
+-(void) FireBookCoverHDQueryConnectionWithBookCoverHDURL: (NSURL*) BookCoverURLHD
+{
+    
+    VIEW_LOG(@"Fire Image Cover Connection!!!");
+    NSURLRequest *request=[NSURLRequest requestWithURL:BookCoverURLHD];
+    BookCoverConn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+}
 
 
 #pragma mark - UI activities
@@ -163,6 +181,26 @@
     
     return Success;
 }
+
+
+#pragma mark - NSURLConnection Delegate Methods
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    BOOKS_SEARCH_LOG(@"didReceiveData");
+    [_responseData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    VIEW_LOG(@"connectionDidFinishLoading");
+    NSURLRequest *CurrRequest = [connection currentRequest];
+    if ([[CurrRequest.URL absoluteString] isEqualToString:[_BookInfoObj.BookCoverHDURL absoluteString]]) {
+        VIEW_LOG(@"%@", [UIImage imageWithData:_responseData]);
+        _BookInfoHeaderView.BookCoverView.image = [UIImage imageWithData:_responseData];
+    }
+}
+
 
 
 

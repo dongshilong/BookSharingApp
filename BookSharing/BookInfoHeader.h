@@ -12,5 +12,6 @@
 @interface BookInfoHeader : UIView
 @property (weak, nonatomic) IBOutlet UIImageView *BookCoverView;
 @property (weak, nonatomic) IBOutlet UILabel *BackLab;
+@property (weak, nonatomic) IBOutlet UILabel *BookNameLab;
 
 @end
