@@ -222,7 +222,7 @@
         [TempBookNameArray addObject:[self BooksTW_TableBookNameScapting:SearchResultHtmlData WithIndex:i]];
         
         // 3.2 Find Book info URL and add to TempBookURLArray
-        [TempBookURLArray addObject:[self BooksTW_TableBookInfoURLStringScapting:SearchResultHtmlData WithIndex:i]];
+        [TempBookURLArray addObject:[NSURL URLWithString:[self BooksTW_TableBookInfoURLStringScapting:SearchResultHtmlData WithIndex:i] ]];
         
         // 3.3 Find Book Author and add to TempBookAuthorArray
         [TempBookAuthorArray addObject:[self BooksTW_TableBookAuthorStringScapting:SearchResultHtmlData WithIndex:i]];
@@ -242,6 +242,40 @@
     
     return SearchResultDic;
 }
+
+
+// Used in detailed view
+// Precondition : send connection with detailed URL
+-(NSURL*) BooksTW_ScrapingSingleBookCoverURLInDetailedPage:(NSData *)HtmlData
+{
+    NSString *BookCoverStr = nil;
+    
+    if (HtmlData == nil) {
+        BOOKS_ERROR_LOG(@"ERROR, BookInfoObj.HtmlData = nil");
+        return nil;
+    }
+    
+    TFHpple *HtmlParser = [TFHpple hppleWithHTMLData:HtmlData];
+    NSString *SearchResultXpathQueryString = @"/html/body/div[2]/div/div[1]/div[1]/div[1]/div/img";
+    //NSString *SearchResultXpathQueryString = @"//*[@id=\"main_img\"]";
+    NSArray *SearchResultNodes = [HtmlParser searchWithXPathQuery:SearchResultXpathQueryString];
+    
+    if ((SearchResultNodes == nil) || ([SearchResultNodes count] == 0)) {
+        BOOKS_ERROR_LOG(@"Node Not Found!!");
+        return nil;
+        
+    } else {
+        
+        TFHppleElement *element = [SearchResultNodes objectAtIndex:0];
+        element = [SearchResultNodes objectAtIndex:0];
+        BOOKS_SEARCH_LOG(@"imgcoverurlstr = %@", [element objectForKey:@"src"]);
+        BookCoverStr = [NSString stringWithFormat:@"%@", [element objectForKey:@"src"]];
+    }
+    
+    return [NSURL URLWithString:BookCoverStr];
+}
+
+
 
 
 @end

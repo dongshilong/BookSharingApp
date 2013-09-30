@@ -32,7 +32,7 @@
 
 @property (weak, nonatomic)     Searching   *SearchingView;
 @property (strong, atomic)      BooksHtml   *BookSearch;
-@property (nonatomic, strong)   BookInfo    *BookInfoObj;
+@property (strong, nonatomic)   BookInfo    *BookInfoObj;
 
 
 

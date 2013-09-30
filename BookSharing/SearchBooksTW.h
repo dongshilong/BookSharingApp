@@ -16,5 +16,7 @@
 -(NSURL*) BooksTW_PrepareSearchURLWithKeyWords : (NSString *) KeyWords;
 -(NSDictionary*) BooksTW_PrepareBoosSearchResultTable:(NSData*) SearchResultHtmlData;
 
+// For Detailed Page
+-(NSURL*) BooksTW_ScrapingSingleBookCoverURLInDetailedPage:(NSData *)HtmlData;
 
 @end

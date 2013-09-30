@@ -119,24 +119,43 @@
             
         case BOOKS_SEARCH_KEY_WORDS:
             {
+                BOOKS_SEARCH_LOG(@"BOOKS_SEARCH_KEY_WORDS");
+
                 if (_BookSearchDic == nil) {
                     
                     _BookSearchDic = [[NSDictionary alloc] init];
                     _BookSearchDic = [_BooksTW BooksTW_PrepareBoosSearchResultTable:_responseData];
-                    BOOKS_SEARCH_LOG(@"BOOKS_SEARCH_KEY_WORDS");
-                                        
+                    
                     if (_BookSearchDic != nil) {
                         BOOKS_SEARCH_LOG(@"NOTIFICATION  = %i", NotificationSent);
                         
                         if (NotificationSent == NO) {
                             [self Books_SendStatusNotificationWithValue:BOOK_SEARCH_RESULT_TABLE_DONE];
+                            
+                            _State = BOOKS_INIT;
                             NotificationSent = YES;
                         }
                     }
+                } else {
+                    _State = BOOKS_INIT;
                 }
             }
             break;
             
+        case BOOKS_GET_DETAILED_INFO:
+            {
+                BOOKS_SEARCH_LOG(@"BOOKS_GET_DETAILED_INFO");
+                
+                _BookInfoObj.BookCoverHDURL = [_BooksTW BooksTW_ScrapingSingleBookCoverURLInDetailedPage:_responseData];
+                NSLog(@"%@", [_BookInfoObj.BookCoverHDURL absoluteString]);
+                if (NotificationSent == NO) {
+                    [self Books_SendStatusNotificationWithValue:BOOK_DETAILED_BOOK_INFO_PAGE_DONE];
+                    
+                    _State = BOOKS_INIT;
+                    NotificationSent = YES;
+                }
+            }
+            break;
         default:
             break;
     }
@@ -144,7 +163,7 @@
 
 
 
-#pragma mark - Search URL Generator
+#pragma mark - Connection firing
 -(NSURL*) PrepareSearchURLWithKeyword : (NSString*) KeyWord
 {
     _BooksTW = [[SearchBooksTW alloc] init];
@@ -155,9 +174,21 @@
 {
     NSURL *SearchingURL = [self PrepareSearchURLWithKeyword:KeyWord];
     NSURLRequest *request=[NSURLRequest requestWithURL:SearchingURL];
-    BOOKS_SEARCH_LOG(@"Fire Connection !! %@", [request.URL absoluteString]);
+    BOOKS_SEARCH_LOG(@"Fire Connection !! \n%@", [request.URL absoluteString]);
     conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     _State = BOOKS_SEARCH_KEY_WORDS;
+}
+
+-(void) Books_FireQueryBookDetailedInfoWithURL:(NSURL *) BookInfoURL
+{
+    
+    BOOKS_SEARCH_LOG(@"Fire Image Cover Connection!!! \n%@", [BookInfoURL absoluteString]);
+    _BooksTW = [[SearchBooksTW alloc] init];
+    NSURLRequest *request=[NSURLRequest requestWithURL:BookInfoURL];
+    // Create url connection and fire request
+    conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    _State = BOOKS_GET_DETAILED_INFO;
+
 }
 
 

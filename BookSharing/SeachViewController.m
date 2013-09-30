@@ -72,6 +72,23 @@
 
 #pragma mark - UI activities
 
+
+-(void) InputInfoViewSingleBtnAlertWithString: (NSString *) AlertString
+                                  MessageStr : (NSString*) Message
+                                andBtnString : (NSString*) BtnString
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:AlertString
+                                                    message:Message
+                                                   delegate:self
+                                          cancelButtonTitle:BtnString
+                                          otherButtonTitles:nil];
+    
+    //將Alerts顯示於畫面上
+    [alert show];
+    
+}
+
+
 -(void) MoveUpBarcodeReaderBtn
 {
     
@@ -125,8 +142,6 @@
     [super touchesMoved:touches withEvent:event];
     // To remove keyboard when touch on the white area
     
-    //UITouch *touch = [touches anyObject];
-    //CGPoint currentPosition = [touch locationInView:self.view];
     
     [_SearchBar resignFirstResponder];
     [self ResetBarcodeReaderBtn];
@@ -214,15 +229,12 @@
                          [_TableView reloadData];
                          [_TableView setHidden:NO];
                          ShowSearchResult = YES;
-                         [self RemoveLoadingView];
                          
                      }
                      
-                     // TODO: [Casper] To Get Cover Image
                      dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                         // Add code here to do background processing
-                         //
-                         //
+                         
+                         // To query table image in background
                          [self performSelector:@selector(getTableImage)];
                         
                          dispatch_async( dispatch_get_main_queue(), ^{
@@ -235,7 +247,11 @@
                      
                  } else {
                      VIEW_LOG(@"There's no result");
+                     
                  }
+                 
+                 [self RemoveLoadingView];
+
              }
          }
          
@@ -271,6 +287,11 @@
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     VIEW_LOG(@"searchBarSearchButtonClicked");
+    // TODO: [Casper] reset all
+    [_TableCoverImageArray removeAllObjects];
+    [_SearchBookInfoObjArray removeAllObjects];
+    [_TableView setHidden:YES];
+    
     [self SearchBookWebTaskWithKeyWord:searchBar.text];
     [_SearchBar resignFirstResponder];
     [_BarCodeReaderBtn setHidden:YES];
@@ -280,6 +301,7 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     VIEW_LOG(@"searchBarTextDidBeginEditing");
+    [_BarCodeReaderBtn setHidden:NO];
     [self MoveUpBarcodeReaderBtn];
 }
 
@@ -409,8 +431,14 @@
 {
     if ([segue.identifier isEqualToString:@"BookDetailedInfo"])
     {
+        NSIndexPath *Selection = [_TableView indexPathForSelectedRow];
+        BookInfo *BookInfoForParse = [BookInfo new];
+        BookInfoForParse = [_SearchBookInfoObjArray objectAtIndex:Selection.row];
+        
         DetailedViewController *destViewController = segue.destinationViewController;
         destViewController.FatherView = SearchBookView;
+        destViewController.BookInfoObj = BookInfoForParse;
+        destViewController.BookInfoObj.BookCoverImage = [_TableCoverImageArray objectAtIndex:Selection.row];
     }
 }
 

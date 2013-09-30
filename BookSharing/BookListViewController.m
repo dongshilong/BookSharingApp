@@ -304,6 +304,7 @@
     if ([segue.identifier isEqualToString:@"BookDetailedInfo"])
     {
         DetailedViewController *destViewController = segue.destinationViewController;
+        destViewController.FatherView = ListBookView;
         
         if ([self.searchDisplayController isActive]) {
             
