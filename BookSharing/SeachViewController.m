@@ -70,9 +70,23 @@
     [self RemoveLoadingView];
 }
 
+-(void) resetData
+{
+    _SearchBar.text = @"";
+    [_TableDataSec0 removeAllObjects];
+    [_SearchBookInfoObjArray removeAllObjects];
+    _TableDataSec0 = [NSMutableArray arrayWithObjects:@"Click to clear search results", nil];
+    [_TableView reloadData];
+    // TODO: It needs some animation during the search result table hidden
+    [_TableView setHidden:YES];
+    [_BarCodeReaderBtn setHidden:NO];
+    //[_TableView deselectRowAtIndexPath:indexPath animated:NO];
+    [_TableCoverImageArray removeAllObjects];
+    _NotificationState_OLD = @"Init";
+
+}
+
 #pragma mark - UI activities
-
-
 -(void) InputInfoViewSingleBtnAlertWithString: (NSString *) AlertString
                                   MessageStr : (NSString*) Message
                                 andBtnString : (NSString*) BtnString
@@ -95,13 +109,13 @@
     CGPoint MoveUp = CGPointMake( _BarCodeReaderBtn.center.x, 180.0f + _BarCodeReaderBtn.frame.size.width / 2.0f);
     
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:1.0f];
+    [UIView setAnimationDuration:0.5f];
     _BarCodeReaderBtn.center = MoveUp;
     [UIView commitAnimations];
     
 }
 
--(void) ResetBarcodeReaderBtn
+-(void) ResetBarcodeReaderBtnAndDisapear : (BOOL) SetDisapear
 {
     
     CGPoint Reset = BarcodeDefaultLocation;
@@ -110,6 +124,10 @@
     [UIView setAnimationDuration:1.0f];
     _BarCodeReaderBtn.center = Reset;
     [UIView commitAnimations];
+    
+    if (SetDisapear) {
+        [_BarCodeReaderBtn setHidden:YES];
+    }
     
 }
 
@@ -142,9 +160,16 @@
     [super touchesMoved:touches withEvent:event];
     // To remove keyboard when touch on the white area
     
-    
+    if ([_SearchBookInfoObjArray count] != 0) {
+        
+        [self ResetBarcodeReaderBtnAndDisapear:YES];
+        [_TableView setHidden:NO];
+        
+    } else {
+        [self ResetBarcodeReaderBtnAndDisapear:NO];
+    }
     [_SearchBar resignFirstResponder];
-    [self ResetBarcodeReaderBtn];
+
 
 
 }
@@ -208,7 +233,6 @@
              if (([[dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY] isEqualToString:BOOK_SEARCH_RESULT_TABLE_DONE])){
                  
                  // Extract Book Name | Book Author | Book Info URL Array | Book Cover URL
-                 _SearchBookInfoObjArray = [[NSMutableArray alloc] init];
                  
                  NSUInteger Size = [[_BookSearch Books_ExtractToBookNameArrayWithDictionary:_BookSearch.BookSearchDic] count];
                  
@@ -264,7 +288,6 @@
 -(void) getTableImage
 {
     VIEW_LOG(@"getTableImage");
-    _TableCoverImageArray = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < [_SearchBookInfoObjArray count]; i ++) {
 
@@ -287,11 +310,18 @@
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     VIEW_LOG(@"searchBarSearchButtonClicked");
-    // TODO: [Casper] reset all
+
+    if (_TableCoverImageArray == nil) {
+        _TableCoverImageArray = [[NSMutableArray alloc] init];
+    }
+    
+    if (_SearchBookInfoObjArray == nil) {
+        _SearchBookInfoObjArray = [[NSMutableArray alloc] init];
+    }
+
     [_TableCoverImageArray removeAllObjects];
     [_SearchBookInfoObjArray removeAllObjects];
     [_TableView setHidden:YES];
-    
     [self SearchBookWebTaskWithKeyWord:searchBar.text];
     [_SearchBar resignFirstResponder];
     [_BarCodeReaderBtn setHidden:YES];
@@ -301,6 +331,7 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     VIEW_LOG(@"searchBarTextDidBeginEditing");
+    [_TableView setHidden:YES];
     [_BarCodeReaderBtn setHidden:NO];
     [self MoveUpBarcodeReaderBtn];
 }
@@ -403,18 +434,8 @@
     _LocalIndexPath = indexPath;
     
     if (((indexPath.section == 0) && (indexPath.row == 0))) {
-        _SearchBar.text = @"";
-        [_TableDataSec0 removeAllObjects];
-        [_SearchBookInfoObjArray removeAllObjects];
-        _TableDataSec0 = [NSMutableArray arrayWithObjects:@"Click to clear search results", nil];
-        [_TableView reloadData];
-        // TODO: It needs some animation during the search result table hidden
-        [_TableView setHidden:YES];
-        [_BarCodeReaderBtn setHidden:NO];
         [_TableView deselectRowAtIndexPath:indexPath animated:NO];
-        [_TableCoverImageArray removeAllObjects];
-        _NotificationState_OLD = @"Init";
-        
+        [self resetData];
     } else {
         
         VIEW_LOG(@"select at index path section : %i - row : %i", indexPath.section, indexPath.row);

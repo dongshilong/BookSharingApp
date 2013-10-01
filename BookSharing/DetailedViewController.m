@@ -105,14 +105,13 @@
              if (([[dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY] isEqualToString:BOOK_DETAILED_BOOK_INFO_PAGE_DONE]))
              {
                  VIEW_LOG(@"BOOK_DETAILED_BOOK_INFO_PAGE_DONE");
-                 VIEW_LOG(@"%@", [_BookInfoQuery.BookInfoObj.BookCoverHDURL absoluteString]);
-                 
                  // TODO: [Casper] To Pass whole information to view layer
                  _BookInfoObj.BookCoverHDURL = _BookInfoQuery.BookInfoObj.BookCoverHDURL;
+                 _BookInfoObj.BookISBN = _BookInfoQuery.BookInfoObj.BookISBN;
                  
                  if (_BookInfoObj.BookCoverHDURL != nil) {
                      [self FireBookCoverHDQueryConnectionWithBookCoverHDURL:_BookInfoObj.BookCoverHDURL];
-                     // CHECK CONNECTION
+                     // CHECK CONNECTION DELEGATE METHOD
                  }
                  
                  [self RemoveLoadingView];
@@ -128,6 +127,7 @@
 #pragma mark - Connection
 -(void) FireDetailedInfoWithBookInfoURL:(NSURL*) BookDetailedInfoURL
 {
+    
     _BookInfoQuery = [[BooksHtml alloc] init];
     [_BookInfoQuery Books_FireQueryBookDetailedInfoWithURL:BookDetailedInfoURL];
 

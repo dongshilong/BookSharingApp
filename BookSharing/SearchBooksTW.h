@@ -18,5 +18,6 @@
 
 // For Detailed Page
 -(NSURL*) BooksTW_ScrapingSingleBookCoverURLInDetailedPage:(NSData *)HtmlData;
+-(NSString*) BooksTW_ScrapingSingleBookISBNInDetailedPage:(NSData *)HtmlData;
 
 @end

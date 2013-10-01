@@ -100,12 +100,7 @@
     
     return BookInfoObj;
 }
-/*
--(NSInteger) Books_GetBooksDicSize : (NSDictionary  *) SearchBooksDic
-{
-    [SearchBooksDic ]
-}
-*/
+
 
 #pragma mark - State Machine
 -(void) Books_StateMachine
@@ -147,7 +142,10 @@
                 BOOKS_SEARCH_LOG(@"BOOKS_GET_DETAILED_INFO");
                 
                 _BookInfoObj.BookCoverHDURL = [_BooksTW BooksTW_ScrapingSingleBookCoverURLInDetailedPage:_responseData];
-                NSLog(@"%@", [_BookInfoObj.BookCoverHDURL absoluteString]);
+                _BookInfoObj.BookISBN = [_BooksTW BooksTW_ScrapingSingleBookISBNInDetailedPage:_responseData];
+                BOOKS_SEARCH_LOG(@"%@", [_BookInfoObj.BookCoverHDURL absoluteString]);
+                BOOKS_SEARCH_LOG(@"%@", _BookInfoObj.BookISBN);
+                
                 if (NotificationSent == NO) {
                     [self Books_SendStatusNotificationWithValue:BOOK_DETAILED_BOOK_INFO_PAGE_DONE];
                     

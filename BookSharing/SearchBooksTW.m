@@ -243,6 +243,33 @@
     return SearchResultDic;
 }
 
+// ISBN
+//
+-(NSString*) BooksTW_ScrapingSingleBookISBNInDetailedPage:(NSData *)HtmlData
+{
+    NSString *ISBNStr = [[NSString alloc] init];
+    TFHpple *HtmlParser = [TFHpple hppleWithHTMLData:HtmlData];
+    NSString *SearchResultXpathQueryString = @"/html/body/div[2]/div/div[2]/div[1]/div[3]/div/ul[1]/li[1]";
+    //NSString *SearchResultXpathQueryString = @"//*[@id=\"main_img\"]";
+    NSArray *SearchResultNodes = [HtmlParser searchWithXPathQuery:SearchResultXpathQueryString];
+    
+    if ((SearchResultNodes == nil) || ([SearchResultNodes count] == 0)) {
+        BOOKS_ERROR_LOG(@"Node Not Found!!");
+        return nil;
+        
+    } else {
+        
+        TFHppleElement *element = [SearchResultNodes objectAtIndex:0];
+        element = [SearchResultNodes objectAtIndex:0];
+        BOOKS_SEARCH_LOG(@"ISBNStr = %@", [[element firstChild] content]);
+        ISBNStr = [NSString stringWithFormat:@"%@", [[element firstChild] content]];
+    }
+
+    
+    return ISBNStr;
+}
+
+
 
 // Used in detailed view
 // Precondition : send connection with detailed URL
