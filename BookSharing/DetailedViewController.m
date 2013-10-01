@@ -127,8 +127,10 @@
 #pragma mark - Connection
 -(void) FireDetailedInfoWithBookInfoURL:(NSURL*) BookDetailedInfoURL
 {
+    if (_BookInfoQuery == nil) {
+        _BookInfoQuery = [[BooksHtml alloc] init];
+    }
     
-    _BookInfoQuery = [[BooksHtml alloc] init];
     [_BookInfoQuery Books_FireQueryBookDetailedInfoWithURL:BookDetailedInfoURL];
 
     [self performSelector:@selector(CheckNotify)];

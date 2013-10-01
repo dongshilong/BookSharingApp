@@ -189,6 +189,10 @@
 
 }
 
+-(void) Books_RemoveConnection
+{
+    [conn cancel];
+}
 
 #pragma mark - NSURLConnection Delegate Methods
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response

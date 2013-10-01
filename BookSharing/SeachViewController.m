@@ -72,6 +72,7 @@
 
 -(void) resetData
 {
+    VIEW_LOG(@"RESET!!!");
     _SearchBar.text = @"";
     [_TableDataSec0 removeAllObjects];
     [_SearchBookInfoObjArray removeAllObjects];
@@ -220,7 +221,7 @@
      {
          
          NSDictionary *dict = notification.userInfo;
-         VIEW_LOG(@"GET Notified %@", [dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY]);
+         VIEW_LOG(@"GET Notified %@ - (OLD)%@", [dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY], _NotificationState_OLD);
          
          if ([[dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY] isEqualToString:_NotificationState_OLD]) {
              
@@ -233,7 +234,9 @@
              if (([[dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY] isEqualToString:BOOK_SEARCH_RESULT_TABLE_DONE])){
                  
                  // Extract Book Name | Book Author | Book Info URL Array | Book Cover URL
-                 
+                 // To guerentee all the data is the latest
+                 _NotificationState_OLD = BOOK_SEARCH_RESULT_TABLE_DONE;
+                 [_SearchBookInfoObjArray removeAllObjects];
                  NSUInteger Size = [[_BookSearch Books_ExtractToBookNameArrayWithDictionary:_BookSearch.BookSearchDic] count];
                  
                  if (Size != 0) {
@@ -287,19 +290,19 @@
 
 -(void) getTableImage
 {
-    VIEW_LOG(@"getTableImage");
+    VIEW_LOG(@"getTableImage %i ===", [_SearchBookInfoObjArray count]);
+    [_TableCoverImageArray removeAllObjects];
     
     for (int i = 0; i < [_SearchBookInfoObjArray count]; i ++) {
 
         //NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:2];
         //NSArray *IndexPathArray = [NSArray arrayWithObjects:indexPath, nil];
-
         BookInfo *TempBook = [_SearchBookInfoObjArray objectAtIndex:i];
         NSData *CoverImageData = [NSData dataWithContentsOfURL:TempBook.BookCoverURL];
+        //NSLog(@"%@", [TempBook.BookCoverURL absoluteString]);
         
        // [_TableView reloadRowsAtIndexPaths:IndexPathArray withRowAnimation:UITableViewRowAnimationNone];
         [_TableCoverImageArray addObject:CoverImageData];
-        
     }
     
 }
@@ -318,20 +321,25 @@
     if (_SearchBookInfoObjArray == nil) {
         _SearchBookInfoObjArray = [[NSMutableArray alloc] init];
     }
-
+    _NotificationState_OLD = @"Init";
     [_TableCoverImageArray removeAllObjects];
     [_SearchBookInfoObjArray removeAllObjects];
     [_TableView setHidden:YES];
-    [self SearchBookWebTaskWithKeyWord:searchBar.text];
     [_SearchBar resignFirstResponder];
     [_BarCodeReaderBtn setHidden:YES];
     [self ShowLoadingView];
+    
+    [self SearchBookWebTaskWithKeyWord:searchBar.text];
+
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     VIEW_LOG(@"searchBarTextDidBeginEditing");
     [_TableView setHidden:YES];
+    [self RemoveLoadingView];
+    [_BookSearch Books_RemoveConnection];
+
     [_BarCodeReaderBtn setHidden:NO];
     [self MoveUpBarcodeReaderBtn];
 }

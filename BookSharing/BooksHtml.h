@@ -41,6 +41,7 @@ typedef enum {
 
 
 -(BooksHtml*) init;
+-(void) Books_RemoveConnection;
 
 // Book Search Result Query
 -(void) Books_FireQueryWithKeyWords:(NSString *) KeyWord;
