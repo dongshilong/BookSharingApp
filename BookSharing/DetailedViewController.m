@@ -62,9 +62,6 @@
     
     }
     
-
-    
-    
     // 4. Set flag
     _NotificationState_OLD = @"Init";
     
@@ -79,6 +76,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [BookCoverConn cancel];
+}
 
 #pragma mark - Notifications
 -(void) CheckNotify
@@ -105,9 +107,14 @@
              if (([[dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY] isEqualToString:BOOK_DETAILED_BOOK_INFO_PAGE_DONE]))
              {
                  VIEW_LOG(@"BOOK_DETAILED_BOOK_INFO_PAGE_DONE");
+                 _NotificationState_OLD = BOOK_DETAILED_BOOK_INFO_PAGE_DONE;
+                 
                  // TODO: [Casper] To Pass whole information to view layer
                  _BookInfoObj.BookCoverHDURL = _BookInfoQuery.BookInfoObj.BookCoverHDURL;
                  _BookInfoObj.BookISBN = _BookInfoQuery.BookInfoObj.BookISBN;
+                 
+                 // TODO: [Casper] if BookISBN is nil, try to get it from somewhere else.
+                 
                  
                  if (_BookInfoObj.BookCoverHDURL != nil) {
                      [self FireBookCoverHDQueryConnectionWithBookCoverHDURL:_BookInfoObj.BookCoverHDURL];

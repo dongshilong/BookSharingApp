@@ -249,26 +249,100 @@
 {
     NSString *ISBNStr = [[NSString alloc] init];
     TFHpple *HtmlParser = [TFHpple hppleWithHTMLData:HtmlData];
-    NSString *SearchResultXpathQueryString = @"/html/body/div[2]/div/div[2]/div[1]/div[3]/div/ul[1]/li[1]";
-    //NSString *SearchResultXpathQueryString = @"//*[@id=\"main_img\"]";
-    NSArray *SearchResultNodes = [HtmlParser searchWithXPathQuery:SearchResultXpathQueryString];
+    NSRange TextRange;
     
-    if ((SearchResultNodes == nil) || ([SearchResultNodes count] == 0)) {
-        BOOKS_ERROR_LOG(@"Node Not Found!!");
-        return nil;
+    for (int Index = 1; Index <= 5; Index ++) {
+        NSString *SearchResultXpathQueryString = [NSString stringWithFormat:@"%@%i%@",
+                                                        @"/html/body/div[2]/div/div[2]/div[1]/div[",
+                                                        Index,
+                                                        @"]/div/ul[1]/li[1]"];
         
-    } else {
+        NSArray *SearchResultNodes = [HtmlParser searchWithXPathQuery:SearchResultXpathQueryString];
         
-        TFHppleElement *element = [SearchResultNodes objectAtIndex:0];
-        element = [SearchResultNodes objectAtIndex:0];
-        BOOKS_SEARCH_LOG(@"ISBNStr = %@", [[element firstChild] content]);
-        ISBNStr = [NSString stringWithFormat:@"%@", [[element firstChild] content]];
+        if ((SearchResultNodes == nil) || ([SearchResultNodes count] == 0)) {
+            
+            //BOOKS_ERROR_LOG(@"Node Not Found with index %i !!", Index);
+            
+        } else {
+            
+            TFHppleElement *element = [SearchResultNodes objectAtIndex:0];
+            element = [SearchResultNodes objectAtIndex:0];
+            BOOKS_SEARCH_LOG(@"ISBNStr = %@", [[element firstChild] content]);
+            ISBNStr = [NSString stringWithFormat:@"%@", [[element firstChild] content]];
+            TextRange = [ISBNStr rangeOfString:@"ISBN"];
+            if (TextRange.length != 0) {
+                break;
+            } else {
+                ISBNStr = nil;
+            }
+        }
+        
+        if (Index == 5) {
+            BOOKS_ERROR_LOG(@"ISBN NOT FOUND");
+            return nil;
+        }
     }
-
     
     return ISBNStr;
 }
 
+// Remove all html tag string
+-(NSString *) stringByStrippingHTML:(NSString*) InputString {
+    NSRange r;
+    NSString *s = InputString;
+    while ((r = [s rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
+        s = [s stringByReplacingCharactersInRange:r withString:@""];
+    return s;
+}
+
+
+//
+// 取出加強介紹
+//
+-(NSString*) BooksTW_ScrapingSingleBookStrongDescription:(NSData *)HtmlData
+{
+    NSString *BookDescription = nil;
+    
+    if (HtmlData == nil) {
+        BOOKS_ERROR_LOG(@"ERROR, BookInfoObj.HtmlData = nil");
+        return nil;
+    }
+    
+    
+    // SearchDic value = 搜尋區域的尾巴 , Key = 搜尋區域的頭
+    NSDictionary *SearchDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                               @"</span></strong></p>", @"<strong><span style=\"color:#ff0000;\">",
+                               @"</FONT></STRONG></P>", @"<STRONG><FONT color=#ff0000>",
+                               nil];
+    
+    // Try to scraping the text by hand job    
+    NSString *HtmlDataStr = [[NSString alloc] initWithData:HtmlData encoding:NSUTF8StringEncoding];
+    NSArray *KeyArray = [NSArray arrayWithArray:[SearchDic allKeys]];
+    NSRange TextRange1, TextRange2;
+    
+    for (NSString *KeyStr in KeyArray) {
+        
+        // Search for Key Str
+        // HEAD location
+        TextRange1 = [HtmlDataStr rangeOfString:KeyStr];
+        if (TextRange1.length != 0) {
+            // TAIL location
+            BOOKS_SEARCH_LOG(@"Strong Intro KEY = %@", KeyStr);
+            TextRange2 = [HtmlDataStr rangeOfString:[SearchDic objectForKey:KeyStr]];
+
+            TextRange1.location = TextRange1.location + TextRange1.length;
+            TextRange1.length = TextRange2.location - TextRange1.location;
+            
+            BookDescription = [NSString stringWithFormat:@"%@", [HtmlDataStr substringWithRange:TextRange1]];
+            BOOKS_SEARCH_LOG(@"BookDescription = %@", BookDescription);
+            
+            break;
+        }
+        
+    }
+    
+    return BookDescription;
+}
 
 
 // Used in detailed view
