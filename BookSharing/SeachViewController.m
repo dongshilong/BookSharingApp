@@ -88,7 +88,7 @@
 }
 
 #pragma mark - UI activities
--(void) InputInfoViewSingleBtnAlertWithString: (NSString *) AlertString
+-(void) SingleBtnAlertWithString: (NSString *) AlertString
                                   MessageStr : (NSString*) Message
                                 andBtnString : (NSString*) BtnString
 {
@@ -273,6 +273,9 @@
                      });
                      
                  } else {
+                     
+                     [self SingleBtnAlertWithString:@"Book Not Found"
+                                         MessageStr:@"Enter another keyword and try again" andBtnString:@"OK"];
                      VIEW_LOG(@"There's no result");
                      
                  }

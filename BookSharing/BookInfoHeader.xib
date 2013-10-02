@@ -14,6 +14,10 @@
                     <rect key="frame" x="170" y="0.0" width="150" height="150"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6eU-pN-Wce">
+                    <rect key="frame" x="200" y="12" width="91" height="126"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ts-Dm-e71">
                     <rect key="frame" x="20" y="61" width="240" height="69"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -29,7 +33,7 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    <size key="shadowOffset" width="1" height="1"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -37,6 +41,7 @@
             <connections>
                 <outlet property="BackLab" destination="9Ts-Dm-e71" id="l1b-g1-DeN"/>
                 <outlet property="BookCoverView" destination="8h9-Vk-KKs" id="i42-SN-P2D"/>
+                <outlet property="BookCoverViewSMALL" destination="6eU-pN-Wce" id="vRf-TR-1ID"/>
                 <outlet property="BookNameLab" destination="1WM-oi-Sx3" id="oF8-in-wkQ"/>
             </connections>
         </view>

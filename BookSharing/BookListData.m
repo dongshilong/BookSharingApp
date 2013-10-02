@@ -23,18 +23,18 @@
     
     if ( self ) {
         CoreDataKey = [[NSArray alloc] initWithObjects:
-                       @"bookName",
-                       @"bookISBN",
-                       @"bookAuthor",
-                       @"bookGuid",                     //  20130708 Casper add bookGuid attribute
-                       @"bookCoverImage",               //  20130708 Casper add bookCoverImage attribute
-                       @"bookInfoURL",                  //  20130709 Casper add bookInfoURL attribute
-                       @"bookCreateTime",               //  20130709 Casper add bookCreateTime attribute
-                       @"bookUpdateTime",               //  20130823
-                       @"bookCoverUrlSmall",            //  20130822 
-                       @"bookCoverUrlLarge",            //  20130822
-                       @"bookIntro",                    //  20130903
-                       @"bookStrongIntro",               //  20130903
+                       BOOKS_CORE_DATA_KEY_BOOK_NAME,
+                       BOOKS_CORE_DATA_KEY_BOOK_ISBN,
+                       BOOKS_CORE_DATA_KEY_BOOK_AUTHOR,
+                       @"bookGuid",
+                       BOOKS_CORE_DATA_KEY_BOOK_COVER_IMG,
+                       BOOKS_CORE_DATA_KEY_BOOK_INFO_URL,
+                       BOOKS_CORE_DATA_KEY_BOOK_CREATE_T,
+                       BOOKS_CORE_DATA_KEY_BOOK_UPDATE_T,
+                       @"bookCoverUrlSmall",
+                       @"bookCoverUrlLarge",
+                       @"bookIntro",
+                       @"bookStrongIntro",
                        @"bookAuthorIntro",
                        nil];
         AppDelegate *theAppDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
@@ -123,7 +123,7 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
 	// NSSortDescriptor tells defines how to sort the fetched results
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"bookName" ascending:YES];
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:BOOKS_CORE_DATA_KEY_BOOK_NAME ascending:YES];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
@@ -156,7 +156,7 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
 	// NSSortDescriptor tells defines how to sort the fetched results
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"bookAuthor" ascending:YES];
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:BOOKS_CORE_DATA_KEY_BOOK_AUTHOR ascending:YES];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
@@ -188,7 +188,7 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
 	// NSSortDescriptor tells defines how to sort the fetched results
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"bookISBN" ascending:YES];
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:BOOKS_CORE_DATA_KEY_BOOK_ISBN ascending:YES];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
@@ -296,17 +296,18 @@
     NSLog(@"POST Date = %@", [formatter stringFromDate:BookInfoObj.BookInfoCreateTime]);
     
     NSMutableDictionary *newAccount = [[NSMutableDictionary alloc]init];
-    [newAccount setObject:BookInfoObj.BookName forKey:@"name"];
-    [newAccount setObject:BookInfoObj.BookAuthor forKey:@"author"];
-    [newAccount setObject:BookInfoObj.BookISBN forKey:@"isbn"];
-    [newAccount setObject:[BookInfoObj.BookCoverHDURL absoluteString] forKey:@"imageurl"];
-    [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoCreateTime] forKey:@"createdTime"];
-    [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoUpdateTime] forKey:@"updateTime"];
-    [newAccount setObject:BookInfoObj.BookInfoIntro forKey:@"introduction"];
+    [newAccount setObject:BookInfoObj.BookName forKey:BOOKS_WEB_DB_KEY_BOOK_NAME];
+    [newAccount setObject:BookInfoObj.BookAuthor forKey:BOOKS_WEB_DB_KEY_BOOK_AUTHOR];
+    [newAccount setObject:BookInfoObj.BookISBN forKey:BOOKS_WEB_DB_KEY_BOOK_ISBN];
+    [newAccount setObject:[BookInfoObj.BookCoverHDURL absoluteString] forKey:BOOKS_WEB_DB_KEY_BOOK_IMG_URL];
+    [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoCreateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_CREATE_T];
+    [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoUpdateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_UPDATE_T];
+    [newAccount setObject:BookInfoObj.BookInfoIntro forKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
+    
     //introduction
     //NSLog(@"%@", BookInfoObj.BookCoverURL );
-    //[newAccount setObject:_booktypeTextField.text forKey:@"booktype"];
-    //[newAccount setObject:_tagTextField.text forKey:@"tag"];
+    //[newAccount setObject:_booktypeTextField.text forKey:BOOKS_WEB_DB_KEY_BOOK_TYPE];
+    //[newAccount setObject:_tagTextField.text forKey:forKey:BOOKS_WEB_DB_KEY_BOOK_TAG];
     //[newAccount setObject:imageDataEncodedeString forKey:@"icon_image_data"];
     
     NSLog(@"%@", newAccount);

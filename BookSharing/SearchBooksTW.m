@@ -267,10 +267,11 @@
             
             TFHppleElement *element = [SearchResultNodes objectAtIndex:0];
             element = [SearchResultNodes objectAtIndex:0];
-            BOOKS_SEARCH_LOG(@"ISBNStr = %@", [[element firstChild] content]);
             ISBNStr = [NSString stringWithFormat:@"%@", [[element firstChild] content]];
-            TextRange = [ISBNStr rangeOfString:@"ISBN"];
+            TextRange = [ISBNStr rangeOfString:@"ISBN："];
             if (TextRange.length != 0) {
+                ISBNStr = [ISBNStr substringFromIndex:TextRange.length];
+                BOOKS_SEARCH_LOG(@"ISBNStr = %@", [[element firstChild] content]);
                 break;
             } else {
                 ISBNStr = nil;
@@ -287,12 +288,36 @@
 }
 
 // Remove all html tag string
--(NSString *) stringByStrippingHTML:(NSString*) InputString {
+-(NSString *) stringByStrippingHTML:(NSString*) InputString
+{
     NSRange r;
     NSString *s = InputString;
     while ((r = [s rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
         s = [s stringByReplacingCharactersInRange:r withString:@""];
     return s;
+}
+
+-(NSString *) stringArrangeIntroString:(NSString*) InputString
+{
+    
+    NSRange range;
+    range.length = 1;
+    range.location = 0;
+    
+    for (int i = 0; i < [InputString length]; i++) {
+        
+        if ([InputString characterAtIndex:i] == 12288) {
+            range.location = i;
+            NSLog(@"replace at %i", range.location);
+            InputString = [InputString stringByReplacingCharactersInRange:range withString:@"@@"];
+        }
+    }
+    
+    InputString = [InputString stringByReplacingOccurrencesOfString:@"<BR>" withString:@"\n"];
+    InputString = [InputString stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
+    InputString = [InputString stringByReplacingOccurrencesOfString:@"@@" withString:@""];
+    
+    return InputString;
 }
 
 
@@ -334,7 +359,7 @@
             TextRange1.length = TextRange2.location - TextRange1.location;
             
             BookDescription = [NSString stringWithFormat:@"%@", [HtmlDataStr substringWithRange:TextRange1]];
-            BOOKS_SEARCH_LOG(@"BookDescription = %@", BookDescription);
+            BookDescription = [self stringArrangeIntroString:BookDescription];
             
             break;
         }
@@ -342,6 +367,49 @@
     }
     
     return BookDescription;
+}
+
+
+//
+// 封面旁邊那一塊
+//
+-(BOOL) BooksTW_ScrapingSingleBookSideColumnInfo:(NSData *)HtmlData ForBookinfoObj:(BookInfo *) BoonInfoObj
+{
+    BOOL Success = NO;
+    
+    if (HtmlData == nil) {
+        BOOKS_ERROR_LOG(@"ERROR, BookInfoObj.HtmlData = nil");
+        return NO;
+    }
+    
+    TFHpple *HtmlParser = [TFHpple hppleWithHTMLData:HtmlData];
+    NSString *SearchResultXpathQueryString = nil;
+    NSArray *SearchResultNodes = nil;
+    
+    // Go through the column
+    for (int Index = 1; Index <= 10; Index++) {
+        //SearchResultXpathQueryString = @"/html/body/div[2]/div/div[1]/div[2]/div[2]/ul/li[1]/text()";
+        SearchResultXpathQueryString = [NSString stringWithFormat:@"%@%i%@", @"/html/body/div[2]/div/div[1]/div[2]/div[2]/ul/li[", Index, @"]/text()"];
+        SearchResultNodes = [NSArray arrayWithArray:[HtmlParser searchWithXPathQuery:SearchResultXpathQueryString]];
+        if ((SearchResultNodes == nil) || ([SearchResultNodes count] == 0)) {
+            BOOKS_ERROR_LOG(@"Node Not Found!!");
+        
+        } else {
+        
+            TFHppleElement *element = [SearchResultNodes objectAtIndex:0];
+            NSLog(@"%@ - raw = %@ - content = %@ - text = %@", element, element.raw, element.content, element.text);
+            
+            // 作者
+            // 譯者
+        
+        
+        }
+
+    }
+    
+
+    
+    return Success;
 }
 
 

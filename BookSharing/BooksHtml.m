@@ -144,6 +144,12 @@
                 _BookInfoObj.BookCoverHDURL = [_BooksTW BooksTW_ScrapingSingleBookCoverURLInDetailedPage:_responseData];
                 _BookInfoObj.BookISBN = [_BooksTW BooksTW_ScrapingSingleBookISBNInDetailedPage:_responseData];
                 _BookInfoObj.BookInfoStrongIntro = [_BooksTW BooksTW_ScrapingSingleBookStrongDescription:_responseData];
+                
+                // TODO: [Casper] Arrange the Strong Intro string :
+                //       1. Delete the blank char
+                //       2. Replce <BR> and <br> by \n
+                
+                
                 BOOKS_SEARCH_LOG(@"%@", [_BookInfoObj.BookCoverHDURL absoluteString]);
                 BOOKS_SEARCH_LOG(@"%@", _BookInfoObj.BookISBN);
                 BOOKS_SEARCH_LOG(@"%@", _BookInfoObj.BookInfoStrongIntro);

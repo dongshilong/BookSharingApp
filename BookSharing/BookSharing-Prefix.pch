@@ -17,7 +17,7 @@
     #import "AppDelegate.h"
 
 
-//#define DEBUG_BOOK_SEARCH
+#define DEBUG_BOOK_SEARCH
 //#define DEBUG_VIEW
 
 

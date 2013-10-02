@@ -11,6 +11,7 @@
 @implementation BookInfoHeader
 @synthesize BookCoverView;
 @synthesize BackLab;
+@synthesize BookCoverViewSMALL;
 
 - (id)initWithFrame:(CGRect)frame
 {

@@ -39,7 +39,8 @@
         
         if (_BookInfoObj.BookCoverImage != nil) {
             
-            _BookInfoHeaderView.BookCoverView.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
+            _BookInfoHeaderView.BookCoverViewSMALL.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
+//            _BookInfoHeaderView.BookCoverView.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
             _BookInfoHeaderView.BookNameLab.text = _BookInfoObj.BookName;
             
             // TODO: [Casper] Tty to get detailed information
@@ -117,6 +118,7 @@
                  
                  
                  if (_BookInfoObj.BookCoverHDURL != nil) {
+                     
                      [self FireBookCoverHDQueryConnectionWithBookCoverHDURL:_BookInfoObj.BookCoverHDURL];
                      // CHECK CONNECTION DELEGATE METHOD
                  }
@@ -124,8 +126,6 @@
                  [self RemoveLoadingView];
              }
          }
-         
-         
          
      }];
 }
@@ -204,9 +204,13 @@
 {
     VIEW_LOG(@"connectionDidFinishLoading");
     NSURLRequest *CurrRequest = [connection currentRequest];
+    
     if ([[CurrRequest.URL absoluteString] isEqualToString:[_BookInfoObj.BookCoverHDURL absoluteString]]) {
+        
         VIEW_LOG(@"%@", [UIImage imageWithData:_responseData]);
         _BookInfoHeaderView.BookCoverView.image = [UIImage imageWithData:_responseData];
+        [_BookInfoHeaderView.BookCoverViewSMALL setHidden:YES];
+        
     }
 }
 
