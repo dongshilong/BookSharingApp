@@ -52,15 +52,8 @@
     } else {
         
         // 3. Assign Scroll View
-        NSArray *ScrollerArray = [[NSBundle mainBundle] loadNibNamed:@"DetailedScroller" owner:self options:nil];
-        _BookInfoDetailedView = (DetailedScroller *)[ScrollerArray objectAtIndex:0];
-        _BookInfoDetailedView.frame = CGRectMake(0, 0, _BookInfoDetailedView.frame.size.width, _BookInfoDetailedView.frame.size.height);
+        [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj];
         
-        [_Scroller setContentSize:CGSizeMake(320, _BookInfoDetailedView.frame.size.height)];
-        [_Scroller setScrollEnabled:YES];
-        [_Scroller addSubview:_BookInfoDetailedView];
-        
-    
     }
     
     // 4. Set flag
@@ -113,9 +106,11 @@
                  // TODO: [Casper] To Pass whole information to view layer
                  _BookInfoObj.BookCoverHDURL = _BookInfoQuery.BookInfoObj.BookCoverHDURL;
                  _BookInfoObj.BookISBN = _BookInfoQuery.BookInfoObj.BookISBN;
-                 
+                 _BookInfoObj.BookInfoStrongIntro = _BookInfoQuery.BookInfoObj.BookInfoStrongIntro;
                  // TODO: [Casper] if BookISBN is nil, try to get it from somewhere else.
                  
+                 
+                 [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj];
                  
                  if (_BookInfoObj.BookCoverHDURL != nil) {
                      
@@ -181,13 +176,72 @@
     }
 }
 
+-(void) SetupScrollViewWithContentView : (UIView*) DetailedView
+{
 
--(BOOL) DetailedView_SetScrollContentWithBookInfoObj:(BookInfo*) BookInfoObj ForContentView:(UIView*) ContentView
+    NSArray *ScrollerArray = [[NSBundle mainBundle] loadNibNamed:@"DetailedScroller" owner:self options:nil];
+    DetailedView = (DetailedScroller *)[ScrollerArray objectAtIndex:0];
+    DetailedView.frame = CGRectMake(0, 0, DetailedView.frame.size.width, DetailedView.frame.size.height);
+
+    [_Scroller setContentSize:CGSizeMake(320, DetailedView.frame.size.height)];
+    [_Scroller setScrollEnabled:YES];
+    [_Scroller addSubview:DetailedView];
+}
+
+
+-(BOOL) DetailedView_SetScrollContentWithBookInfoObj:(BookInfo*) BookInfoObj
 {
     BOOL Success = NO;
+
+    [_Scroller setContentSize:CGSizeMake(320, 1000)];
+    [_Scroller setScrollEnabled:YES];
     
-    // 1. Set BookIntro Label
+    // Assign Scrolling view
+    NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"DetailedScroller" owner:self options:nil];
+    if (subviewArray == nil) {
+        VIEW_ERROR_LOG(@"CANNOT FIND DetailedScroller.xib");
+        return NO;
+    }
     
+    _BookInfoDetailedView = (DetailedScroller *)[subviewArray objectAtIndex:0];
+    [_Scroller addSubview:_BookInfoDetailedView];
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+    float StartY = 0.0f;
+
+    
+    if (BookInfoObj.BookInfoStrongIntro) {
+        
+        UILabel* StrongLab = [[UILabel alloc] init];
+        [StrongLab setText:BookInfoObj.BookInfoStrongIntro];
+        [StrongLab setFont:font];
+        StrongLab.numberOfLines = 0;
+        [StrongLab setBackgroundColor: [UIColor whiteColor]];
+        CGSize constraint = CGSizeMake(300, 20000.0f);
+        
+        CGSize size = [StrongLab sizeThatFits:constraint];
+        [StrongLab setFrame:CGRectMake(10, StartY + 10, size.width, size.height)];
+        StrongLab.numberOfLines = 0;
+        
+        [_Scroller setContentSize:CGSizeMake(320, StartY + size.height + 50)];
+        [_Scroller addSubview: StrongLab];
+        
+    }
+
+    
+    
+    /*
+    UILabel *StrongIntroLab = [[UILabel alloc] init];
+    StrongIntroLab.text = BookInfoObj.BookInfoStrongIntro;
+    StrongIntroLab.backgroundColor = [UIColor blackColor];
+    [StrongIntroLab setFont:font];
+    [StrongIntroLab setFrame:CGRectMake(10, 10, StrongIntroLab.frame.size.width, StrongIntroLab.frame.size.height)];
+    //CGSize constraint = CGSizeMake(300, 20000.0f);
+    
+    //[StrongIntroLab setFrame:CGRectMake(10, 10, size.width, size.height)];
+    //NSLog(@"size height %f", size.height);
+    StrongIntroLab.numberOfLines = 0;
+    NSLog(@"!!!!!\n%@", StrongIntroLab);
+*/
     return Success;
 }
 
@@ -196,7 +250,6 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    BOOKS_SEARCH_LOG(@"didReceiveData");
     [_responseData appendData:data];
 }
 

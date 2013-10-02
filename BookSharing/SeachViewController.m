@@ -496,7 +496,27 @@
 - (IBAction)BarcodeReaderBtn:(id)sender
 {
     VIEW_LOG(@"BarcodeReaderBtn");
+    
+    if (_TableCoverImageArray == nil) {
+        _TableCoverImageArray = [[NSMutableArray alloc] init];
+    }
+    
+    if (_SearchBookInfoObjArray == nil) {
+        _SearchBookInfoObjArray = [[NSMutableArray alloc] init];
+    }
+    _NotificationState_OLD = @"Init";
+    [_TableCoverImageArray removeAllObjects];
+    [_SearchBookInfoObjArray removeAllObjects];
+    [_TableView setHidden:YES];
+    
+    
     [_SearchBar resignFirstResponder];
+    _SearchBar.text = @"9789866272516";
+
+    [self SearchBookWebTaskWithKeyWord:_SearchBar.text];
+    [self ShowLoadingView];
+    [self ResetBarcodeReaderBtnAndDisapear:YES];
+    
 }
 
 

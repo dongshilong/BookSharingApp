@@ -297,6 +297,10 @@
     return s;
 }
 
+
+// 移除全形空白
+// 移除<BR> <br>
+// 移除所有的 HTML Tag
 -(NSString *) stringArrangeIntroString:(NSString*) InputString
 {
     
@@ -308,7 +312,6 @@
         
         if ([InputString characterAtIndex:i] == 12288) {
             range.location = i;
-            NSLog(@"replace at %i", range.location);
             InputString = [InputString stringByReplacingCharactersInRange:range withString:@"@@"];
         }
     }
@@ -316,7 +319,7 @@
     InputString = [InputString stringByReplacingOccurrencesOfString:@"<BR>" withString:@"\n"];
     InputString = [InputString stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
     InputString = [InputString stringByReplacingOccurrencesOfString:@"@@" withString:@""];
-    
+    InputString = [self stringByStrippingHTML:InputString];
     return InputString;
 }
 
@@ -360,7 +363,6 @@
             
             BookDescription = [NSString stringWithFormat:@"%@", [HtmlDataStr substringWithRange:TextRange1]];
             BookDescription = [self stringArrangeIntroString:BookDescription];
-            
             break;
         }
         
