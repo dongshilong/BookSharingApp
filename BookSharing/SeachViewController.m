@@ -79,6 +79,10 @@
     _TableDataSec0 = [NSMutableArray arrayWithObjects:@"Click to clear search results", nil];
     [_TableView reloadData];
     // TODO: It needs some animation during the search result table hidden
+    
+    NSLog(@"TEST ANIMATION");
+    [self AnimationHideTableView];
+    
     [_TableView setHidden:YES];
     [_BarCodeReaderBtn setHidden:NO];
     //[_TableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -171,16 +175,35 @@
     }
     [_SearchBar resignFirstResponder];
 
-
-
 }
+
+// 提供 Table view 在離開以及消失時的動畫
+-(void) AnimationHideTableView
+{
+    if(_TableView.hidden == NO)
+    {
+        CATransition *transition = [CATransition animation];
+        
+        [transition setDelegate:self];
+        [transition setDuration:0.3f];
+        
+        [transition setType:kCATransitionFade];
+        [transition setSubtype:kCATransitionFromBottom];
+        
+        [[_TableView layer] addAnimation:transition forKey:@"myTransition"];
+    }
+}
+
+
 
 #pragma mark - Search Keyword
 - (void)SearchBookWebTaskWithKeyWord:(NSString *) SearchStr
 {
     
     VIEW_LOG(@"SearchBookWebTask");
-    _BookSearch = [[BooksHtml alloc] init];
+    if (_BookSearch == nil) {
+        _BookSearch = [[BooksHtml alloc] init];
+    }
     
     if (ShowSearchResult == YES) {
         ShowSearchResult = NO;

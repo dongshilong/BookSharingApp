@@ -8,10 +8,37 @@
 
 #import <Foundation/Foundation.h>
 
-#define BOOK_DIC_BOOK_NAME_KEY                      @"bookName"
-#define BOOK_DIC_BOOK_AUTHOR_KEY                    @"bookAuthor"
-#define BOOK_DIC_BOOK_URL_KEY                       @"bookInfoURL"
+#pragma mark - Core Data Key Define
+#define BOOKS_CORE_DATA_KEY_BOOK_NAME               @"bookName"
+#define BOOKS_CORE_DATA_KEY_BOOK_AUTHOR             @"bookAuthor"
+#define BOOKS_CORE_DATA_KEY_BOOK_ISBN               @"bookISBN"
+#define BOOKS_CORE_DATA_KEY_BOOK_COVER_URL_SMALL    @"bookCoverUrlSmall"
+#define BOOKS_CORE_DATA_KEY_BOOK_COVER_URL_LARGE    @"bookCoverUrlLarge"
+#define BOOKS_CORE_DATA_KEY_BOOK_COVER_IMG          @"bookCoverImage"
+#define BOOKS_CORE_DATA_KEY_BOOK_INFO_URL           @"bookInfoURL"
+#define BOOKS_CORE_DATA_KEY_BOOK_INFO_STRONG_INTRO  @"bookStrongIntro"
+#define BOOKS_CORE_DATA_KEY_BOOK_CREATE_T           @"bookCreateTime"
+#define BOOKS_CORE_DATA_KEY_BOOK_UPDATE_T           @"bookUpdateTime"
+
+#pragma mark - Web database Key Define
+#define BOOKS_WEB_DB_KEY_BOOK_NAME                  @"name"
+#define BOOKS_WEB_DB_KEY_BOOK_AUTHOR                @"author"
+#define BOOKS_WEB_DB_KEY_BOOK_ISBN                  @"isbn"
+#define BOOKS_WEB_DB_KEY_BOOK_IMG_URL               @"imageurl"
+#define BOOKS_WEB_DB_KEY_BOOK_CREATE_T              @"createdTime"
+#define BOOKS_WEB_DB_KEY_BOOK_UPDATE_T              @"updateTime"
+#define BOOKS_WEB_DB_KEY_BOOK_INTRO                 @"introduction"
+#define BOOKS_WEB_DB_KEY_BOOK_TAG                   @"tag"
+#define BOOKS_WEB_DB_KEY_BOOK_TYPE                  @"booktype"
+
+#define BOOK_DIC_BOOK_NAME_KEY                      BOOKS_CORE_DATA_KEY_BOOK_NAME
+#define BOOK_DIC_BOOK_AUTHOR_KEY                    BOOKS_CORE_DATA_KEY_BOOK_AUTHOR
+#define BOOK_DIC_BOOK_URL_KEY                       BOOKS_CORE_DATA_KEY_BOOK_INFO_URL
 #define BOOK_DIC_BOOK_COVER_URL_KEY                 @"bookCoverURL"
+
+#pragma mark - Core Data Value default
+#define BOOKS_CORE_DATA_DEFAULT_VALUE       @"NaN"
+
 
 @interface BookInfo : NSObject
 @property (nonatomic, strong) NSURL         *BookInfoURL;

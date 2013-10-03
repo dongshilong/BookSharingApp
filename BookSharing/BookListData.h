@@ -9,32 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "BookInfo.h"
 
-#pragma mark - Core Data Key Define
-#define BOOKS_CORE_DATA_KEY_BOOK_NAME       @"bookName"
-#define BOOKS_CORE_DATA_KEY_BOOK_AUTHOR     @"bookAuthor"
-#define BOOKS_CORE_DATA_KEY_BOOK_ISBN       @"bookISBN"
-#define BOOKS_CORE_DATA_KEY_BOOK_COVER_IMG  @"bookCoverImage"
-#define BOOKS_CORE_DATA_KEY_BOOK_INFO_URL   @"bookInfoURL"
-#define BOOKS_CORE_DATA_KEY_BOOK_CREATE_T   @"bookCreateTime"
-#define BOOKS_CORE_DATA_KEY_BOOK_UPDATE_T   @"bookUpdateTime"
-
-#pragma mark - Web database Key Define
-#define BOOKS_WEB_DB_KEY_BOOK_NAME          @"name"
-#define BOOKS_WEB_DB_KEY_BOOK_AUTHOR        @"author"
-#define BOOKS_WEB_DB_KEY_BOOK_ISBN          @"isbn"
-#define BOOKS_WEB_DB_KEY_BOOK_IMG_URL       @"imageurl"
-#define BOOKS_WEB_DB_KEY_BOOK_CREATE_T      @"createdTime"
-#define BOOKS_WEB_DB_KEY_BOOK_UPDATE_T      @"updateTime"
-#define BOOKS_WEB_DB_KEY_BOOK_INTRO         @"introduction"
-#define BOOKS_WEB_DB_KEY_BOOK_TAG           @"tag"
-#define BOOKS_WEB_DB_KEY_BOOK_TYPE          @"booktype"
-
 
 @interface BookListData : NSObject {
     NSArray *CoreDataKey;
 }
-
-
 
 
 typedef enum {
@@ -56,7 +34,7 @@ typedef enum {
 -(NSMutableArray*) Books_CoreDataFetch;
 -(BOOKLIST_STATUS) Books_CoreDataDelete : (NSManagedObject*) Book;
 -(BOOKLIST_STATUS) Books_CoreDataUpdateWithoObject : (NSManagedObject*) Book;
-
+-(BOOKLIST_STATUS) Books_SaveBookInfoObj : (BookInfo*) BookInfoObj;
 
 // Search Book Name in Core Data with KeyWord
 -(NSArray*) Books_CoreDataSearchWithBookName : (NSString*) BookNameString;

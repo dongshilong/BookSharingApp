@@ -34,7 +34,8 @@
     
     // 1. Init models
     _BookList = [[BookListData alloc] init];
-    
+    _LocalIndexPath = [[NSIndexPath alloc] init];
+
     // 2. Init table data
     _tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetch]];
     [self.tableView reloadData];
@@ -49,7 +50,7 @@
     // 4. Setup UI activity
     self.navigationItem.title = @"Book List";
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    self.clearsSelectionOnViewWillAppear = NO;
+    self.clearsSelectionOnViewWillAppear = YES;
 
     
     
@@ -99,11 +100,12 @@
         // Everything is ready in ViewDidLoaded
         InitedInViewDidLoaded = NO;
     } else {
-        NSLog(@"ViewWillAppear");
+        VIEW_LOG(@"ViewWillAppear");
         // View appeared without init
         // UI function should reloaded
     }
-    
+    [_tableView deselectRowAtIndexPath:_LocalIndexPath animated:NO];
+
     [super viewWillAppear:animated];
 
     /*
@@ -179,7 +181,9 @@
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         
         return [_SearchResultDisplayArray count];
+        
     } else {
+        
         return 1;
     }
     
@@ -202,6 +206,7 @@
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    _LocalIndexPath = indexPath;
     [self performSegueWithIdentifier:@"BookDetailedInfo" sender:nil];
     return indexPath;
 }
@@ -252,60 +257,26 @@
 }
 
 
-
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return 50;
+    } else {
+        return 100;
+    }
+    
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 
 #pragma mark - Navigation
-
 // In a story board-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSLog(@"segue identifier = %@", segue.identifier);
-
     if ([segue.identifier isEqualToString:@"BookDetailedInfo"])
     {
         DetailedViewController *destViewController = segue.destinationViewController;
         destViewController.FatherView = ListBookView;
-        
         if ([self.searchDisplayController isActive]) {
             
             //NSManagedObject *book = [[_SearchResultDisplayArray objectAtIndex:_LocalIndexPath.section] objectAtIndex:_LocalIndexPath.row];
@@ -313,9 +284,10 @@
             
         } else {
             
-            //NSManagedObject *book = [self.tableData objectAtIndex:_LocalIndexPath.row];
-            //destViewController.Book = book;
-            //destViewController.FatherView = ListBookView;
+            NSManagedObject *book = [self.tableData objectAtIndex:_LocalIndexPath.row];
+            BookInfo *BookForParse = [[BookInfo  alloc] initWithCoreDataObj:book];
+            destViewController.BookInfoObj = BookForParse;
+            
         }
         
     }

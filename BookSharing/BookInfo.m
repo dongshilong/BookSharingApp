@@ -27,9 +27,12 @@
 {
     if (self != nil) {
         //BookInfo *BookInfoObj = [[BookInfo alloc] init];
-        BookName = [bookCoreData valueForKey:BOOK_DIC_BOOK_NAME_KEY];
-        BookAuthor = [bookCoreData valueForKey:BOOK_DIC_BOOK_AUTHOR_KEY];
-        BookInfoURL = [bookCoreData valueForKey:BOOK_DIC_BOOK_URL_KEY];
+        BookName = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_NAME];
+        BookAuthor = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_AUTHOR];
+        BookInfoURL = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_INFO_URL];
+        BookCoverImage = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_COVER_IMG];
+        BookInfoStrongIntro = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_INFO_STRONG_INTRO];
+        BookISBN = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_ISBN];
     }
     
     return self;

@@ -50,6 +50,82 @@
     return CoreDataKey;
 }
 
+// Set data as NaN if nil
+-(BookInfo*) Books_CheckDataNilForBookInfo : (BookInfo*) BookInfoObj
+{
+    if (BookInfoObj.BookName == nil) {
+        BookInfoObj.BookName = BOOKS_CORE_DATA_DEFAULT_VALUE;
+    }
+    
+    if (BookInfoObj.BookAuthor == nil) {
+        BookInfoObj.BookAuthor = BOOKS_CORE_DATA_DEFAULT_VALUE;
+    }
+    
+    if (BookInfoObj.BookISBN == nil) {
+        BookInfoObj.BookISBN = BOOKS_CORE_DATA_DEFAULT_VALUE;
+    }
+    
+    if (BookInfoObj.BookInfoURL == nil) {
+        BookInfoObj.BookInfoURL = [NSURL URLWithString:BOOKS_CORE_DATA_DEFAULT_VALUE];
+    }
+    
+    if (BookInfoObj.BookCoverURL == nil) {
+        BookInfoObj.BookCoverURL = [NSURL URLWithString:BOOKS_CORE_DATA_DEFAULT_VALUE];
+    }
+    
+    if (BookInfoObj.BookCoverHDURL == nil) {
+        BookInfoObj.BookCoverHDURL = [NSURL URLWithString:BOOKS_CORE_DATA_DEFAULT_VALUE];
+    }
+    
+    if (BookInfoObj.BookCoverImage == nil) {
+        NSString* str = BOOKS_CORE_DATA_DEFAULT_VALUE;
+        BookInfoObj.BookCoverImage = [str dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    
+    if (BookInfoObj.BookInfoIntro == nil) {
+        BookInfoObj.BookInfoIntro = BOOKS_CORE_DATA_DEFAULT_VALUE;
+    }
+    
+    if (BookInfoObj.BookInfoStrongIntro == nil) {
+        BookInfoObj.BookInfoStrongIntro = BOOKS_CORE_DATA_DEFAULT_VALUE;
+    }
+    
+    if (BookInfoObj.BookInfoAuthorIntro == nil) {
+        BookInfoObj.BookInfoAuthorIntro = BOOKS_CORE_DATA_DEFAULT_VALUE;
+    }
+    
+    return BookInfoObj;
+}
+
+-(BOOKLIST_STATUS) Books_SaveBookInfoObj : (BookInfo*) BookInfoObj
+{
+    NSUUID *Guid = [[NSUUID alloc] init];
+    NSDate *date = [NSDate date];
+    
+    BookInfoObj.BookInfoCreateTime = date;
+    BookInfoObj.BookInfoUpdateTime = date;
+
+    BookInfoObj = [self Books_CheckDataNilForBookInfo:BookInfoObj];
+    
+    NSArray *CoreDataValue = [NSArray arrayWithObjects:
+                              BookInfoObj.BookName,
+                              BookInfoObj.BookISBN,
+                              BookInfoObj.BookAuthor,
+                              [Guid UUIDString],
+                              BookInfoObj.BookCoverImage,
+                              [BookInfoObj.BookInfoURL absoluteString],
+                              BookInfoObj.BookInfoCreateTime,
+                              BookInfoObj.BookInfoUpdateTime,
+                              [BookInfoObj.BookCoverURL absoluteString],
+                              [BookInfoObj.BookCoverHDURL absoluteString],
+                              BookInfoObj.BookInfoIntro,
+                              BookInfoObj.BookInfoStrongIntro,
+                              BookInfoObj.BookInfoAuthorIntro,
+                              nil];
+    
+    return [self Books_CoreDataSave:[self Books_GetCoreDataKey] andValue:CoreDataValue];
+    
+}
 
 -(BOOKLIST_STATUS) Books_CoreDataSave:(NSArray*) Key andValue:(NSArray*) Value
 {

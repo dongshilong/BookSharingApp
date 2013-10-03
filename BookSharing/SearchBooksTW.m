@@ -372,6 +372,52 @@
 }
 
 
+-(NSString*) BooksTW_ScrapingSingleBookNormalDescription:(NSData *)HtmlData
+{
+    NSString *BookDescription = nil;
+    
+    if (HtmlData == nil) {
+        BOOKS_ERROR_LOG(@"ERROR, BookInfoObj.HtmlData = nil");
+        return nil;
+    }
+    
+    
+    // SearchDic value = 搜尋區域的尾巴 , Key = 搜尋區域的頭
+    NSDictionary *SearchDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                               @"</span></strong></p>", @"<strong><span style=\"color:#ff0000;\">",
+                               @"</FONT></STRONG></P>", @"<STRONG><FONT color=#ff0000>",
+                               nil];
+    
+    // Try to scraping the text by hand job
+    NSString *HtmlDataStr = [[NSString alloc] initWithData:HtmlData encoding:NSUTF8StringEncoding];
+    NSArray *KeyArray = [NSArray arrayWithArray:[SearchDic allKeys]];
+    NSRange TextRange1, TextRange2;
+    
+    for (NSString *KeyStr in KeyArray) {
+        
+        // Search for Key Str
+        // HEAD location
+        TextRange1 = [HtmlDataStr rangeOfString:KeyStr];
+        if (TextRange1.length != 0) {
+            // TAIL location
+            BOOKS_SEARCH_LOG(@"Strong Intro KEY = %@", KeyStr);
+            TextRange2 = [HtmlDataStr rangeOfString:[SearchDic objectForKey:KeyStr]];
+            
+            TextRange1.location = TextRange1.location + TextRange1.length;
+            TextRange1.length = TextRange2.location - TextRange1.location;
+            
+            BookDescription = [NSString stringWithFormat:@"%@", [HtmlDataStr substringWithRange:TextRange1]];
+            BookDescription = [self stringArrangeIntroString:BookDescription];
+            break;
+        }
+        
+    }
+    
+    return BookDescription;
+}
+
+
+
 //
 // 封面旁邊那一塊
 //

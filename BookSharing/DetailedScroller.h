@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface DetailedScroller : UIView
+@property (weak, nonatomic) IBOutlet UIButton *SaveBtn;
 
 @end

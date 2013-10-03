@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BooksHtml.h"
+#import "BookListData.h"
 #import "BookInfo.h"
 #import "BookInfoHeader.h"
 #import "DetailedScroller.h"
@@ -31,6 +32,7 @@ typedef enum {
 @property (weak, nonatomic)     Searching           *SearchingView;
 
 @property (strong, atomic)      NSString        *NotificationState_OLD;
+@property (strong, nonatomic)   BookListData    *BookDataBase;
 @property (strong, nonatomic)   BooksHtml       *BookInfoQuery;
 @property (strong, nonatomic)   BookInfo        *BookInfoObj;
 @end

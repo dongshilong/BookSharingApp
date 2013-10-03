@@ -26,6 +26,7 @@
 {
     [super viewDidLoad];
     
+    
     // 1. Assign Header View
     NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"BookInfoHeader" owner:self options:nil];
     _BookInfoHeaderView = (BookInfoHeader *)[subviewArray objectAtIndex:0];
@@ -40,7 +41,6 @@
         if (_BookInfoObj.BookCoverImage != nil) {
             
             _BookInfoHeaderView.BookCoverViewSMALL.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
-//            _BookInfoHeaderView.BookCoverView.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
             _BookInfoHeaderView.BookNameLab.text = _BookInfoObj.BookName;
             
             // TODO: [Casper] Tty to get detailed information
@@ -52,16 +52,19 @@
     } else {
         
         // 3. Assign Scroll View
-        [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj];
+        _BookInfoHeaderView.BookCoverView.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
+        _BookInfoHeaderView.BookNameLab.text = _BookInfoObj.BookName;
+        
+        [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj WithFatherView:ListBookView];
         
     }
     
-    // 4. Set flag
+    // 4. Set flag and init models
     _NotificationState_OLD = @"Init";
+    _BookDataBase = [[BookListData alloc] init];
     
     // 5. init image data
     _responseData = [[NSMutableData alloc] init];
-	// Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
@@ -110,7 +113,7 @@
                  // TODO: [Casper] if BookISBN is nil, try to get it from somewhere else.
                  
                  
-                 [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj];
+                 [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj WithFatherView:SearchBookView];
                  
                  if (_BookInfoObj.BookCoverHDURL != nil) {
                      
@@ -176,20 +179,8 @@
     }
 }
 
--(void) SetupScrollViewWithContentView : (UIView*) DetailedView
-{
 
-    NSArray *ScrollerArray = [[NSBundle mainBundle] loadNibNamed:@"DetailedScroller" owner:self options:nil];
-    DetailedView = (DetailedScroller *)[ScrollerArray objectAtIndex:0];
-    DetailedView.frame = CGRectMake(0, 0, DetailedView.frame.size.width, DetailedView.frame.size.height);
-
-    [_Scroller setContentSize:CGSizeMake(320, DetailedView.frame.size.height)];
-    [_Scroller setScrollEnabled:YES];
-    [_Scroller addSubview:DetailedView];
-}
-
-
--(BOOL) DetailedView_SetScrollContentWithBookInfoObj:(BookInfo*) BookInfoObj
+-(BOOL) DetailedView_SetScrollContentWithBookInfoObj:(BookInfo*) BookInfoObj WithFatherView:(FatherViewController) FatherView
 {
     BOOL Success = NO;
 
@@ -203,47 +194,59 @@
         return NO;
     }
     
+    // Assign btn on the subview
     _BookInfoDetailedView = (DetailedScroller *)[subviewArray objectAtIndex:0];
-    [_Scroller addSubview:_BookInfoDetailedView];
-    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
-    float StartY = 0.0f;
-
     
+    [_Scroller addSubview:_BookInfoDetailedView];
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    float StartY = 50.0f;
+    CGSize size;
+    
+    // Hide Save Btn when came from list view
+    if (FatherView == ListBookView) {
+        StartY = 0.0f;
+        [_BookInfoDetailedView.SaveBtn setHidden:YES];
+    }
+    
+    
+    [_BookInfoDetailedView.SaveBtn addTarget:self
+                                      action:@selector(SaveBookInfoObj)
+                            forControlEvents:UIControlEventTouchUpInside];
+    
+
+    // Place Strong Intro Label
     if (BookInfoObj.BookInfoStrongIntro) {
         
-        UILabel* StrongLab = [[UILabel alloc] init];
+        UILabel *StrongLab = [[UILabel alloc] init];
         [StrongLab setText:BookInfoObj.BookInfoStrongIntro];
         [StrongLab setFont:font];
         StrongLab.numberOfLines = 0;
         [StrongLab setBackgroundColor: [UIColor whiteColor]];
         CGSize constraint = CGSizeMake(300, 20000.0f);
         
-        CGSize size = [StrongLab sizeThatFits:constraint];
+        size = [StrongLab sizeThatFits:constraint];
         [StrongLab setFrame:CGRectMake(10, StartY + 10, size.width, size.height)];
         StrongLab.numberOfLines = 0;
-        
-        [_Scroller setContentSize:CGSizeMake(320, StartY + size.height + 50)];
         [_Scroller addSubview: StrongLab];
-        
-    }
 
+    }
     
+    [_Scroller setContentSize:CGSizeMake(320, StartY + size.height + 50)];
     
-    /*
-    UILabel *StrongIntroLab = [[UILabel alloc] init];
-    StrongIntroLab.text = BookInfoObj.BookInfoStrongIntro;
-    StrongIntroLab.backgroundColor = [UIColor blackColor];
-    [StrongIntroLab setFont:font];
-    [StrongIntroLab setFrame:CGRectMake(10, 10, StrongIntroLab.frame.size.width, StrongIntroLab.frame.size.height)];
-    //CGSize constraint = CGSizeMake(300, 20000.0f);
-    
-    //[StrongIntroLab setFrame:CGRectMake(10, 10, size.width, size.height)];
-    //NSLog(@"size height %f", size.height);
-    StrongIntroLab.numberOfLines = 0;
-    NSLog(@"!!!!!\n%@", StrongIntroLab);
-*/
     return Success;
 }
+
+-(void) SaveBookInfoObj
+{
+    VIEW_LOG(@"Save %@ to data base", _BookInfoObj.BookName);
+    if (BOOKSLIST_SUCCESS != [_BookDataBase Books_SaveBookInfoObj:_BookInfoObj]) {
+        VIEW_ERROR_LOG(@"SAVE ERROR");
+    }
+}
+
+
+
+
 
 
 #pragma mark - NSURLConnection Delegate Methods
@@ -262,6 +265,7 @@
         
         VIEW_LOG(@"%@", [UIImage imageWithData:_responseData]);
         _BookInfoHeaderView.BookCoverView.image = [UIImage imageWithData:_responseData];
+        _BookInfoObj.BookCoverImage = _responseData;
         [_BookInfoHeaderView.BookCoverViewSMALL setHidden:YES];
         
     }
