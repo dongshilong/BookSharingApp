@@ -251,38 +251,59 @@
     TFHpple *HtmlParser = [TFHpple hppleWithHTMLData:HtmlData];
     NSRange TextRange;
     
-    for (int Index = 1; Index <= 5; Index ++) {
-        NSString *SearchResultXpathQueryString = [NSString stringWithFormat:@"%@%i%@",
-                                                        @"/html/body/div[2]/div/div[2]/div[1]/div[",
-                                                        Index,
-                                                        @"]/div/ul[1]/li[1]"];
+    // Find ISBN string first
+    NSString *HtmlDataStr = [[NSString alloc] initWithData:HtmlData encoding:NSUTF8StringEncoding];
+    TextRange = [HtmlDataStr rangeOfString:@"ISBN"];
+    
+    if (TextRange.length == 0) {
         
-        NSArray *SearchResultNodes = [HtmlParser searchWithXPathQuery:SearchResultXpathQueryString];
+        return nil;
         
-        if ((SearchResultNodes == nil) || ([SearchResultNodes count] == 0)) {
+    } else {
+        // reset TextRange
+        TextRange.location = 0;
+        TextRange.length = 0;
+    }
+    
+    for (int Index1 = 1; Index1 <= 5; Index1 ++) {
+        for (int Index2 = 1; Index2 <= 5; Index2 ++) {
+            NSString *SearchResultXpathQueryString = [NSString stringWithFormat:@"%@%i%@%i%@",
+                                                      @"/html/body/div[2]/div/div[", Index1, @"]/div[1]/div[",
+                                                      Index2,
+                                                      @"]/div/ul[1]/li[1]"];
+            NSArray *SearchResultNodes = [HtmlParser searchWithXPathQuery:SearchResultXpathQueryString];
             
-            //BOOKS_ERROR_LOG(@"Node Not Found with index %i !!", Index);
-            
-        } else {
-            
-            TFHppleElement *element = [SearchResultNodes objectAtIndex:0];
-            element = [SearchResultNodes objectAtIndex:0];
-            ISBNStr = [NSString stringWithFormat:@"%@", [[element firstChild] content]];
-            TextRange = [ISBNStr rangeOfString:@"ISBN："];
-            if (TextRange.length != 0) {
-                ISBNStr = [ISBNStr substringFromIndex:TextRange.length];
-                BOOKS_SEARCH_LOG(@"ISBNStr = %@", [[element firstChild] content]);
-                break;
+            if ((SearchResultNodes == nil) || ([SearchResultNodes count] == 0)) {
+                
+                //BOOKS_ERROR_LOG(@"Node Not Found with index %i !!", Index);
+                
             } else {
-                ISBNStr = nil;
+                
+                TFHppleElement *element = [SearchResultNodes objectAtIndex:0];
+                element = [SearchResultNodes objectAtIndex:0];
+                ISBNStr = [NSString stringWithFormat:@"%@", [[element firstChild] content]];
+                TextRange = [ISBNStr rangeOfString:@"ISBN："];
+                
+                if (TextRange.length != 0) {
+                    
+                    ISBNStr = [ISBNStr substringFromIndex:TextRange.length];
+                    BOOKS_SEARCH_LOG(@"ISBNStr = %@", [[element firstChild] content]);
+                    
+                    return ISBNStr;
+                    
+                } else {
+                    
+                    ISBNStr = nil;
+                }
+            }
+            
+            if ((Index1 == 5) && (Index2 == 5)) {
+                BOOKS_ERROR_LOG(@"ISBN NOT FOUND");
+                return nil;
             }
         }
-        
-        if (Index == 5) {
-            BOOKS_ERROR_LOG(@"ISBN NOT FOUND");
-            return nil;
-        }
     }
+    
     
     return ISBNStr;
 }
