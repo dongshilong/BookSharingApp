@@ -19,6 +19,8 @@
 #define BOOKS_CORE_DATA_KEY_BOOK_INFO_STRONG_INTRO  @"bookStrongIntro"
 #define BOOKS_CORE_DATA_KEY_BOOK_CREATE_T           @"bookCreateTime"
 #define BOOKS_CORE_DATA_KEY_BOOK_UPDATE_T           @"bookUpdateTime"
+#define BOOKS_CORE_DATA_KEY_BOOK_ID                 @"bookGuid"
+
 
 #pragma mark - Web database Key Define
 #define BOOKS_WEB_DB_KEY_BOOK_NAME                  @"name"
@@ -30,6 +32,8 @@
 #define BOOKS_WEB_DB_KEY_BOOK_INTRO                 @"introduction"
 #define BOOKS_WEB_DB_KEY_BOOK_TAG                   @"tag"
 #define BOOKS_WEB_DB_KEY_BOOK_TYPE                  @"booktype"
+#define BOOKS_WEB_DB_KEY_BOOK_ID                    @"bookid"
+
 
 #define BOOK_DIC_BOOK_NAME_KEY                      BOOKS_CORE_DATA_KEY_BOOK_NAME
 #define BOOK_DIC_BOOK_AUTHOR_KEY                    BOOKS_CORE_DATA_KEY_BOOK_AUTHOR
@@ -54,6 +58,8 @@
 @property (nonatomic, strong) NSString      *BookType;
 @property (nonatomic, strong) NSDate        *BookInfoCreateTime;
 @property (nonatomic, strong) NSDate        *BookInfoUpdateTime;
+@property (nonatomic, strong) NSString      *BookInfoGUID;
+
 
 -(BookInfo*) initWithCoreDataObj : (NSManagedObject*) bookCoreData;
 

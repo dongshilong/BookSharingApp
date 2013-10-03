@@ -26,7 +26,7 @@
                        BOOKS_CORE_DATA_KEY_BOOK_NAME,
                        BOOKS_CORE_DATA_KEY_BOOK_ISBN,
                        BOOKS_CORE_DATA_KEY_BOOK_AUTHOR,
-                       @"bookGuid",
+                       BOOKS_CORE_DATA_KEY_BOOK_ID,
                        BOOKS_CORE_DATA_KEY_BOOK_COVER_IMG,
                        BOOKS_CORE_DATA_KEY_BOOK_INFO_URL,
                        BOOKS_CORE_DATA_KEY_BOOK_CREATE_T,
@@ -104,14 +104,14 @@
     
     BookInfoObj.BookInfoCreateTime = date;
     BookInfoObj.BookInfoUpdateTime = date;
-
+    BookInfoObj.BookInfoGUID = [Guid UUIDString];
     BookInfoObj = [self Books_CheckDataNilForBookInfo:BookInfoObj];
     
     NSArray *CoreDataValue = [NSArray arrayWithObjects:
                               BookInfoObj.BookName,
                               BookInfoObj.BookISBN,
                               BookInfoObj.BookAuthor,
-                              [Guid UUIDString],
+                              BookInfoObj.BookInfoGUID,
                               BookInfoObj.BookCoverImage,
                               [BookInfoObj.BookInfoURL absoluteString],
                               BookInfoObj.BookInfoCreateTime,
@@ -378,20 +378,23 @@
     [newAccount setObject:[BookInfoObj.BookCoverHDURL absoluteString] forKey:BOOKS_WEB_DB_KEY_BOOK_IMG_URL];
     [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoCreateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_CREATE_T];
     [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoUpdateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_UPDATE_T];
-    [newAccount setObject:BookInfoObj.BookInfoIntro forKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
+    [newAccount setObject:BookInfoObj.BookInfoStrongIntro forKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
+    NSLog(@"BookInfoObj.BookInfoGUID = %@", BookInfoObj.BookInfoGUID);
+    [newAccount setObject:BookInfoObj.BookInfoGUID forKey:BOOKS_WEB_DB_KEY_BOOK_ID];
+
     
     //introduction
     //NSLog(@"%@", BookInfoObj.BookCoverURL );
     //[newAccount setObject:_booktypeTextField.text forKey:BOOKS_WEB_DB_KEY_BOOK_TYPE];
     //[newAccount setObject:_tagTextField.text forKey:forKey:BOOKS_WEB_DB_KEY_BOOK_TAG];
     //[newAccount setObject:imageDataEncodedeString forKey:@"icon_image_data"];
-    
+    // bookid
     NSLog(@"%@", newAccount);
     
     //transform the dictionary key-value pair into NSData object
 #warning Casper modified POST Method without testing
-    //    NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONReadingMutableContainers error:nil];
-    NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONWritingPrettyPrinted error:nil];
+    NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONReadingMutableContainers error:nil];
+    //NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONWritingPrettyPrinted error:nil];
     
     
     //let the NSData object be the data of the request
@@ -440,7 +443,7 @@
     if ([response isKindOfClass:[NSHTTPURLResponse class]])
     {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
-        NSLog(@"%d", [httpResponse statusCode]);
+        NSLog(@"did receive responced %d", [httpResponse statusCode]);
     }
 }
 

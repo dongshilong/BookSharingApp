@@ -100,7 +100,6 @@
         // Everything is ready in ViewDidLoaded
         InitedInViewDidLoaded = NO;
     } else {
-        VIEW_LOG(@"ViewWillAppear");
         // View appeared without init
         // UI function should reloaded
     }

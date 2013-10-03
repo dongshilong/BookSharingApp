@@ -156,6 +156,29 @@
 
 
 #pragma mark - UI activities
+
+-(void) BookSaveViewAlert
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"SAVE SUCCESS"
+                                                    message:@"Back to search result"
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    
+    //將Alerts顯示於畫面上
+    [alert show];
+    
+    
+}
+
+// 點了 OK 後要執行的 Method
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    
+    if (buttonIndex == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 -(void) ShowLoadingView
 {
     NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"Searching" owner:self options:nil];
@@ -208,14 +231,15 @@
         [_BookInfoDetailedView.SaveBtn setHidden:YES];
     }
     
-    
+    // Assign Save Btn
     [_BookInfoDetailedView.SaveBtn addTarget:self
                                       action:@selector(SaveBookInfoObj)
                             forControlEvents:UIControlEventTouchUpInside];
     
 
     // Place Strong Intro Label
-    if (BookInfoObj.BookInfoStrongIntro) {
+    if ((BookInfoObj.BookInfoStrongIntro != nil) &&
+        (NO == [BookInfoObj.BookInfoStrongIntro isEqualToString:BOOKS_CORE_DATA_DEFAULT_VALUE])) {
         
         UILabel *StrongLab = [[UILabel alloc] init];
         [StrongLab setText:BookInfoObj.BookInfoStrongIntro];
@@ -236,17 +260,19 @@
     return Success;
 }
 
+#pragma mark - Book Database methods
 -(void) SaveBookInfoObj
 {
     VIEW_LOG(@"Save %@ to data base", _BookInfoObj.BookName);
     if (BOOKSLIST_SUCCESS != [_BookDataBase Books_SaveBookInfoObj:_BookInfoObj]) {
         VIEW_ERROR_LOG(@"SAVE ERROR");
     }
+    [_BookDataBase Books_FirePOSTConnectionToServerWithBookIndo:_BookInfoObj];
+
+    
+    [self BookSaveViewAlert];
+    
 }
-
-
-
-
 
 
 #pragma mark - NSURLConnection Delegate Methods
