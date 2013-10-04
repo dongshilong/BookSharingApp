@@ -48,9 +48,12 @@
     _LocalIndexPath = [[NSIndexPath alloc] init];
     
     // 4. Init Data
-    BarcodeDefaultLocation = CGPointMake(_BarCodeReaderBtn.center.x, _BarCodeReaderBtn.center.y);
     _TableDataSec0 = [NSMutableArray arrayWithObjects:@"Click to clear search results", nil];
-
+    
+    BarcodeDefaultLocation.x = _BarCodeReaderBtn.center.x;
+    BarcodeDefaultLocation.y = UI_BARCODEBTN_DEFAULT_LOC_CENTER;
+    
+    [self ResetBarcodeReaderBtnAndDisapear:NO];
 	// Do any additional setup after loading the view.
 }
 
@@ -63,7 +66,6 @@
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    
     [_SearchBar resignFirstResponder];
     [_TableView deselectRowAtIndexPath:_LocalIndexPath animated:NO];
 
@@ -110,22 +112,22 @@
 -(void) MoveUpBarcodeReaderBtn
 {
     
-    CGPoint MoveUp = CGPointMake( _BarCodeReaderBtn.center.x, 180.0f + _BarCodeReaderBtn.frame.size.width / 2.0f);
-    
+    CGPoint MoveUp = CGPointMake( _BarCodeReaderBtn.center.x, UI_BARCODEBTN_MOVE_LOC_CENTER);
+
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.5f];
     _BarCodeReaderBtn.center = MoveUp;
+
     [UIView commitAnimations];
     
 }
 
 -(void) ResetBarcodeReaderBtnAndDisapear : (BOOL) SetDisapear
 {
-    
     CGPoint Reset = BarcodeDefaultLocation;
     
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:1.0f];
+    [UIView setAnimationDuration:0.5f];
     _BarCodeReaderBtn.center = Reset;
     [UIView commitAnimations];
     

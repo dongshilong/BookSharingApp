@@ -266,6 +266,34 @@
     
 }
 
+#pragma mark - SearchBar Method
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    _SearchBookNameTableData = [_BookList Books_CoreDataSearchWithBookName:searchText];
+    _SearchBookAuthorTableData = [_BookList Books_CoreDataSearchWithBookAuthor:searchText];
+    _SearchResultDisplayArray = [NSArray arrayWithObjects:
+                                 _SearchBookNameTableData,
+                                 _SearchBookAuthorTableData,
+                                 nil];
+    
+    VIEW_LOG(@"Search result %i ！！！！～～～～", [_SearchBookNameTableData count]);
+    VIEW_LOG(@"Search result %i ！！！！～～～～", [_SearchBookAuthorTableData count]);
+    
+}
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller
+shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles]
+                                      objectAtIndex:[self.searchDisplayController.searchBar
+                                                     selectedScopeButtonIndex]]];
+    
+    
+    return YES;
+}
+
+
 
 
 #pragma mark - Navigation
@@ -278,8 +306,10 @@
         destViewController.FatherView = ListBookView;
         if ([self.searchDisplayController isActive]) {
             
-            //NSManagedObject *book = [[_SearchResultDisplayArray objectAtIndex:_LocalIndexPath.section] objectAtIndex:_LocalIndexPath.row];
-            //destViewController.Book = book;
+            NSManagedObject *book = [[_SearchResultDisplayArray objectAtIndex:_LocalIndexPath.section] objectAtIndex:_LocalIndexPath.row];
+            BookInfo *BookForParse = [[BookInfo  alloc] initWithCoreDataObj:book];
+            destViewController.BookInfoObj = BookForParse;
+            
             
         } else {
             

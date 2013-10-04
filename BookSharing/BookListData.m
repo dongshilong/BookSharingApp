@@ -392,7 +392,7 @@
     NSLog(@"%@", newAccount);
     
     //transform the dictionary key-value pair into NSData object
-#warning Casper modified POST Method without testing
+//#warning Casper modified POST Method without testing
     //NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONReadingMutableContainers error:nil];
     NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONWritingPrettyPrinted error:nil];
     

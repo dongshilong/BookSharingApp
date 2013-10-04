@@ -223,7 +223,7 @@
     [_Scroller addSubview:_BookInfoDetailedView];
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     float StartY = 50.0f;
-    CGSize size;
+    CGSize size = CGSizeMake(300, 0);
     
     // Hide Save Btn when came from list view
     if (FatherView == ListBookView) {
