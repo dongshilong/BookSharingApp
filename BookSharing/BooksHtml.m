@@ -29,6 +29,7 @@
         _responseData = [[NSMutableData alloc] init];
     }
     
+    [_responseData setLength:0];
     _BookSearchDic = nil;
     _BookInfoObj.BookName = @"NaN";
     _BookInfoObj.BookAuthor = @"NaN";
@@ -132,9 +133,13 @@
                         BOOKS_SEARCH_LOG(@"NOTIFICATION  = %i", NotificationSent);
                         
                             [self Books_SendStatusNotificationWithValue:BOOK_SEARCH_RESULT_TABLE_DONE];
+                            _State = BOOKS_INIT;
+
                     }
                 } else {
+                    
                     _State = BOOKS_INIT;
+                    
                 }
             }
             break;
@@ -182,6 +187,7 @@
 {
     NSURL *SearchingURL = [self PrepareSearchURLWithKeyword:KeyWord];
     NSURLRequest *request=[NSURLRequest requestWithURL:SearchingURL];
+    
     [self Books_ResetAll];
     BOOKS_SEARCH_LOG(@"Fire Connection !! \n%@", [request.URL absoluteString]);
     conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];

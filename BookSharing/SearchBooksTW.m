@@ -256,7 +256,7 @@
     TextRange = [HtmlDataStr rangeOfString:@"ISBN"];
     
     if (TextRange.length == 0) {
-        
+        BOOKS_ERROR_LOG(@"NO ISBN IN THIS PAGE");
         return nil;
         
     } else {

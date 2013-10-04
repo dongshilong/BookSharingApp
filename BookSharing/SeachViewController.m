@@ -80,7 +80,6 @@
     [_TableView reloadData];
     // TODO: It needs some animation during the search result table hidden
     
-    NSLog(@"TEST ANIMATION");
     [self AnimationHideTableView];
     
     [_TableView setHidden:YES];
@@ -209,17 +208,10 @@
         ShowSearchResult = NO;
     }
     
-    // Test
-    if (([SearchStr length] == 0) || (SearchStr == nil)) {
-        //[_SearchBook Books_FireQueryWithKeyWords:@"ios app"];
-        [_BookSearch Books_FireQueryWithKeyWords:@"9789866272516"];
-        
-    } else {
-        
-        VIEW_LOG(@"search text = %@", SearchStr);
-        [_BookSearch Books_FireQueryWithKeyWords:SearchStr];
-        
-    }
+
+    VIEW_LOG(@"search text = %@", SearchStr);
+    [_BookSearch Books_FireQueryWithKeyWords:SearchStr];
+    
     
     // TODO: Break here if no one key in search text.
     [self performSelector:@selector(CheckNotify)];
@@ -259,9 +251,7 @@
                  // Extract Book Name | Book Author | Book Info URL Array | Book Cover URL
                  // To guerentee all the data is the latest
                  _NotificationState_OLD = BOOK_SEARCH_RESULT_TABLE_DONE;
-                 [_SearchBookInfoObjArray removeAllObjects];
                  NSUInteger Size = [[_BookSearch Books_ExtractToBookNameArrayWithDictionary:_BookSearch.BookSearchDic] count];
-                 
                  if (Size != 0) {
                      
                      for (int i = 0; i < Size; i ++) {
@@ -269,9 +259,10 @@
                          BookInfo *TempBookInfoObj = [[BookInfo alloc] init];
                          TempBookInfoObj = [_BookSearch Books_ExtractToSingleBookInfoObjWithDictionary:_BookSearch.BookSearchDic ByIndex:i];
                          [_SearchBookInfoObjArray addObject:TempBookInfoObj];
-                         VIEW_LOG(@"_BookInfoObjArray size count = %i", [_SearchBookInfoObjArray count]);
                          
                      }
+                     
+
                      
                      if (ShowSearchResult == NO) {
                          
@@ -347,9 +338,11 @@
     if (_SearchBookInfoObjArray == nil) {
         _SearchBookInfoObjArray = [[NSMutableArray alloc] init];
     }
+    
     _NotificationState_OLD = @"Init";
     [_TableCoverImageArray removeAllObjects];
     [_SearchBookInfoObjArray removeAllObjects];
+    [_TableView reloadData];
     [_TableView setHidden:YES];
     [_SearchBar resignFirstResponder];
     [_BarCodeReaderBtn setHidden:YES];
