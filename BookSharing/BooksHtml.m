@@ -21,8 +21,15 @@
 
 -(void) Books_ResetAll
 {
-    _BookInfoObj = [[BookInfo alloc] init];
-    _responseData = [[NSMutableData alloc] init];
+    if (_BookInfoObj == nil) {
+        _BookInfoObj = [[BookInfo alloc] init];
+    }
+    
+    if (_responseData == nil) {
+        _responseData = [[NSMutableData alloc] init];
+    }
+    
+    _BookSearchDic = nil;
     _BookInfoObj.BookName = @"NaN";
     _BookInfoObj.BookAuthor = @"NaN";
     _BookInfoObj.BookCoverURL = [NSURL URLWithString:@"NaN"];
@@ -124,12 +131,7 @@
                     if (_BookSearchDic != nil) {
                         BOOKS_SEARCH_LOG(@"NOTIFICATION  = %i", NotificationSent);
                         
-                        if (NotificationSent == NO) {
                             [self Books_SendStatusNotificationWithValue:BOOK_SEARCH_RESULT_TABLE_DONE];
-                            
-                            _State = BOOKS_INIT;
-                            NotificationSent = YES;
-                        }
                     }
                 } else {
                     _State = BOOKS_INIT;
@@ -180,6 +182,7 @@
 {
     NSURL *SearchingURL = [self PrepareSearchURLWithKeyword:KeyWord];
     NSURLRequest *request=[NSURLRequest requestWithURL:SearchingURL];
+    [self Books_ResetAll];
     BOOKS_SEARCH_LOG(@"Fire Connection !! \n%@", [request.URL absoluteString]);
     conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     _State = BOOKS_SEARCH_KEY_WORDS;
