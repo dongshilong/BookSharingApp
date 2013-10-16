@@ -188,7 +188,7 @@
     [super touchesEnded:touches withEvent:event];
     VIEW_LOG(@"    self.revealViewController.frontViewPosition  = %i", self.revealViewController.frontViewPosition );
     if (self.revealViewController.frontViewPosition == FrontViewPositionRight) {
-        [self.revealViewController performSelector:@selector(revealToggle:)];
+        [self.revealViewController setFrontViewPosition: FrontViewPositionLeft animated: YES];
     }
 }
 
@@ -375,8 +375,15 @@
     [self RemoveLoadingView];
     [_BookSearch Books_RemoveConnection];
 
+    // move back front view
+    if (self.revealViewController.frontViewPosition == FrontViewPositionRight) {
+        [self.revealViewController setFrontViewPosition: FrontViewPositionLeft animated: YES];
+    }
+    
     [_BarCodeReaderBtn setHidden:NO];
     [self MoveUpBarcodeReaderBtn];
+    
+    
 }
 
 
