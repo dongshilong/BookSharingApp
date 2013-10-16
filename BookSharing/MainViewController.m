@@ -39,4 +39,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+// 2013.10.16 [CASPER] Fix front view behavior
+//                     front view go back when touched.
+-(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesEnded:touches withEvent:event];
+    VIEW_LOG(@"    self.revealViewController.frontViewPosition  = %i", self.revealViewController.frontViewPosition );
+    if (self.revealViewController.frontViewPosition == FrontViewPositionRight) {
+        [self.revealViewController performSelector:@selector(revealToggle:)];
+    }
+}
+
 @end

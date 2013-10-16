@@ -161,9 +161,11 @@
     }
 }
 
--(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+// 2013.10.16 [CASPER] Fix key pad behavior
+-(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [super touchesMoved:touches withEvent:event];
+    
+    [super touchesBegan:touches withEvent:event];
     // To remove keyboard when touch on the white area
     
     if ([_SearchBookInfoObjArray count] != 0) {
@@ -175,7 +177,19 @@
         [self ResetBarcodeReaderBtnAndDisapear:NO];
     }
     [_SearchBar resignFirstResponder];
+    
+}
 
+
+// 2013.10.16 [CASPER] Fix front view behavior
+//                     front view go back when touched.
+-(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesEnded:touches withEvent:event];
+    VIEW_LOG(@"    self.revealViewController.frontViewPosition  = %i", self.revealViewController.frontViewPosition );
+    if (self.revealViewController.frontViewPosition == FrontViewPositionRight) {
+        [self.revealViewController performSelector:@selector(revealToggle:)];
+    }
 }
 
 // 提供 Table view 在離開以及消失時的動畫
