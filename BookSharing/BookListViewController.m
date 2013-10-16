@@ -38,7 +38,7 @@
 
     // 2. Init table data
     _tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetch]];
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
     
     
     // 3. Setup slide bar
@@ -51,16 +51,15 @@
     self.navigationItem.title = @"Book List";
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.clearsSelectionOnViewWillAppear = YES;
-
     
-    
-    /*
-    // Hide Search Bar at the beginning
+        // Hide Search Bar at the beginning
     CGRect Bounds = _tableView.bounds;
     Bounds.origin.y = Bounds.origin.y + _SearchBar.bounds.size.height;
     _tableView.bounds = Bounds;
     [_tableView reloadData];
     
+    
+    /*
     
     if ([_tableData count] == 0) {
         // Hide Table View And Place Search
@@ -304,6 +303,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
     {
         DetailedViewController *destViewController = segue.destinationViewController;
         destViewController.FatherView = ListBookView;
+        
         if ([self.searchDisplayController isActive]) {
             
             NSManagedObject *book = [[_SearchResultDisplayArray objectAtIndex:_LocalIndexPath.section] objectAtIndex:_LocalIndexPath.row];
