@@ -53,6 +53,10 @@
     BarcodeDefaultLocation.x = _BarCodeReaderBtn.center.x;
     BarcodeDefaultLocation.y = UI_BARCODEBTN_DEFAULT_LOC_CENTER;
     
+    // 5. Google Analytics
+    self.title = @"BookSharing track";
+    self.screenName = @"Shearch View";
+    
     [self ResetBarcodeReaderBtnAndDisapear:NO];
 	// Do any additional setup after loading the view.
 }

@@ -11,7 +11,7 @@
 #import "BookListData.h"
 #import "BookInfo.h"
 
-@interface BookListViewController : UITableViewController {
+@interface BookListViewController : GAITrackedViewController <UITableViewDataSource, UITableViewDelegate> {
     BOOL InitedInViewDidLoaded;
 }
 

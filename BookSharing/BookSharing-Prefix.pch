@@ -17,6 +17,9 @@
     #import "AppDelegate.h"
     #import "UI_Def.h"
 
+    // Google Analytics
+    #import "GAI.h"
+
 //#define DEBUG_BOOK_SEARCH
 //#define DEBUG_VIEW
 

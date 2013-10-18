@@ -65,6 +65,10 @@
     
     // 5. init image data
     _responseData = [[NSMutableData alloc] init];
+    
+    // Google Analytics
+    self.title = @"BookSharing track";
+    self.screenName = @"Detailed Info View";
 }
 
 - (void)didReceiveMemoryWarning
