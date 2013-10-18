@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAI.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -16,5 +17,9 @@
 @property (readonly, strong, nonatomic) NSManagedObjectContext          *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel            *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator    *persistentStoreCoordinator;
+
+// Google analytics
+@property(nonatomic, strong) id<GAITracker> tracker;
+
 
 @end

@@ -18,6 +18,7 @@
 @implementation BookListViewController
 @synthesize tableView = _tableView;
 
+/*
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -26,6 +27,8 @@
     }
     return self;
 }
+*/
+
 
 - (void)viewDidLoad
 {
@@ -51,8 +54,12 @@
     // 4. Setup UI activity
     self.navigationItem.title = @"Book List";
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    self.clearsSelectionOnViewWillAppear = YES;
-    
+    //self.clearsSelectionOnViewWillAppear = YES;
+
+    // Google Analytics
+    self.title = @"BookSharing track";
+    self.screenName = @"ListView";
+
         // Hide Search Bar at the beginning
     CGRect Bounds = _tableView.bounds;
     Bounds.origin.y = Bounds.origin.y + _SearchBar.bounds.size.height;

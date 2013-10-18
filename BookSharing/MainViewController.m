@@ -29,7 +29,11 @@
     [super viewDidLoad];
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-
+    
+    // Google Analytics
+    self.title = @"BookSharing track";
+    self.screenName = @"What's HOT";
+    
 	// Do any additional setup after loading the view.
 }
 

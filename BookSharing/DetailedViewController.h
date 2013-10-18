@@ -14,7 +14,7 @@
 #import "DetailedScroller.h"
 #import "Searching.h"
 
-@interface DetailedViewController : UIViewController <NSURLConnectionDelegate> {
+@interface DetailedViewController : GAITrackedViewController <NSURLConnectionDelegate> {
     NSURLConnection     *BookCoverConn;
     NSMutableData       *_responseData;
 
