@@ -47,6 +47,7 @@
         // Set the gesture
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
+    
     // 4. Setup UI activity
     self.navigationItem.title = @"Book List";
     [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -207,14 +208,6 @@
     }
 }
 
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    _LocalIndexPath = indexPath;
-    [self performSegueWithIdentifier:@"BookDetailedInfo" sender:nil];
-    return indexPath;
-}
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -248,6 +241,8 @@
             cell = [nib objectAtIndex:0];
         }
         
+        // 20131017 Casper : set selection highlight as none.
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         NSManagedObject *book = [self.tableData objectAtIndex:indexPath.row];
         cell.BookNameLab.text = [NSString stringWithFormat:@"%@", [book valueForKey:@"bookName"]];
@@ -269,6 +264,31 @@
     }
     
 }
+
+
+#pragma mark - TableView delegate
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    _LocalIndexPath = indexPath;
+    
+    
+    // 2013.10.16 [CASPER] Fix front view behavior
+    //                     front view go back when touched.
+    VIEW_LOG(@"    self.revealViewController.frontViewPosition  = %i", self.revealViewController.frontViewPosition );
+    if (self.revealViewController.frontViewPosition == FrontViewPositionRight) {
+        
+        [self.revealViewController setFrontViewPosition: FrontViewPositionLeft animated: YES];
+        
+    } else {
+        
+        [self performSegueWithIdentifier:@"BookDetailedInfo" sender:nil];
+        
+    }
+    
+    return indexPath;
+}
+
+
 
 #pragma mark - SearchBar Method
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope

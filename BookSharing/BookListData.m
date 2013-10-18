@@ -33,8 +33,8 @@
                        BOOKS_CORE_DATA_KEY_BOOK_UPDATE_T,
                        @"bookCoverUrlSmall",
                        @"bookCoverUrlLarge",
-                       @"bookIntro",
-                       @"bookStrongIntro",
+                       BOOKS_CORE_DATA_KEY_BOOK_INFO_INTRO,
+                       BOOKS_CORE_DATA_KEY_BOOK_INFO_STRONG_INTRO,
                        @"bookAuthorIntro",
                        nil];
         AppDelegate *theAppDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;

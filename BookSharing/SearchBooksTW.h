@@ -20,6 +20,8 @@
 -(NSURL*) BooksTW_ScrapingSingleBookCoverURLInDetailedPage:(NSData *)HtmlData;
 -(NSString*) BooksTW_ScrapingSingleBookISBNInDetailedPage:(NSData *)HtmlData;
 -(NSString*) BooksTW_ScrapingSingleBookStrongDescription:(NSData *)HtmlData;
+-(NSString*) BooksTW_ScrapingSingleBookNormalDescription:(NSData *)HtmlData;
+
 -(BOOL) BooksTW_ScrapingSingleBookSideColumnInfo:(NSData *)HtmlData ForBookinfoObj:(BookInfo *) BoonInfoObj;
 
 @end

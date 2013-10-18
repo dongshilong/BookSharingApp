@@ -110,10 +110,10 @@
                  _BookInfoObj.BookCoverHDURL = _BookInfoQuery.BookInfoObj.BookCoverHDURL;
                  _BookInfoObj.BookISBN = _BookInfoQuery.BookInfoObj.BookISBN;
                  _BookInfoObj.BookInfoStrongIntro = _BookInfoQuery.BookInfoObj.BookInfoStrongIntro;
+                 _BookInfoObj.BookInfoIntro = _BookInfoQuery.BookInfoObj.BookInfoIntro;
+                 
                  // TODO: [Casper] if BookISBN is nil, try to get it from somewhere else.
-                 
-                 
-                 [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj WithFatherView:SearchBookView];
+                [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj WithFatherView:SearchBookView];
                  
                  if (_BookInfoObj.BookCoverHDURL != nil) {
                      
@@ -222,6 +222,8 @@
     
     [_Scroller addSubview:_BookInfoDetailedView];
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    UIFont *font2 = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+
     float StartY = 50.0f;
     CGSize size = CGSizeMake(300, 0);
     
@@ -240,7 +242,7 @@
     // Place Strong Intro Label
     if ((BookInfoObj.BookInfoStrongIntro != nil) &&
         (NO == [BookInfoObj.BookInfoStrongIntro isEqualToString:BOOKS_CORE_DATA_DEFAULT_VALUE])) {
-        
+
         UILabel *StrongLab = [[UILabel alloc] init];
         [StrongLab setText:BookInfoObj.BookInfoStrongIntro];
         [StrongLab setFont:font];
@@ -252,9 +254,30 @@
         [StrongLab setFrame:CGRectMake(10, StartY + 10, size.width, size.height)];
         StrongLab.numberOfLines = 0;
         [_Scroller addSubview: StrongLab];
+        
+        StartY = StartY + size.height;
 
     }
     
+    // Place Intro Label
+    if ((BookInfoObj.BookInfoIntro != nil) &&
+        (NO == [BookInfoObj.BookInfoIntro isEqualToString:BOOKS_CORE_DATA_DEFAULT_VALUE])) {
+        
+        UILabel *IntroLab = [[UILabel alloc] init];
+        [IntroLab setText:BookInfoObj.BookInfoIntro];
+        [IntroLab setFont:font2];
+        IntroLab.numberOfLines = 0;
+        [IntroLab setBackgroundColor: [UIColor whiteColor]];
+        CGSize constraint = CGSizeMake(300, 20000.0f);
+        
+        size = [IntroLab sizeThatFits:constraint];
+        [IntroLab setFrame:CGRectMake(10, StartY + 10, size.width, size.height)];
+        IntroLab.numberOfLines = 0;
+        [_Scroller addSubview: IntroLab];
+        
+    }
+
+
     [_Scroller setContentSize:CGSizeMake(320, StartY + size.height + 50)];
     
     return Success;

@@ -146,11 +146,11 @@
             
         case BOOKS_GET_DETAILED_INFO:
             {
-                BOOKS_SEARCH_LOG(@"BOOKS_GET_DETAILED_INFO");
-                
+                BOOKS_SEARCH_LOG(@"BOOKS_GET_DETAILED_INFO");                
                 _BookInfoObj.BookCoverHDURL = [_BooksTW BooksTW_ScrapingSingleBookCoverURLInDetailedPage:_responseData];
                 _BookInfoObj.BookISBN = [_BooksTW BooksTW_ScrapingSingleBookISBNInDetailedPage:_responseData];
                 _BookInfoObj.BookInfoStrongIntro = [_BooksTW BooksTW_ScrapingSingleBookStrongDescription:_responseData];
+                _BookInfoObj.BookInfoIntro = [_BooksTW BooksTW_ScrapingSingleBookNormalDescription:_responseData];
                 
                 // TODO: [Casper] Arrange the Strong Intro string :
                 //       1. Delete the blank char

@@ -320,7 +320,7 @@
 
 
 // 移除全形空白
-// 移除<BR> <br>
+// 移除<BR> <br> 用 \n 代替
 // 移除所有的 HTML Tag
 -(NSString *) stringArrangeIntroString:(NSString*) InputString
 {
@@ -328,7 +328,7 @@
     NSRange range;
     range.length = 1;
     range.location = 0;
-    
+
     for (int i = 0; i < [InputString length]; i++) {
         
         if ([InputString characterAtIndex:i] == 12288) {
@@ -346,7 +346,7 @@
 
 
 //
-// 取出加強介紹
+// 取出加強介紹 （頁面有紅字的區域）並填入Range
 //
 -(NSString*) BooksTW_ScrapingSingleBookStrongDescription:(NSData *)HtmlData
 {
@@ -395,12 +395,16 @@
 
 -(NSString*) BooksTW_ScrapingSingleBookNormalDescription:(NSData *)HtmlData
 {
-    NSString *BookDescription = nil;
+    NSString *BookDescription, *StrongDescription;
     
     if (HtmlData == nil) {
         BOOKS_ERROR_LOG(@"ERROR, BookInfoObj.HtmlData = nil");
         return nil;
     }
+    
+    // Try to scraping the text by hand job
+    NSString *HtmlDataStr = [[NSString alloc] initWithData:HtmlData encoding:NSUTF8StringEncoding];
+    NSRange TextRange1, TextRange2;
     
     
     // SearchDic value = 搜尋區域的尾巴 , Key = 搜尋區域的頭
@@ -410,9 +414,7 @@
                                nil];
     
     // Try to scraping the text by hand job
-    NSString *HtmlDataStr = [[NSString alloc] initWithData:HtmlData encoding:NSUTF8StringEncoding];
     NSArray *KeyArray = [NSArray arrayWithArray:[SearchDic allKeys]];
-    NSRange TextRange1, TextRange2;
     
     for (NSString *KeyStr in KeyArray) {
         
@@ -426,12 +428,60 @@
             
             TextRange1.location = TextRange1.location + TextRange1.length;
             TextRange1.length = TextRange2.location - TextRange1.location;
-            
-            BookDescription = [NSString stringWithFormat:@"%@", [HtmlDataStr substringWithRange:TextRange1]];
-            BookDescription = [self stringArrangeIntroString:BookDescription];
+
+            StrongDescription = [NSString stringWithFormat:@"%@", [HtmlDataStr substringWithRange:TextRange1]];
+            StrongDescription = [self stringArrangeIntroString:StrongDescription];
             break;
         }
+    }
+    
+    
+    if (StrongDescription == nil) {
+        NSLog(@"_BookInfoObj.BookInfoStrongIntro == nil");
+        // There is no strong introduction
+        // <h3>內容簡介</h3>
+        TextRange1.length = 0;
+        TextRange1.location = 0;
+        TextRange1 = [HtmlDataStr rangeOfString:@"<h3>內容簡介</h3>"];
         
+        if (TextRange1.length != 0) {
+            
+            // Cut HtmlStr from <h3>內容簡介</h3> to the end of HtmlStr
+            TextRange1.location = TextRange1.location + TextRange1.length;
+            TextRange1.length = [HtmlDataStr length] - TextRange1.location;
+
+            BookDescription = [HtmlDataStr substringWithRange:TextRange1];
+            
+            // Find the first </div> string
+            TextRange2 = [BookDescription rangeOfString:@"</div>"];
+            if (TextRange2.length != 0) {
+                
+                // Cut HtmlStr from Head to the location of </div> in BookDescription.
+                TextRange1.length = TextRange2.location;
+                TextRange1.location = 0;
+                BookDescription = [BookDescription substringWithRange:TextRange1];
+                BookDescription = [self stringArrangeIntroString:BookDescription];
+
+            }
+        }
+        
+    } else {
+        
+        // Use the tail of strong introduction
+        TextRange1.location = TextRange1.location + TextRange1.length;
+        TextRange1.length = [HtmlDataStr length] - TextRange1.location;
+        BookDescription = [HtmlDataStr substringWithRange:TextRange1];
+
+        TextRange2 = [BookDescription rangeOfString:@"</div>"];
+        if (TextRange2.length != 0) {
+            
+            // Cut HtmlStr from Head to the location of </div> in BookDescription.
+            TextRange1.length = TextRange2.location;
+            TextRange1.location = 0;
+            BookDescription = [BookDescription substringWithRange:TextRange1];
+            BookDescription = [self stringArrangeIntroString:BookDescription];
+            
+        }
     }
     
     return BookDescription;

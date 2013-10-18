@@ -17,9 +17,11 @@
 #define BOOKS_CORE_DATA_KEY_BOOK_COVER_IMG          @"bookCoverImage"
 #define BOOKS_CORE_DATA_KEY_BOOK_INFO_URL           @"bookInfoURL"
 #define BOOKS_CORE_DATA_KEY_BOOK_INFO_STRONG_INTRO  @"bookStrongIntro"
+#define BOOKS_CORE_DATA_KEY_BOOK_INFO_INTRO         @"bookIntro"
 #define BOOKS_CORE_DATA_KEY_BOOK_CREATE_T           @"bookCreateTime"
 #define BOOKS_CORE_DATA_KEY_BOOK_UPDATE_T           @"bookUpdateTime"
 #define BOOKS_CORE_DATA_KEY_BOOK_ID                 @"bookGuid"
+
 
 
 #pragma mark - Web database Key Define

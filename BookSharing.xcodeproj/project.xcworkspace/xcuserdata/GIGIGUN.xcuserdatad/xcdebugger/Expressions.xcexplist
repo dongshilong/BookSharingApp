@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[SearchBooksTW BooksTW_ScrapingSingleBookNormalDescription:WithStrongDiscrip:andTailLocation:]:SearchBooksTW.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "(NSConcreteMutableData *)HtmlData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
