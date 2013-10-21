@@ -12,6 +12,10 @@
 		1012552417F28A5100D30132 /* TableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1012552217F28A5100D30132 /* TableCell.xib */; };
 		1012552717F2919B00D30132 /* DetailedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1012552617F2919B00D30132 /* DetailedViewController.m */; };
 		10469AE21814CEC500888186 /* photo-frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 10469AE11814CEC500888186 /* photo-frame.png */; };
+		105FDBB118151055001E7AE6 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105FDBB018151055001E7AE6 /* FacebookSDK.framework */; };
+		105FDBB418151226001E7AE6 /* SettingViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105FDBB318151226001E7AE6 /* SettingViewViewController.m */; };
+		105FDBB61815196A001E7AE6 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105FDBB51815196A001E7AE6 /* Social.framework */; };
+		105FDBB8181519CB001E7AE6 /* FacebookSDKOverrides.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 105FDBB7181519CB001E7AE6 /* FacebookSDKOverrides.bundle */; };
 		107FC4CC17F8238E00736AC8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 107FC4CB17F8238E00736AC8 /* QuartzCore.framework */; };
 		107FC4CF17F825DC00736AC8 /* DetailedScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 107FC4CE17F825DC00736AC8 /* DetailedScroller.m */; };
 		107FC4D117F825F300736AC8 /* DetailedScroller.xib in Resources */ = {isa = PBXBuildFile; fileRef = 107FC4D017F825F300736AC8 /* DetailedScroller.xib */; };
@@ -73,6 +77,11 @@
 		1012552517F2919B00D30132 /* DetailedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailedViewController.h; sourceTree = "<group>"; };
 		1012552617F2919B00D30132 /* DetailedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedViewController.m; sourceTree = "<group>"; };
 		10469AE11814CEC500888186 /* photo-frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-frame.png"; sourceTree = "<group>"; };
+		105FDBB018151055001E7AE6 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = BookSharing/FacebookSDK.framework; sourceTree = "<group>"; };
+		105FDBB218151226001E7AE6 /* SettingViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewViewController.h; sourceTree = "<group>"; };
+		105FDBB318151226001E7AE6 /* SettingViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewViewController.m; sourceTree = "<group>"; };
+		105FDBB51815196A001E7AE6 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		105FDBB7181519CB001E7AE6 /* FacebookSDKOverrides.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FacebookSDKOverrides.bundle; sourceTree = "<group>"; };
 		107FC4CB17F8238E00736AC8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		107FC4CD17F825DC00736AC8 /* DetailedScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailedScroller.h; sourceTree = "<group>"; };
 		107FC4CE17F825DC00736AC8 /* DetailedScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedScroller.m; sourceTree = "<group>"; };
@@ -148,7 +157,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				105FDBB61815196A001E7AE6 /* Social.framework in Frameworks */,
 				1091C1391810CE8A00A22957 /* SystemConfiguration.framework in Frameworks */,
+				105FDBB118151055001E7AE6 /* FacebookSDK.framework in Frameworks */,
 				107FC4CC17F8238E00736AC8 /* QuartzCore.framework in Frameworks */,
 				1091C13B1810CE9F00A22957 /* libGoogleAnalyticsServices.a in Frameworks */,
 				10E6B1A517F4277B00AD814E /* libxml2.2.dylib in Frameworks */,
@@ -257,6 +268,9 @@
 		10EBD26B17F170F4002B49F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				105FDBB7181519CB001E7AE6 /* FacebookSDKOverrides.bundle */,
+				105FDBB51815196A001E7AE6 /* Social.framework */,
+				105FDBB018151055001E7AE6 /* FacebookSDK.framework */,
 				1091C1361810CE6800A22957 /* libGoogleAnalytics_debug.a */,
 				1091C13A1810CE9F00A22957 /* libGoogleAnalyticsServices.a */,
 				1091C1381810CE8A00A22957 /* SystemConfiguration.framework */,
@@ -274,6 +288,8 @@
 		10EBD27217F170F4002B49F0 /* BookSharing */ = {
 			isa = PBXGroup;
 			children = (
+				105FDBB218151226001E7AE6 /* SettingViewViewController.h */,
+				105FDBB318151226001E7AE6 /* SettingViewViewController.m */,
 				10EBD27E17F170F4002B49F0 /* Main.storyboard */,
 				10EBD2AE17F1835F002B49F0 /* AppDelegate.h */,
 				10EBD2AF17F1835F002B49F0 /* AppDelegate.m */,
@@ -444,6 +460,7 @@
 				100ABA0F17F4900200601973 /* BarcodeReader.png in Resources */,
 				10EBD28017F170F4002B49F0 /* Main.storyboard in Resources */,
 				10469AE21814CEC500888186 /* photo-frame.png in Resources */,
+				105FDBB8181519CB001E7AE6 /* FacebookSDKOverrides.bundle in Resources */,
 				1012552417F28A5100D30132 /* TableCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -477,6 +494,7 @@
 				1091586617F5802700AD0984 /* TableCellSmall.m in Sources */,
 				10EBD2AA17F181B6002B49F0 /* MainViewController.m in Sources */,
 				10EBD2B017F1835F002B49F0 /* AppDelegate.m in Sources */,
+				105FDBB418151226001E7AE6 /* SettingViewViewController.m in Sources */,
 				10E6B1A117F4276200AD814E /* TFHpple.m in Sources */,
 				107FC4CF17F825DC00736AC8 /* DetailedScroller.m in Sources */,
 				10EBD2B517F183BC002B49F0 /* BookListViewController.m in Sources */,
@@ -610,6 +628,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/GIGIGUN/Documents/ios_project/CASPER/BookSharing/BookSharing,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BookSharing/BookSharing-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -632,6 +654,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/GIGIGUN/Documents/ios_project/CASPER/BookSharing/BookSharing,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BookSharing/BookSharing-Prefix.pch";
 				HEADER_SEARCH_PATHS = (

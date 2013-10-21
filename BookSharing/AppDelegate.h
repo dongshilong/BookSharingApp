@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FacebookSDK/FacebookSDK.h>
+#import "SettingViewViewController.h"
 #import "GAI.h"
+
+@class SettingViewViewController;
+
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -20,6 +25,9 @@
 
 // Google analytics
 @property(nonatomic, strong) id<GAITracker> tracker;
+
+@property (strong, nonatomic) FBSession *session;
+@property (strong, nonatomic) SettingViewViewController *loginViewController;
 
 
 @end

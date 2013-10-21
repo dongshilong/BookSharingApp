@@ -242,6 +242,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="4i0-9A-cQd" kind="custom" customClass="SWRevealViewControllerSegue" id="JqE-AV-Cpw"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -295,6 +298,57 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mRc-5h-mdl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="811" y="978"/>
+        </scene>
+        <!--Setting View View Controller-->
+        <scene sceneID="TiL-fG-g7V">
+            <objects>
+                <viewController id="4i0-9A-cQd" customClass="SettingViewViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="QNb-A3-kbW"/>
+                        <viewControllerLayoutGuide type="bottom" id="TFM-n3-eUx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bDZ-K4-ZZr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C9w-aG-j9e" customClass="FBLoginView">
+                                <rect key="frame" x="49" y="221" width="222" height="63"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4BZ-lf-uNX">
+                                <rect key="frame" x="20" y="76" width="280" height="131"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Facebook" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KNX-ae-5Hi">
+                                <rect key="frame" x="153" y="161" width="139" height="38"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aW9-Qo-rg6" customClass="FBProfilePictureView">
+                                <rect key="frame" x="31" y="84" width="115" height="115"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="YwP-EF-ZHI">
+                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="ZmE-Q6-qKf"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="ProfileName" destination="KNX-ae-5Hi" id="Ab0-Bn-H7m"/>
+                        <outlet property="userProfileImage" destination="aW9-Qo-rg6" id="YAi-jd-C3Q"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ClS-nz-xwh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1337" y="2460"/>
         </scene>
         <!--Seach View Controller-->
         <scene sceneID="fHx-f3-l7Q">
@@ -419,9 +473,30 @@
             </objects>
             <point key="canvasLocation" x="811" y="1720"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="wmd-21-NAI">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Dmk-yP-bEX" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LBd-A9-eqt">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="4i0-9A-cQd" kind="relationship" relationship="rootViewController" id="dTJ-4M-UgU"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gN4-kc-bgK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="811" y="2460"/>
+        </scene>
     </scenes>
     <resources>
         <image name="BarcodeReader.png" width="138" height="138"/>
+        <image name="menu.png" width="28" height="20"/>
+        <image name="menu.png" width="28" height="20"/>
+        <image name="menu.png" width="28" height="20"/>
         <image name="menu.png" width="28" height="20"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -430,9 +505,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="0rx-KS-8eK"/>
-        <segue reference="9H1-fw-ITi"/>
-        <segue reference="7Re-bu-2mw"/>
         <segue reference="sd9-f6-OcX"/>
+        <segue reference="7Re-bu-2mw"/>
+        <segue reference="jzJ-ST-0ht"/>
+        <segue reference="0rx-KS-8eK"/>
+        <segue reference="dTJ-4M-UgU"/>
     </inferredMetricsTieBreakers>
 </document>
