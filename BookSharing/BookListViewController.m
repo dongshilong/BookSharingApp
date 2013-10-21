@@ -57,7 +57,6 @@
     //self.clearsSelectionOnViewWillAppear = YES;
 
     // Google Analytics
-    self.title = @"BookSharing track";
     self.screenName = @"ListView";
 
         // Hide Search Bar at the beginning

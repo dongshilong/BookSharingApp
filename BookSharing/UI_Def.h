@@ -6,6 +6,8 @@
 //  Copyright (c) 2013年 GIGIGUN. All rights reserved.
 //
 
+
+
 #if 1
 
     #define UI_BARCODEBTN_DEFAULT_LOC_CENTER    473.0

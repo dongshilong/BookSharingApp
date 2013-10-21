@@ -341,6 +341,19 @@
     InputString = [InputString stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
     InputString = [InputString stringByReplacingOccurrencesOfString:@"@@" withString:@""];
     InputString = [self stringByStrippingHTML:InputString];
+    
+    // Remove the \n char from the beginning
+    for (int i = 0; i < [InputString length]; i++) {
+        
+        if ([InputString characterAtIndex:i] == 10) {
+            range.location = i;
+            InputString = [InputString stringByReplacingCharactersInRange:range withString:@""];
+        } else {
+            break;
+        }
+
+    }
+    
     return InputString;
 }
 
@@ -437,7 +450,7 @@
     
     
     if (StrongDescription == nil) {
-        NSLog(@"_BookInfoObj.BookInfoStrongIntro == nil");
+
         // There is no strong introduction
         // <h3>內容簡介</h3>
         TextRange1.length = 0;

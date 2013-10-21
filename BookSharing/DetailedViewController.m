@@ -67,7 +67,6 @@
     _responseData = [[NSMutableData alloc] init];
     
     // Google Analytics
-    self.title = @"BookSharing track";
     self.screenName = @"Detailed Info View";
 }
 
@@ -233,7 +232,7 @@
     
     // Hide Save Btn when came from list view
     if (FatherView == ListBookView) {
-        StartY = 0.0f;
+        StartY = 150.0f;
         [_BookInfoDetailedView.SaveBtn setHidden:YES];
     }
     
