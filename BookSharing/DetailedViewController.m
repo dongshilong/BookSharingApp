@@ -227,12 +227,12 @@
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     UIFont *font2 = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
 
-    float StartY = 50.0f;
+    float StartY = 220.0f;
     CGSize size = CGSizeMake(300, 0);
     
     // Hide Save Btn when came from list view
     if (FatherView == ListBookView) {
-        StartY = 150.0f;
+        StartY = 180.0f;
         [_BookInfoDetailedView.SaveBtn setHidden:YES];
     }
     
@@ -254,11 +254,11 @@
         CGSize constraint = CGSizeMake(300, 20000.0f);
         
         size = [StrongLab sizeThatFits:constraint];
-        [StrongLab setFrame:CGRectMake(10, StartY + 10, size.width, size.height)];
+        [StrongLab setFrame:CGRectMake(10, StartY + 20, size.width, size.height)];
         StrongLab.numberOfLines = 0;
         [_Scroller addSubview: StrongLab];
         
-        StartY = StartY + size.height;
+        StartY = StartY + 20 + size.height;
 
     }
     
@@ -274,7 +274,7 @@
         CGSize constraint = CGSizeMake(300, 20000.0f);
         
         size = [IntroLab sizeThatFits:constraint];
-        [IntroLab setFrame:CGRectMake(10, StartY + 10, size.width, size.height)];
+        [IntroLab setFrame:CGRectMake(10, StartY + 20, size.width, size.height)];
         IntroLab.numberOfLines = 0;
         [_Scroller addSubview: IntroLab];
         

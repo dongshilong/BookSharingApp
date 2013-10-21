@@ -423,8 +423,6 @@
     <resources>
         <image name="BarcodeReader.png" width="138" height="138"/>
         <image name="menu.png" width="28" height="20"/>
-        <image name="menu.png" width="28" height="20"/>
-        <image name="menu.png" width="28" height="20"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

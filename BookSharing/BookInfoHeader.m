@@ -17,11 +17,46 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+
         // Initialization code
     }
     return self;
 }
 
+
+/*
+ - (id) initWithFrame:(CGRect)frame
+ {
+ if ((self = [super initWithFrame:frame]))
+ {
+ [self setup];
+ }
+ return self;
+ }
+ 
+ - (id) initWithCoder:(NSCoder *)coder
+ {
+ if ((self = [super initWithCoder:coder]))
+ {
+ [self setup];
+ }
+ return self;
+ }
+ 
+ - (void) setup
+ {
+ if (iOS7OrLater)
+ {
+ self.opaque = NO;
+ self.backgroundColor = [UIColor clearColor];
+ 
+ UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:self.bounds];
+ toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+ toolbar.barTintColor = self.tintColor;
+ [self insertSubview:toolbar atIndex:0];
+ }
+ }
+ */
 
 /*
 // Only override drawRect: if you perform custom drawing.
