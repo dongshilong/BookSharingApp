@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FacebookSDK/FacebookSDK.h>
 #import "BooksHtml.h"
 #import "BookListData.h"
 #import "BookInfo.h"

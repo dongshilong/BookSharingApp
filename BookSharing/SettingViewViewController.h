@@ -12,9 +12,9 @@
 @interface SettingViewViewController : UIViewController <FBLoginViewDelegate, FBUserSettingsDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
-@property (unsafe_unretained, nonatomic) IBOutlet FBLoginView *FBLoginView;
 
-@property (weak, nonatomic) IBOutlet UILabel *ProfileName;
+@property (unsafe_unretained, nonatomic) IBOutlet FBLoginView *FBLoginView;
 @property (strong, nonatomic) IBOutlet FBProfilePictureView *userProfileImage;
+@property (weak, nonatomic) IBOutlet UILabel *ProfileName;
 
 @end

@@ -482,18 +482,32 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
     _LocalIndexPath = indexPath;
     
-    if (((indexPath.section == 0) && (indexPath.row == 0))) {
-        [_TableView deselectRowAtIndexPath:indexPath animated:NO];
-        [self resetData];
+    // 2013.10.16 [CASPER] Fix front view behavior
+    //                     front view go back when touched.
+    VIEW_LOG(@"    self.revealViewController.frontViewPosition  = %i", self.revealViewController.frontViewPosition );
+    if (self.revealViewController.frontViewPosition == FrontViewPositionRight) {
+        
+        [self.revealViewController setFrontViewPosition: FrontViewPositionLeft animated: YES];
+        
     } else {
         
-        VIEW_LOG(@"select at index path section : %i - row : %i", indexPath.section, indexPath.row);
+        if (((indexPath.section == 0) && (indexPath.row == 0))) {
+            
+            [_TableView deselectRowAtIndexPath:indexPath animated:NO];
+            [self resetData];
+            
+        } else {
+            
+            VIEW_LOG(@"select at index path section : %i - row : %i", indexPath.section, indexPath.row);
+        }
+        
     }
-
+    return indexPath;
 }
 
 
@@ -553,8 +567,8 @@
     
     
     [_SearchBar resignFirstResponder];
-    _SearchBar.text = @"9789866272516";   // 風之名
-//    _SearchBar.text = @"9789861739694";     // 欲望與絕爽：拉岡視野下的當代華語文學與文化
+//    _SearchBar.text = @"9789866272516";   // 風之名
+    _SearchBar.text = @"9789861739694";     // 欲望與絕爽：拉岡視野下的當代華語文學與文化
 
     [self SearchBookWebTaskWithKeyWord:_SearchBar.text];
     [self ShowLoadingView];

@@ -13,7 +13,6 @@
 // Google analytics
 static NSString *const kTrackingId = @"UA-44954174-1";
 
-
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -30,7 +29,6 @@ static NSString *const kTrackingId = @"UA-44954174-1";
     self.loginViewController = [[SettingViewViewController alloc] initWithNibName:@"SettingViewViewController" bundle:nil];
     
     [FBLoginView class];
-
     
     return YES;
 }

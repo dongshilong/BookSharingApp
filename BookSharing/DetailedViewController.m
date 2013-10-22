@@ -68,6 +68,21 @@
     
     // Google Analytics
     self.screenName = @"Detailed Info View";
+    
+    // Facebook
+    if (FBSession.activeSession.isOpen) {
+        NSLog(@"Facebook Test isOpen");
+        [[FBRequest requestForMe] startWithCompletionHandler:
+         ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+             if (!error) {
+                 //_ProfileName.text = user.name;
+                 //self.userProfileImage.profileID = [user objectForKey:@"id"];
+                 NSLog(@"%@ - %@", user.name, [user objectForKey:@"id"]);
+             }
+         }];
+    } else {
+        NSLog(@"Facebook Test is NOT open");
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -289,6 +304,18 @@
 #pragma mark - Book Database methods
 -(void) SaveBookInfoObj
 {
+    // Search Book In DB With ISBN
+    
+    NSArray *SearchResult;
+    if (_BookInfoObj.BookISBN != nil) {
+        
+        SearchResult = [NSArray arrayWithArray:[_BookDataBase Books_CoreDataSearchWithBookISBN:_BookInfoObj.BookISBN]];
+
+    } else {
+        
+        // TODO: if there were no ISBN in this book,
+    }
+    
     VIEW_LOG(@"Save %@ to data base", _BookInfoObj.BookName);
     if (BOOKSLIST_SUCCESS != [_BookDataBase Books_SaveBookInfoObj:_BookInfoObj]) {
         VIEW_ERROR_LOG(@"SAVE ERROR");

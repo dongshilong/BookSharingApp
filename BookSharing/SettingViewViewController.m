@@ -45,6 +45,7 @@
     [super viewWillAppear:animated];
 
     [FBProfilePictureView class];
+    
     if (FBSession.activeSession.isOpen) {
         [self populateUserDetails];
         self.userProfileImage.hidden = NO;
@@ -62,13 +63,14 @@
 }
 
 
+#pragma mark - Facebook
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
     // if you become logged in, no longer flag to skip log in
     //self.shouldSkipLogIn = NO;
     //[self transitionToMainViewController];
+    NSLog(@"CASPER TEST 2");
+
 }
-
-
 
 - (void)updateView {
     // get the app delegate, so that we can reference the session property
@@ -80,12 +82,10 @@
     }
 }
 
-
-
 - (void)loginView:(FBLoginView *)loginView
       handleError:(NSError *)error{
     NSString *alertMessage, *alertTitle;
-    
+    NSLog(@"CASPER TEST ");
     // Facebook SDK * error handling *
     // Error handling is an important part of providing a good user experience.
     // Since this sample uses the FBLoginView, this delegate will respond to
@@ -144,7 +144,7 @@
     // on log out we reset the main view controller
     //AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     //[appDelegate resetMainViewController];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    //[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 
@@ -153,11 +153,26 @@
         [[FBRequest requestForMe] startWithCompletionHandler:
          ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
              if (!error) {
-                 //NSLog(@"%@", user.name);
                  _ProfileName.text = user.name;
                  self.userProfileImage.profileID = [user objectForKey:@"id"];
+                 
              }
          }];
+        
+        /*
+        FBRequest* friendsRequest = [FBRequest requestForMyFriends];
+        [friendsRequest startWithCompletionHandler: ^(FBRequestConnection *connection,
+                                                      NSDictionary* result,
+                                                      NSError *error) {
+            NSArray* friends = [result objectForKey:@"data"];
+            NSLog(@"Found: %i friends", friends.count);
+            for (NSDictionary<FBGraphUser>* friend in friends) {
+                NSLog(@"I have a friend named %@ with id %@", friend.name, friend.id);
+            }
+        }];
+         */
+    } else {
+    
     }
 }
 

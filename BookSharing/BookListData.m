@@ -291,6 +291,37 @@
 }
 
 
+-(NSArray*) Books_CoreDataSearchWithBookID : (NSString*) BookIDStr
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+	// NSSortDescriptor tells defines how to sort the fetched results
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:BOOKS_CORE_DATA_KEY_BOOK_ID ascending:YES];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+	[fetchRequest setSortDescriptors:sortDescriptors];
+	
+    // fetchRequest needs to know what entity to fetch
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Book" inManagedObjectContext:_context];
+	[fetchRequest setEntity:entity];
+    
+    NSFetchedResultsController  *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_context sectionNameKeyPath:nil cacheName:@"Root"];
+    
+    
+    NSPredicate *predicate =[NSPredicate predicateWithFormat:@"bookGuid contains[cd] %@", BookIDStr];
+    
+    [fetchedResultsController.fetchRequest setPredicate:predicate];
+    
+	NSError *error = nil;
+	if (![fetchedResultsController performFetch:&error])
+	{
+		// Handle error
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		exit(-1);  // Fail
+	}
+    
+    return fetchedResultsController.fetchedObjects;
+}
+
 
 
 
@@ -378,17 +409,13 @@
     [newAccount setObject:[BookInfoObj.BookCoverHDURL absoluteString] forKey:BOOKS_WEB_DB_KEY_BOOK_IMG_URL];
     [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoCreateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_CREATE_T];
     [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoUpdateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_UPDATE_T];
-    [newAccount setObject:BookInfoObj.BookInfoStrongIntro forKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
+    [newAccount setObject:BookInfoObj.BookInfoStrongIntro forKey:BOOKS_WEB_DB_KEY_BOOK_STRONG_INTRO];
+    [newAccount setObject:BookInfoObj.BookInfoIntro forKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
+
     NSLog(@"BookInfoObj.BookInfoGUID = %@", BookInfoObj.BookInfoGUID);
     [newAccount setObject:BookInfoObj.BookInfoGUID forKey:BOOKS_WEB_DB_KEY_BOOK_ID];
 
     
-    //introduction
-    //NSLog(@"%@", BookInfoObj.BookCoverURL );
-    //[newAccount setObject:_booktypeTextField.text forKey:BOOKS_WEB_DB_KEY_BOOK_TYPE];
-    //[newAccount setObject:_tagTextField.text forKey:forKey:BOOKS_WEB_DB_KEY_BOOK_TAG];
-    //[newAccount setObject:imageDataEncodedeString forKey:@"icon_image_data"];
-    // bookid
     NSLog(@"%@", newAccount);
     
     //transform the dictionary key-value pair into NSData object

@@ -32,6 +32,7 @@
 #define BOOKS_WEB_DB_KEY_BOOK_CREATE_T              @"createdTime"
 #define BOOKS_WEB_DB_KEY_BOOK_UPDATE_T              @"updateTime"
 #define BOOKS_WEB_DB_KEY_BOOK_INTRO                 @"introduction"
+#define BOOKS_WEB_DB_KEY_BOOK_STRONG_INTRO          @"focusIntro"
 #define BOOKS_WEB_DB_KEY_BOOK_TAG                   @"tag"
 #define BOOKS_WEB_DB_KEY_BOOK_TYPE                  @"booktype"
 #define BOOKS_WEB_DB_KEY_BOOK_ID                    @"bookid"

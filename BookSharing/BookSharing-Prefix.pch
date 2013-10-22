@@ -14,15 +14,22 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <CoreData/CoreData.h>
+
     #import "AppDelegate.h"
     #import "UI_Def.h"
 
     // Google Analytics
     #import "GAI.h"
 
+    // Facebook
+    #import <FacebookSDK/FacebookSDK.h>
+
+
+
 //#define DEBUG_BOOK_SEARCH
 //#define DEBUG_VIEW
-
+//#define DEBUG_BOOK_DATABASE
+//#define DEBUG_FB_SESSION
 
 #ifdef DEBUG_BOOK_SEARCH
 #   define BOOKS_SEARCH_LOG(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
@@ -40,6 +47,25 @@
 #endif
 
 #define VIEW_ERROR_LOG(fmt, ...) NSLog((@"ERROR !! %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+
+#ifdef DEBUG_BOOK_DATABASE
+#   define BOOKS_DB_LOG(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#   define BOOKS_DB_LOG(...)
+#endif
+
+#define BOOKS_DB_ERROR_LOG(fmt, ...) NSLog((@"ERROR !! %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+
+#ifdef DEBUG_FB_SESSION
+#   define BOOKS_FB_LOG(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#   define BOOKS_FB_LOG(...)
+#endif
+
+#define BOOKS_FB_ERROR_LOG(fmt, ...) NSLog((@"ERROR !! %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
 
 
 #endif

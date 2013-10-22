@@ -39,6 +39,7 @@ typedef enum {
 // Search Book Name in Core Data with KeyWord
 -(NSArray*) Books_CoreDataSearchWithBookName : (NSString*) BookNameString;
 -(NSArray*) Books_CoreDataSearchWithBookAuthor : (NSString*) SearchString;
+-(NSArray*) Books_CoreDataSearchWithBookISBN : (NSString*) SearchString;
 
 // Data sync 
 -(void) Books_MergeDataWithCoreData:(NSArray*) Data;

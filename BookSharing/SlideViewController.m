@@ -26,6 +26,35 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [FBLoginView class];
+    [FBProfilePictureView class];
+    
+    if(!_LoginView){
+        _LoginView = [[FBLoginView alloc] initWithPublishPermissions:nil defaultAudience:FBSessionDefaultAudienceFriends];
+    }
+    
+    _LoginView.frame = self.LoginView.bounds; //whatever you want
+    
+    _LoginView.delegate = self;
+    
+    [self.view addSubview:_LoginView];
+    
+    if (FBSession.activeSession.isOpen) {
+        
+        [self populateUserDetails];
+        self.userProfileImage.hidden = NO;
+        _FbUserNameLab.hidden = NO;
+        _LoginView.hidden = YES;
+        
+    } else {
+        
+        [self populateUserDetails];
+        self.userProfileImage.hidden = YES;
+        _FbUserNameLab.hidden = YES;
+        _LoginView.hidden = NO;
+        
+    }
+    
     _menuItems1 = @[@"HOT"];
     _menuItems2 = @[@"BookList", @"SearchBook", @"Setting"];
     _sectionItem = [[NSArray alloc] initWithObjects:_menuItems1, _menuItems2, nil];
@@ -42,7 +71,23 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+
     [_tableView deselectRowAtIndexPath:_localSelection animated:NO];
+    
+    if (FBSession.activeSession.isOpen) {
+        
+        [self populateUserDetails];
+        self.userProfileImage.hidden = NO;
+        _FbUserNameLab.hidden = NO;
+        _LoginView.hidden = YES;
+        
+    } else {
+        
+        [self populateUserDetails];
+        self.userProfileImage.hidden = YES;
+        _FbUserNameLab.hidden = YES;
+        _LoginView.hidden = NO;
+    }
 }
 
 #pragma mark - Table view data source
@@ -93,46 +138,6 @@
 }
 
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-
 #pragma mark - Navigation
 
 // In a story board-based application, you will often want to do a little preparation before navigation
@@ -161,6 +166,105 @@
     
 }
 
+
+#pragma mark - Facebook SDK
+- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
+    BOOKS_FB_LOG(@" loginViewShowingLoggedInUser");
+    [self SetFbUIBehavior];
+}
+
+
+- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
+    BOOKS_FB_LOG(@" loginViewShowingLoggedOutUser");
+    [self SetFbUIBehavior];
+}
+
+- (void)loginView:(FBLoginView *)loginView
+      handleError:(NSError *)error{
+    NSString *alertMessage, *alertTitle;
+    
+    // Facebook SDK * error handling *
+    // Error handling is an important part of providing a good user experience.
+    // Since this sample uses the FBLoginView, this delegate will respond to
+    // login failures, or other failures that have closed the session (such
+    // as a token becoming invalid). Please see the [- postOpenGraphAction:]
+    // and [- requestPermissionAndPost] on `SCViewController` for further
+    // error handling on other operations.
+    
+    if (error.fberrorShouldNotifyUser) {
+        // If the SDK has a message for the user, surface it. This conveniently
+        // handles cases like password change or iOS6 app slider state.
+        alertTitle = @"Something Went Wrong";
+        alertMessage = error.fberrorUserMessage;
+    } else if (error.fberrorCategory == FBErrorCategoryAuthenticationReopenSession) {
+        // It is important to handle session closures as mentioned. You can inspect
+        // the error for more context but this sample generically notifies the user.
+        alertTitle = @"Session Error";
+        alertMessage = @"Your current session is no longer valid. Please log in again.";
+    } else if (error.fberrorCategory == FBErrorCategoryUserCancelled) {
+        // The user has cancelled a login. You can inspect the error
+        // for more context. For this sample, we will simply ignore it.
+        BOOKS_FB_ERROR_LOG(@"user cancelled login %i", 0);
+    } else {
+        // For simplicity, this sample treats other errors blindly, but you should
+        // refer to https://developers.facebook.com/docs/technical-guides/iossdk/errors/ for more information.
+        alertTitle  = @"Unknown Error";
+        alertMessage = @"Error. Please try again later.";
+        BOOKS_FB_ERROR_LOG(@"Unexpected error:%@", error);
+    }
+    
+    if (alertMessage) {
+        [[[UIAlertView alloc] initWithTitle:alertTitle
+                                    message:alertMessage
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil] show];
+    }
+}
+
+- (void)populateUserDetails {
+    
+    if (FBSession.activeSession.isOpen) {
+        [[FBRequest requestForMe] startWithCompletionHandler:
+         ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+             if (!error) {
+                 _FbUserNameLab.text = user.name;
+                 self.userProfileImage.profileID = [user objectForKey:@"id"];
+                 
+             }
+         }];
+        
+        /*
+         FBRequest* friendsRequest = [FBRequest requestForMyFriends];
+         [friendsRequest startWithCompletionHandler: ^(FBRequestConnection *connection,
+         NSDictionary* result,
+         NSError *error) {
+         NSArray* friends = [result objectForKey:@"data"];
+         NSLog(@"Found: %i friends", friends.count);
+         for (NSDictionary<FBGraphUser>* friend in friends) {
+         NSLog(@"I have a friend named %@ with id %@", friend.name, friend.id);
+         }
+         }];
+         */
+    } else {
+        
+    }
+}
+
+-(void) SetFbUIBehavior
+{
+    if (FBSession.activeSession.isOpen) {
+        [self populateUserDetails];
+        self.userProfileImage.hidden = NO;
+        _FbUserNameLab.hidden = NO;
+        _LoginView.hidden = YES;
+    } else {
+        [self populateUserDetails];
+        self.userProfileImage.hidden = YES;
+        _FbUserNameLab.hidden = YES;
+        _LoginView.hidden = NO;
+    }
+}
 
 
 @end
