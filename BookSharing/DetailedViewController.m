@@ -81,6 +81,7 @@
              }
          }];
     } else {
+        
         NSLog(@"Facebook Test is NOT open");
     }
 }
@@ -293,10 +294,13 @@
         IntroLab.numberOfLines = 0;
         [_Scroller addSubview: IntroLab];
         
+        StartY = StartY + 20 + size.height;
+
+        
     }
+    
 
-
-    [_Scroller setContentSize:CGSizeMake(320, StartY + size.height + 50)];
+    [_Scroller setContentSize:CGSizeMake(320, StartY + 50)];
     
     return Success;
 }
@@ -304,16 +308,22 @@
 #pragma mark - Book Database methods
 -(void) SaveBookInfoObj
 {
-    // Search Book In DB With ISBN
     
+    // Search Book In DB With ISBN
     NSArray *SearchResult;
     if (_BookInfoObj.BookISBN != nil) {
         
         SearchResult = [NSArray arrayWithArray:[_BookDataBase Books_CoreDataSearchWithBookISBN:_BookInfoObj.BookISBN]];
+        
+        if ([SearchResult count] != 0) {
+            VIEW_LOG(@"Book Already in the DB");
+        }
 
     } else {
         
         // TODO: if there were no ISBN in this book,
+        VIEW_ERROR_LOG(@"Could not execute ISBN search");
+
     }
     
     VIEW_LOG(@"Save %@ to data base", _BookInfoObj.BookName);
@@ -321,10 +331,14 @@
         VIEW_ERROR_LOG(@"SAVE ERROR");
     }
     [_BookDataBase Books_FirePOSTConnectionToServerWithBookIndo:_BookInfoObj];
-
     
     [self BookSaveViewAlert];
     
+}
+
+-(void) DeleteBookInfoObjInDB
+{
+    NSLog(@"DELETE");
 }
 
 

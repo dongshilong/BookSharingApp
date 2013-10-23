@@ -57,6 +57,7 @@
 		10EBD2BA17F188E0002B49F0 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10EBD2B917F188E0002B49F0 /* menu@2x.png */; };
 		10EBD2BD17F193A5002B49F0 /* BookInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EBD2BC17F193A5002B49F0 /* BookInfo.m */; };
 		10EBD2C017F193B2002B49F0 /* BookListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EBD2BF17F193B2002B49F0 /* BookListData.m */; };
+		10EF7B1A1817CD9B0076B839 /* EditBookInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EF7B191817CD9B0076B839 /* EditBookInfoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,6 +151,8 @@
 		10EBD2BC17F193A5002B49F0 /* BookInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookInfo.m; sourceTree = "<group>"; };
 		10EBD2BE17F193B2002B49F0 /* BookListData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookListData.h; sourceTree = "<group>"; };
 		10EBD2BF17F193B2002B49F0 /* BookListData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookListData.m; sourceTree = "<group>"; };
+		10EF7B181817CD9B0076B839 /* EditBookInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditBookInfoViewController.h; sourceTree = "<group>"; };
+		10EF7B191817CD9B0076B839 /* EditBookInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditBookInfoViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +199,8 @@
 		10905AA817FEAFB1002E416C /* DetailedInfoView */ = {
 			isa = PBXGroup;
 			children = (
+				10EF7B181817CD9B0076B839 /* EditBookInfoViewController.h */,
+				10EF7B191817CD9B0076B839 /* EditBookInfoViewController.m */,
 				1012552517F2919B00D30132 /* DetailedViewController.h */,
 				1012552617F2919B00D30132 /* DetailedViewController.m */,
 				107FC4D017F825F300736AC8 /* DetailedScroller.xib */,
@@ -485,6 +490,7 @@
 				10EBD2AD17F18346002B49F0 /* Books.xcdatamodeld in Sources */,
 				1012552717F2919B00D30132 /* DetailedViewController.m in Sources */,
 				109318CA17F413A600C3ED26 /* SeachViewController.m in Sources */,
+				10EF7B1A1817CD9B0076B839 /* EditBookInfoViewController.m in Sources */,
 				10EBD2B817F18590002B49F0 /* SlideViewController.m in Sources */,
 				10EBD2A317F171A0002B49F0 /* SWRevealViewController.m in Sources */,
 				108D29DA17F7D30000C87FE3 /* BookInfoHeader.m in Sources */,

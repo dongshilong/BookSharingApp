@@ -10,7 +10,4 @@
 
 @interface DetailedScroller : UIView
 @property (weak, nonatomic) IBOutlet UIButton *SaveBtn;
-@property (weak, nonatomic) IBOutlet UIImageView *CoverImg_Small;
-@property (weak, nonatomic) IBOutlet UIImageView *CoverImg;
-
 @end

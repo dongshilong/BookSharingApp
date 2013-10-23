@@ -436,6 +436,63 @@
     }
 }
 
+// CASPER TEST
+-(void) Books_FireDELETEConnectionToServerWithBookIndo : (BookInfo *)BookInfoObj
+{
+    // Encode the Image with Base64
+    // NSData *imageData = UIImagePNGRepresentation(_imageView.image);
+    // NSString *imageDataEncodedeString = [imageData base64EncodedString];
+    
+    // Send Request to Server
+    // Create the request with url
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://booksharingapps.herokuapp.com/bookinfos/1.json"]];
+    
+    // Add header value and set http for POST requeest as JSON
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPMethod:@"DELETE"];
+    NSLog(@"DELETE id = 1");
+    NSLog(@"Htttp Method%@ ", request.HTTPMethod);
+    /*
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYY-MM-d H:m:s"];
+    NSLog(@"POST Date = %@", [formatter stringFromDate:BookInfoObj.BookInfoCreateTime]);
+    
+    NSMutableDictionary *newAccount = [[NSMutableDictionary alloc]init];
+    [newAccount setObject:BookInfoObj.BookName forKey:BOOKS_WEB_DB_KEY_BOOK_NAME];
+    [newAccount setObject:BookInfoObj.BookAuthor forKey:BOOKS_WEB_DB_KEY_BOOK_AUTHOR];
+    [newAccount setObject:BookInfoObj.BookISBN forKey:BOOKS_WEB_DB_KEY_BOOK_ISBN];
+    [newAccount setObject:[BookInfoObj.BookCoverHDURL absoluteString] forKey:BOOKS_WEB_DB_KEY_BOOK_IMG_URL];
+    [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoCreateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_CREATE_T];
+    [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoUpdateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_UPDATE_T];
+    [newAccount setObject:BookInfoObj.BookInfoStrongIntro forKey:BOOKS_WEB_DB_KEY_BOOK_STRONG_INTRO];
+    [newAccount setObject:BookInfoObj.BookInfoIntro forKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
+    
+    NSLog(@"BookInfoObj.BookInfoGUID = %@", BookInfoObj.BookInfoGUID);
+    [newAccount setObject:BookInfoObj.BookInfoGUID forKey:BOOKS_WEB_DB_KEY_BOOK_ID];
+    
+    
+    NSLog(@"%@", newAccount);
+    
+    //transform the dictionary key-value pair into NSData object
+    //#warning Casper modified POST Method without testing
+    //NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONReadingMutableContainers error:nil];
+    NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONWritingPrettyPrinted error:nil];
+    
+    
+    //let the NSData object be the data of the request
+    [request setHTTPBody:newAccountJSONData];
+    */
+    //create connection with the request and the connection will be sented immediately
+    NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    
+    // the connection created is successfully
+    if (connection) {
+        _receivedData = [[NSMutableData alloc] init];
+    }
+}
+
+
+
 
 #pragma mark - delege meethod of NSURLConnection
 
