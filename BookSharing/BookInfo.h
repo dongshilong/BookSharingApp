@@ -62,7 +62,7 @@
 @property (nonatomic, strong) NSDate        *BookInfoCreateTime;
 @property (nonatomic, strong) NSDate        *BookInfoUpdateTime;
 @property (nonatomic, strong) NSString      *BookInfoGUID;
-
+@property (nonatomic, strong) NSManagedObjectID *BookCoreDataObjectID;
 
 -(BookInfo*) initWithCoreDataObj : (NSManagedObject*) bookCoreData;
 

@@ -14,7 +14,7 @@
 #import "BookInfoHeader.h"
 #import "DetailedScroller.h"
 #import "Searching.h"
-
+#import "EditBookInfoViewController.h"
 
 @interface DetailedViewController : GAITrackedViewController <NSURLConnectionDelegate> {
     NSURLConnection     *BookCoverConn;
@@ -23,7 +23,8 @@
 }
 
 typedef enum {
-    ListBookView = 0x00,
+    None = 0x00,
+    ListBookView,
     SearchBookView,
 } FatherViewController;
 @property FatherViewController FatherView;
@@ -38,4 +39,9 @@ typedef enum {
 @property (strong, nonatomic)   BookListData    *BookDataBase;
 @property (strong, nonatomic)   BooksHtml       *BookInfoQuery;
 @property (strong, nonatomic)   BookInfo        *BookInfoObj;
+
+@property (strong, nonatomic)     EditBookInfoViewController  *editBookViewContoller;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *EditBtn;
+- (IBAction)EditBtn:(id)sender;
+
 @end

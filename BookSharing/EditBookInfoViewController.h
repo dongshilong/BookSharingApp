@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "BookListData.h"
+#import "BookInfo.h"
 @interface EditBookInfoViewController : UIViewController
+@property  BOOL TheBookIsDeleted;
+@property  BOOL TheBookIsEdited;
+@property (strong, nonatomic)   BookListData    *BookDataBase;
+@property (strong, nonatomic)   BookInfo        *BookInfoObj;
+
+
+- (IBAction)DeleteBtn:(id)sender;
+- (IBAction)CancelBtn:(id)sender;
+- (IBAction)DoneBtn:(id)sender;
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "EditBookInfoViewController.h"
-
+#import "UIViewController+KNSemiModal.h"
 @interface EditBookInfoViewController ()
 
 @end
@@ -26,6 +26,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _BookDataBase = [[BookListData alloc] init];
+    _TheBookIsDeleted = NO;
+    _TheBookIsEdited = NO;
+    NSLog(@"%@", _BookInfoObj.BookName);
 	// Do any additional setup after loading the view.
 }
 
@@ -35,4 +39,30 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)DeleteBtn:(id)sender {
+    
+    _TheBookIsDeleted = YES;
+    _TheBookIsEdited = NO;
+//    [_BookDataBase Books_CoreDataDelete:<#(NSManagedObject *)#>]
+    [self dismissSemiModalView];
+}
+- (IBAction)CancelBtn:(id)sender {
+    
+    _TheBookIsDeleted = NO;
+    _TheBookIsEdited = NO;
+    [self dismissSemiModalView];
+    
+}
+
+- (IBAction)DoneBtn:(id)sender {
+    
+    _TheBookIsDeleted = NO;
+    _TheBookIsEdited = YES;
+    NSDate *UpdateDate = [[NSDate alloc] init];
+    _BookInfoObj.BookInfoUpdateTime = UpdateDate;
+    NSLog(@"Fire UPDATE");
+    [_BookDataBase Books_FirePUTConnectionToServerWithBookIndo:_BookInfoObj];
+    [self dismissSemiModalView];
+    
+}
 @end

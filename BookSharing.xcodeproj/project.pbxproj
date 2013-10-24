@@ -58,6 +58,7 @@
 		10EBD2BD17F193A5002B49F0 /* BookInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EBD2BC17F193A5002B49F0 /* BookInfo.m */; };
 		10EBD2C017F193B2002B49F0 /* BookListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EBD2BF17F193B2002B49F0 /* BookListData.m */; };
 		10EF7B1A1817CD9B0076B839 /* EditBookInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EF7B191817CD9B0076B839 /* EditBookInfoViewController.m */; };
+		10EF7B1D1817D40F0076B839 /* UIViewController+KNSemiModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EF7B1C1817D40F0076B839 /* UIViewController+KNSemiModal.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,6 +154,8 @@
 		10EBD2BF17F193B2002B49F0 /* BookListData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookListData.m; sourceTree = "<group>"; };
 		10EF7B181817CD9B0076B839 /* EditBookInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditBookInfoViewController.h; sourceTree = "<group>"; };
 		10EF7B191817CD9B0076B839 /* EditBookInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditBookInfoViewController.m; sourceTree = "<group>"; };
+		10EF7B1B1817D40F0076B839 /* UIViewController+KNSemiModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+KNSemiModal.h"; sourceTree = "<group>"; };
+		10EF7B1C1817D40F0076B839 /* UIViewController+KNSemiModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+KNSemiModal.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +212,8 @@
 				108D29D617F7D20A00C87FE3 /* BookInfoHeader.xib */,
 				108D29D817F7D30000C87FE3 /* BookInfoHeader.h */,
 				108D29D917F7D30000C87FE3 /* BookInfoHeader.m */,
+				10EF7B1B1817D40F0076B839 /* UIViewController+KNSemiModal.h */,
+				10EF7B1C1817D40F0076B839 /* UIViewController+KNSemiModal.m */,
 			);
 			name = DetailedInfoView;
 			sourceTree = "<group>";
@@ -498,6 +503,7 @@
 				10E6B1AA17F4349800AD814E /* Searching.m in Sources */,
 				10E6B1A217F4276200AD814E /* TFHppleElement.m in Sources */,
 				1091586617F5802700AD0984 /* TableCellSmall.m in Sources */,
+				10EF7B1D1817D40F0076B839 /* UIViewController+KNSemiModal.m in Sources */,
 				10EBD2AA17F181B6002B49F0 /* MainViewController.m in Sources */,
 				10EBD2B017F1835F002B49F0 /* AppDelegate.m in Sources */,
 				105FDBB418151226001E7AE6 /* SettingViewViewController.m in Sources */,

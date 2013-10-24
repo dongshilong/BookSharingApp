@@ -7,6 +7,8 @@
 //
 
 #import "DetailedViewController.h"
+#import "UIViewController+KNSemiModal.h"
+
 @interface DetailedViewController ()
 
 @end
@@ -49,7 +51,7 @@
             [self ShowLoadingView];
         }
         
-    } else {
+    } else if (_FatherView == ListBookView) {
         
         // 3. Assign Scroll View
         _BookInfoHeaderView.BookCoverView.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
@@ -57,6 +59,8 @@
         
         [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj WithFatherView:ListBookView];
         
+    } else if (_FatherView == None ) {
+        NSLog(@"TEST");
     }
     
     // 4. Set flag and init models
@@ -99,10 +103,36 @@
 }
 
 #pragma mark - Notifications
+
+// EditBookInfoViewController Show and Hide Notify
+-(void) KSemiModalTransNotify
+{
+    [[NSNotificationCenter defaultCenter] addObserverForName:kSemiModalDidShowNotification
+                                                      object:nil queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *notification)
+     {
+         VIEW_LOG(@"The Semi View Shows");
+     }];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kSemiModalDidHideNotification
+                                                      object:nil queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *notification)
+     {
+        if(_editBookViewContoller.TheBookIsDeleted)
+        {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+         VIEW_LOG(@"The Semi View Hide");
+     }];
+
+}
+
+// BooksHtml Model Notify
 -(void) CheckNotify
 {
+    
     // Regist BOOK_INDO_NOTIFY_ID Notify center
-
     [[NSNotificationCenter defaultCenter] addObserverForName:BOOK_INFO_NOTIFY_ID
                                                       object:nil
                                                        queue:[NSOperationQueue mainQueue]
@@ -364,8 +394,11 @@
     }
 }
 
-
-
-
-
+- (IBAction)EditBtn:(id)sender {
+    
+    [self performSelector:@selector(KSemiModalTransNotify)];
+    _editBookViewContoller = [self.storyboard instantiateViewControllerWithIdentifier:@"EditBook"];
+    _editBookViewContoller.BookInfoObj = _BookInfoObj;
+    [self presentSemiViewController:_editBookViewContoller];
+}
 @end

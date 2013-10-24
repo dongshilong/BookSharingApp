@@ -45,6 +45,7 @@ typedef enum {
 -(void) Books_MergeDataWithCoreData:(NSArray*) Data;
 -(void) Books_FirePOSTConnectionToServerWithBookIndo : (BookInfo *)BookInfoObj;
 -(void) Books_FireDELETEConnectionToServerWithBookIndo : (BookInfo *)BookInfoObj;
+-(void) Books_FirePUTConnectionToServerWithBookIndo : (BookInfo *)BookInfoObj;
 
 
 

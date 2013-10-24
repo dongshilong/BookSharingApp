@@ -108,9 +108,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="1fA-F4-Lnt">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="h0f-Xn-hNf"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="h0f-Xn-hNf">
+                            <connections>
+                                <action selector="EditBtn:" destination="eoK-UR-9WI" id="V6X-W0-inl"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="EditBtn" destination="h0f-Xn-hNf" id="G7P-PW-Oki"/>
                         <outlet property="Scroller" destination="thf-oW-EWj" id="L3f-Zn-b2u"/>
                     </connections>
                 </viewController>
@@ -121,7 +126,7 @@
         <!--Edit Book Info View Controller-->
         <scene sceneID="hRk-eg-aNG">
             <objects>
-                <viewController id="Zhl-Sr-SGb" customClass="EditBookInfoViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EditBook" id="Zhl-Sr-SGb" customClass="EditBookInfoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="p6I-ly-nHs"/>
                         <viewControllerLayoutGuide type="bottom" id="eGl-KO-NFb"/>
@@ -131,7 +136,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IiS-Bi-drD">
-                                <rect key="frame" x="20" y="506" width="280" height="30"/>
+                                <rect key="frame" x="20" y="499" width="280" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.58823531870000001" green="0.25490197539999998" blue="0.090196080509999998" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -139,14 +144,35 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="DeleteBtn:" destination="Zhl-Sr-SGb" eventType="touchUpInside" id="Ug9-Ok-8bD"/>
+                                </connections>
                             </button>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wxD-6X-4Y7">
+                                <rect key="frame" x="0.0" y="21" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem systemItem="cancel" id="I5k-WR-viZ">
+                                        <connections>
+                                            <action selector="CancelBtn:" destination="Zhl-Sr-SGb" id="H4N-wh-y5l"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="191" style="plain" systemItem="fixedSpace" id="SQj-jT-Lgl"/>
+                                    <barButtonItem systemItem="done" id="rJf-Pe-h5M">
+                                        <connections>
+                                            <action selector="DoneBtn:" destination="Zhl-Sr-SGb" id="V74-rE-Rx7"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qCQ-du-kCC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2270" y="978"/>
+            <point key="canvasLocation" x="2233" y="978"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="crF-QZ-Vu9">
