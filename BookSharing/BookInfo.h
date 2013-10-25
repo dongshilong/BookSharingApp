@@ -44,7 +44,7 @@
 #define BOOK_DIC_BOOK_COVER_URL_KEY                 @"bookCoverURL"
 
 #pragma mark - Core Data Value default
-#define BOOKS_CORE_DATA_DEFAULT_VALUE       @"NaN"
+#define BOOKS_CORE_DATA_DEFAULT_VALUE               @"NaN"
 
 
 @interface BookInfo : NSObject
@@ -62,8 +62,9 @@
 @property (nonatomic, strong) NSDate        *BookInfoCreateTime;
 @property (nonatomic, strong) NSDate        *BookInfoUpdateTime;
 @property (nonatomic, strong) NSString      *BookInfoGUID;
-@property (nonatomic, strong) NSManagedObjectID *BookCoreDataObjectID;
 
 -(BookInfo*) initWithCoreDataObj : (NSManagedObject*) bookCoreData;
+-(BookInfo*) initWithJSONObj : (NSArray*) bookJSONData;
+
 
 @end

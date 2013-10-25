@@ -7,7 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AFJSONRequestOperation.h"
 #import "BookInfo.h"
+
+#define BOOKLIST_NOTIFY_ID              @"BOOKLIST_NOTIFY_ID"
+#define BOOKLIST_NOTIFY_KEY             @"BOOKLIST_NOTIFY_KEY"
+#define BOOKLIST_DATABASE_SYNC_START    @"BOOKLIST_DATABASE_SYNC_START"
+#define BOOKLIST_DATABASE_SYNC_END      @"BOOKLIST_DATABASE_SYNC_END"
 
 
 @interface BookListData : NSObject {
@@ -35,7 +41,6 @@ typedef enum {
 -(BOOKLIST_STATUS) Books_CoreDataDelete : (NSManagedObject*) Book;
 -(BOOKLIST_STATUS) Books_CoreDataUpdateWithoObject : (NSManagedObject*) Book;
 -(BOOKLIST_STATUS) Books_SaveBookInfoObj : (BookInfo*) BookInfoObj;
--(NSManagedObject*) Books_CoreDataFetchByObjectID:(NSManagedObjectID*) ObjectID;
 
 
 // Search Book Name in Core Data with KeyWord
@@ -43,12 +48,12 @@ typedef enum {
 -(NSArray*) Books_CoreDataSearchWithBookAuthor : (NSString*) SearchString;
 -(NSArray*) Books_CoreDataSearchWithBookISBN : (NSString*) SearchString;
 
-// Data sync 
--(void) Books_MergeDataWithCoreData:(NSArray*) Data;
+// Data connection with server
+-(BOOKLIST_STATUS) Books_MergeDataWithCoreData:(NSArray*) LocalData;
 -(void) Books_FirePOSTConnectionToServerWithBookIndo : (BookInfo *)BookInfoObj;
 -(void) Books_FireDELETEConnectionToServerWithBookIndo : (BookInfo *)BookInfoObj;
 -(void) Books_FirePUTConnectionToServerWithBookIndo : (BookInfo *)BookInfoObj;
-
+-(void) Books_GetServerDataAndMerge;
 
 
 @end

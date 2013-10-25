@@ -23,7 +23,6 @@
 @synthesize BookInfoCreateTime;
 @synthesize BookInfoUpdateTime;
 @synthesize BookInfoGUID;
-@synthesize BookCoreDataObjectID;
 
 -(BookInfo*) initWithCoreDataObj : (NSManagedObject*) bookCoreData
 {
@@ -38,11 +37,43 @@
         BookInfoIntro = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_INFO_INTRO];
         BookISBN = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_ISBN];
         BookInfoGUID = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_ID];
-        BookCoreDataObjectID = bookCoreData.objectID;
         
     }
     
     return self;
 }
+
+-(BookInfo*) initWithJSONObj : (NSData*) bookJSONData
+{
+    
+    if (self != nil) {
+        
+        //BookInfo *BookInfoObj = [[BookInfo alloc] init];
+        BookName = [bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_NAME];
+        BookAuthor = [bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_AUTHOR];
+        //BookInfoURL = [bookJSONData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_INFO_URL];
+        //BookCoverImage = [bookJSONData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_COVER_IMG];
+        BookInfoStrongIntro = [bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_STRONG_INTRO];
+        BookInfoIntro = [bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
+        BookISBN = [bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_ISBN];
+        BookInfoGUID = [bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_ID];
+        
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"YYYY-MM-d H:m:s"];
+        NSDate *CreateTimeDate = [dateFormatter dateFromString:[bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_CREATE_T]];
+        NSDate *UpdateTimeDate = [dateFormatter dateFromString:[bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_UPDATE_T]];
+
+
+        BookInfoCreateTime = CreateTimeDate;
+        BookInfoUpdateTime = UpdateTimeDate;
+        
+    }
+    
+    return self;
+
+}
+
+
 
 @end

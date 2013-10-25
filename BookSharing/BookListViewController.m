@@ -41,7 +41,6 @@
 
     // 2. Init table data
     _tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetch]];
-    NSLog(@"CASPER %i", [_tableData count]);
 //    [self.tableView reloadData];
     
     
@@ -66,6 +65,7 @@
     _tableView.bounds = Bounds;
     [_tableView reloadData];
     
+    [self SyncDataWithServer];
     
     /*
     if ([_tableData count] == 0) {
@@ -155,6 +155,30 @@
 -(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesEnded:touches withEvent:event];
+    
+}
+
+#pragma mark - Get Data Sync Notification
+
+-(void) DatabaseSyncNotification
+{
+    [[NSNotificationCenter defaultCenter] addObserverForName:BOOKLIST_NOTIFY_ID
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *notification)
+     {
+         NSDictionary *dict = notification.userInfo;
+         if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_START]) {
+             
+             NSLog(@"BOOKLIST_DATABASE_SYNC_START");
+             
+         } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_END]) {
+             
+             NSLog(@"BOOKLIST_DATABASE_SYNC_END - To ensure the table data is full filled");
+             
+         }
+
+     }];
     
 }
 
@@ -340,18 +364,12 @@ shouldReloadTableForSearchString:(NSString *)searchString
         if ([self.searchDisplayController isActive]) {
             
             NSManagedObject *book = [[_SearchResultDisplayArray objectAtIndex:_LocalIndexPath.section] objectAtIndex:_LocalIndexPath.row];
-            
-            //BookInfo *BookForParse = [[BookInfo  alloc] initWithCoreDataObj:book];
-            //destViewController.BookInfoObj = BookForParse;
             destViewController.book = book;
 
             
         } else {
             
             NSManagedObject *book = [self.tableData objectAtIndex:_LocalIndexPath.row];
-            NSLog(@"%@", book.objectID);
-            //BookInfo *BookForParse = [[BookInfo  alloc] initWithCoreDataObj:book];
-            //destViewController.BookInfoObj = BookForParse;
             destViewController.book = book;
             
         }
@@ -377,5 +395,11 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 }
 
+
+-(void) SyncDataWithServer
+{
+    [self performSelector:@selector(DatabaseSyncNotification)];
+    [_BookList  Books_GetServerDataAndMerge];
+}
 
 @end

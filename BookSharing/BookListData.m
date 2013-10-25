@@ -37,6 +37,7 @@
                        BOOKS_CORE_DATA_KEY_BOOK_INFO_STRONG_INTRO,
                        @"bookAuthorIntro",
                        nil];
+        
         AppDelegate *theAppDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
         _context = [theAppDelegate managedObjectContext];
 
@@ -44,6 +45,25 @@
     
     return self;
 }
+
+-(void) Books_SendStatusNotificationWithValue: (NSString *) Value
+{
+    NSArray *userInfoKeys = [NSArray arrayWithObjects:BOOKLIST_NOTIFY_KEY, nil];
+    NSArray *userInfoValues = [NSArray arrayWithObjects:Value, nil];
+    
+    BOOKS_SEARCH_LOG(@"Send Notification with value = %@", Value);
+    
+    NSNotification *notification = [NSNotification notificationWithName:BOOKLIST_NOTIFY_ID
+                                                                 object:nil
+                                                               userInfo:[NSDictionary dictionaryWithObjects:userInfoValues forKeys:userInfoKeys]];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    
+    
+}
+
+
+
 #pragma mark - Core data for Book List
 -(NSArray*) Books_GetCoreDataKey
 {
@@ -100,12 +120,18 @@
 // 將 BookInfo 的 object 存入 Core Data
 -(BOOKLIST_STATUS) Books_SaveBookInfoObj : (BookInfo*) BookInfoObj
 {
-    NSUUID *Guid = [[NSUUID alloc] init];
-    NSDate *date = [NSDate date];
+    if (BookInfoObj.BookInfoCreateTime == nil) {
+        
+        // For New Data
+        NSUUID *Guid = [[NSUUID alloc] init];
+        NSDate *date = [NSDate date];
+        
+        BookInfoObj.BookInfoCreateTime = date;
+        BookInfoObj.BookInfoUpdateTime = date;
+        BookInfoObj.BookInfoGUID = [Guid UUIDString];
+        
+    }
     
-    BookInfoObj.BookInfoCreateTime = date;
-    BookInfoObj.BookInfoUpdateTime = date;
-    BookInfoObj.BookInfoGUID = [Guid UUIDString];
     BookInfoObj = [self Books_CheckDataNilForBookInfo:BookInfoObj];
     
     NSArray *CoreDataValue = [NSArray arrayWithObjects:
@@ -194,32 +220,6 @@
     BookList = [[_context executeFetchRequest:fetchRequest error:nil] mutableCopy];
   
     return BookList;
-}
-
-// 取出 Core Data 特定的 Book 的資料，Array 中存的是 NSManagedObject
--(NSManagedObject*) Books_CoreDataFetchByObjectID:(NSManagedObjectID*) ObjectID
-{
-    //NSManagedObject *BookCoreDataObj = [NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_context];
-    
-    NSEntityDescription *descriptor = [NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_context];
-    
-    NSManagedObject *BookCoreDataObj = [[NSManagedObject alloc] initWithEntity:descriptor insertIntoManagedObjectContext:_context];
-    
-    BookCoreDataObj = [_context existingObjectWithID:ObjectID error:nil];
-
-    
-    /*
-     [NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_context]
-     
-     */
-    
-    /*
-     // The designated initializer.
-     - (id)initWithEntity:(NSEntityDescription *)entity insertIntoManagedObjectContext:(NSManagedObjectContext *)context;
-     
-     */
-    
-    return BookCoreDataObj;
 }
 
 
@@ -354,64 +354,84 @@
 }
 
 
-
-
--(void) Books_MergeDataWithCoreData:(NSArray*) Data
+-(void) Books_GetServerDataAndMerge
 {
+    
+    // Sync Start
+    
+    [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_START];
+    
+    NSURL *url = [[NSURL alloc] initWithString:@"http://booksharingapps.herokuapp.com/bookinfos.json"];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+                                                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON)
+                                         {
+                                             // Read the data from the returned JSON object
+                                             NSArray *BooksArray = [NSArray arrayWithArray:JSON];
+                                             
+                                             if ([BooksArray count] != 0) {
+                                                 
+                                                 BookListData *BookData = [[BookListData alloc] init];
+                                                 [BookData Books_MergeDataWithCoreData:BooksArray];
+                                                 
+                                             } else {
+                                                 
+                                                 NSLog(@"TEST VIEW = READ SEARVER - NODATA");
+                                                 
+                                             }
+                                             
+                                         }
+                                                                                        failure:^(NSURLRequest *request, NSHTTPURLResponse *response,NSError *error, id JSON)
+                                         {
+
+                                             NSLog(@"NSError: %@",error.localizedDescription);
+                                             
+                                         }];
+    [operation start];
+    
+}
+
+
+
+// To Merge data between Server and Local Data
+-(BOOKLIST_STATUS) Books_MergeDataWithCoreData:(NSArray*) Data
+{
+    
+    // 1. Check ID
+    // 2. Check Update Time
+    // 3. Check url
     
     if ([Data count] != 0) {
         for (int Count = 0; Count < [Data count]; Count++) {
             
-            NSArray *ISBNFound =[NSArray arrayWithArray:[self Books_CoreDataSearchWithBookISBN:[[Data objectAtIndex:Count] valueForKey:@"isbn"]]];
+            //NSLog(@"%@",[[Data objectAtIndex:Count] valueForKey:BOOKS_WEB_DB_KEY_BOOK_ID]);
             
-            NSLog(@"test image url = %@", [[Data objectAtIndex:Count] valueForKey:@"imageurl"]);
-
-            
-            if([ISBNFound count] == 0) {
+            NSString *GuidStr = [[Data objectAtIndex:Count] valueForKey:BOOKS_WEB_DB_KEY_BOOK_ID];
+            if (GuidStr != nil) {
+                NSArray *IDFound =[NSArray arrayWithArray:[self Books_CoreDataSearchWithBookID:GuidStr]];
                 
-                
-                
-                NSLog(@"%@ - %@ NOT MATCH !!!", [[Data objectAtIndex:Count] valueForKey:@"name"], [[Data objectAtIndex:Count] valueForKey:@"isbn"]);
-                //Add this onject into core data
-                //NSDate *TempDate = [[NSDate alloc] init];
-                NSData *TempData = [[NSData alloc] init];
-                NSDate *CreateDate, *UpdateDate = [[NSDate alloc] init];
-                
-                if ([[[Data objectAtIndex:Count] valueForKey:@"createdTime"] length] != 0) {
+                if([IDFound count] == 0) {
                     
-                    NSLog(@"%@", [[Data objectAtIndex:Count] valueForKey:@"createdTime"]);
-
-                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                    [dateFormatter setDateFormat:@"YYYY-MM-d H:m:s"];
+                    NSLog(@"NOT MATCHED - Create BookInfoObj and save to DB");
+                    BookInfo *BookInfoObj = [[BookInfo alloc] initWithJSONObj:[Data objectAtIndex:Count]];
+                    [self Books_SaveBookInfoObj:BookInfoObj];
                     
-                    CreateDate = [dateFormatter dateFromString:[[Data objectAtIndex:Count] valueForKey:@"createdTime"]];
-                    UpdateDate = [dateFormatter dateFromString:[[Data objectAtIndex:Count] valueForKey:@"updateTime"]];
+                } else {
+                    
+                    //NSLog(@"ID FOUND - DO NOTHING");
+                    
                 }
-                
-                //TODO introduction attribute fix
-                NSArray *CoreDataValue = [[NSArray alloc] initWithObjects:
-                                          [[Data objectAtIndex:Count] valueForKey:@"name"],
-                                          [[Data objectAtIndex:Count] valueForKey:@"isbn"],
-                                          [[Data objectAtIndex:Count] valueForKey:@"author"],
-                                          @"GUID NULL",
-                                          TempData,
-                                          @"URL NULL",
-                                          CreateDate,
-                                          UpdateDate,
-                                          [[Data objectAtIndex:Count] valueForKey:@"imageurl"],
-                                          [[Data objectAtIndex:Count] valueForKey:@"imageurl"],
-                                          nil];
-                
-                [self Books_CoreDataSave:CoreDataKey andValue:CoreDataValue];
-                
             } else {
                 
-                NSLog(@"ISBN already inside ");
+                NSLog(@"GuidStr == nil");
                 
             }
         }
-    }    
-    // TODO: [Casper] To save last update time
+    }
+    
+    [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_END];
+    
+    return BOOKSLIST_SUCCESS;
 }
 
 -(void) Books_FirePOSTConnectionToServerWithBookIndo : (BookInfo *)BookInfoObj
