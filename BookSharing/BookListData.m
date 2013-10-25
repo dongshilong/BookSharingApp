@@ -97,6 +97,7 @@
     return BookInfoObj;
 }
 
+// 將 BookInfo 的 object 存入 Core Data
 -(BOOKLIST_STATUS) Books_SaveBookInfoObj : (BookInfo*) BookInfoObj
 {
     NSUUID *Guid = [[NSUUID alloc] init];
@@ -127,6 +128,7 @@
     
 }
 
+
 -(BOOKLIST_STATUS) Books_CoreDataSave:(NSArray*) Key andValue:(NSArray*) Value
 {
     /*
@@ -154,12 +156,14 @@
     return BOOKSLIST_SUCCESS;
 }
 
+// 刪除 Core Data 中特定的資料
 -(BOOKLIST_STATUS) Books_CoreDataDelete:(NSManagedObject*) Book
 {
     
     [_context deleteObject:Book];
     
     NSError *error = nil;
+    
     if (![_context save:&error]) {
         NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
         return BOOKSLIST_ERROR;
@@ -168,7 +172,7 @@
     return BOOKSLIST_SUCCESS;
 }
 
-
+// UPDATE Core Data 中特定的資料
 -(BOOKLIST_STATUS) Books_CoreDataUpdateWithoObject : (NSManagedObject*) Book
 {
     NSError *error = nil;
@@ -181,18 +185,46 @@
 
 }
 
+// 取出 Core Data 中所有 Book 的資料，Array 中存的是 NSManagedObject
 -(NSMutableArray*) Books_CoreDataFetch
 {
     NSMutableArray *BookList = [[NSMutableArray alloc] init];
 //    NSLog(@"Books_CoreDataFetch");
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Book"];
     BookList = [[_context executeFetchRequest:fetchRequest error:nil] mutableCopy];
-    
-    //TODO: [Casper] The BookList should convert to Book Info formate
-    
+  
     return BookList;
 }
 
+// 取出 Core Data 特定的 Book 的資料，Array 中存的是 NSManagedObject
+-(NSManagedObject*) Books_CoreDataFetchByObjectID:(NSManagedObjectID*) ObjectID
+{
+    //NSManagedObject *BookCoreDataObj = [NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_context];
+    
+    NSEntityDescription *descriptor = [NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_context];
+    
+    NSManagedObject *BookCoreDataObj = [[NSManagedObject alloc] initWithEntity:descriptor insertIntoManagedObjectContext:_context];
+    
+    BookCoreDataObj = [_context existingObjectWithID:ObjectID error:nil];
+
+    
+    /*
+     [NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_context]
+     
+     */
+    
+    /*
+     // The designated initializer.
+     - (id)initWithEntity:(NSEntityDescription *)entity insertIntoManagedObjectContext:(NSManagedObjectContext *)context;
+     
+     */
+    
+    return BookCoreDataObj;
+}
+
+
+
+// 在 Book 中搜尋 Book Name
 -(NSArray*) Books_CoreDataSearchWithBookName : (NSString*) BookNameString
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -396,7 +428,7 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"POST"];
     
-    NSLog(@"Htttp Method%@ ", request.HTTPMethod);
+    NSLog(@"Htttp Method %@ ", request.HTTPMethod);
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-d H:m:s"];
     NSLog(@"POST Date = %@", [formatter stringFromDate:BookInfoObj.BookInfoCreateTime]);
@@ -411,11 +443,10 @@
     [newAccount setObject:BookInfoObj.BookInfoStrongIntro forKey:BOOKS_WEB_DB_KEY_BOOK_STRONG_INTRO];
     [newAccount setObject:BookInfoObj.BookInfoIntro forKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
 
-    NSLog(@"BookInfoObj.BookInfoGUID = %@", BookInfoObj.BookInfoGUID);
     [newAccount setObject:BookInfoObj.BookInfoGUID forKey:BOOKS_WEB_DB_KEY_BOOK_ID];
 
     
-    NSLog(@"%@", newAccount);
+    //NSLog(@"%@", newAccount);
     
     //transform the dictionary key-value pair into NSData object
 //#warning Casper modified POST Method without testing
@@ -445,7 +476,7 @@
     
     // Send Request to Server
     // Create the request with url
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://booksharingapps.herokuapp.com/bookinfos/1.json"]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://booksharingapps.herokuapp.com/bookinfos/3.json"]];
     
     // Add header value and set http for POST requeest as JSON
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -601,7 +632,8 @@
     if ([response isKindOfClass:[NSHTTPURLResponse class]])
     {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
-        NSLog(@"did receive responced %d", [httpResponse statusCode]);
+
+        NSLog(@"did receive responced %d - %@", [httpResponse statusCode], [httpResponse.URL absoluteString]);
     }
 }
 

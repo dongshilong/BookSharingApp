@@ -23,10 +23,12 @@
 @synthesize BookInfoCreateTime;
 @synthesize BookInfoUpdateTime;
 @synthesize BookInfoGUID;
+@synthesize BookCoreDataObjectID;
 
 -(BookInfo*) initWithCoreDataObj : (NSManagedObject*) bookCoreData
 {
     if (self != nil) {
+        
         //BookInfo *BookInfoObj = [[BookInfo alloc] init];
         BookName = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_NAME];
         BookAuthor = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_AUTHOR];
@@ -36,6 +38,8 @@
         BookInfoIntro = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_INFO_INTRO];
         BookISBN = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_ISBN];
         BookInfoGUID = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_ID];
+        BookCoreDataObjectID = bookCoreData.objectID;
+        
     }
     
     return self;

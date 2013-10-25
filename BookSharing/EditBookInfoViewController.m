@@ -43,7 +43,8 @@
     
     _TheBookIsDeleted = YES;
     _TheBookIsEdited = NO;
-//    [_BookDataBase Books_CoreDataDelete:<#(NSManagedObject *)#>]
+    [_BookDataBase Books_CoreDataDelete:_book];
+    //[_BookDataBase Books_FireDELETEConnectionToServerWithBookIndo:_BookInfoObj];
     [self dismissSemiModalView];
 }
 - (IBAction)CancelBtn:(id)sender {
@@ -60,7 +61,6 @@
     _TheBookIsEdited = YES;
     NSDate *UpdateDate = [[NSDate alloc] init];
     _BookInfoObj.BookInfoUpdateTime = UpdateDate;
-    NSLog(@"Fire UPDATE");
     [_BookDataBase Books_FirePUTConnectionToServerWithBookIndo:_BookInfoObj];
     [self dismissSemiModalView];
     

@@ -14,7 +14,7 @@
 @property  BOOL TheBookIsEdited;
 @property (strong, nonatomic)   BookListData    *BookDataBase;
 @property (strong, nonatomic)   BookInfo        *BookInfoObj;
-
+@property (strong, nonatomic)   NSManagedObject *book;
 
 - (IBAction)DeleteBtn:(id)sender;
 - (IBAction)CancelBtn:(id)sender;

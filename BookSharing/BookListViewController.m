@@ -41,6 +41,7 @@
 
     // 2. Init table data
     _tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetch]];
+    NSLog(@"CASPER %i", [_tableData count]);
 //    [self.tableView reloadData];
     
     
@@ -107,9 +108,10 @@
     } else {
         // View appeared without init
         // UI function should reloaded
+        _tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetch]];
+        [_tableView reloadData];
     }
     [_tableView deselectRowAtIndexPath:_LocalIndexPath animated:NO];
-
     [super viewWillAppear:animated];
 
     /*
@@ -338,15 +340,19 @@ shouldReloadTableForSearchString:(NSString *)searchString
         if ([self.searchDisplayController isActive]) {
             
             NSManagedObject *book = [[_SearchResultDisplayArray objectAtIndex:_LocalIndexPath.section] objectAtIndex:_LocalIndexPath.row];
-            BookInfo *BookForParse = [[BookInfo  alloc] initWithCoreDataObj:book];
-            destViewController.BookInfoObj = BookForParse;
             
+            //BookInfo *BookForParse = [[BookInfo  alloc] initWithCoreDataObj:book];
+            //destViewController.BookInfoObj = BookForParse;
+            destViewController.book = book;
+
             
         } else {
             
             NSManagedObject *book = [self.tableData objectAtIndex:_LocalIndexPath.row];
-            BookInfo *BookForParse = [[BookInfo  alloc] initWithCoreDataObj:book];
-            destViewController.BookInfoObj = BookForParse;
+            NSLog(@"%@", book.objectID);
+            //BookInfo *BookForParse = [[BookInfo  alloc] initWithCoreDataObj:book];
+            //destViewController.BookInfoObj = BookForParse;
+            destViewController.book = book;
             
         }
         

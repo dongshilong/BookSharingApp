@@ -37,7 +37,7 @@
     [self.view addSubview:_BookInfoHeaderView];
     
     // 2. If self came from SearchView, Fire detailed info connection.
-    VIEW_LOG(@"From %i - %@", _FatherView, _BookInfoObj.BookName);
+    VIEW_LOG(@"From %i", _FatherView);
     if (_FatherView == SearchBookView) {
         
         if (_BookInfoObj.BookCoverImage != nil) {
@@ -54,13 +54,14 @@
     } else if (_FatherView == ListBookView) {
         
         // 3. Assign Scroll View
+        // if self comes from List View, the bookInfoObj would init by NSManagedObject
+        _BookInfoObj = [[BookInfo alloc] initWithCoreDataObj:_book];
+        
         _BookInfoHeaderView.BookCoverView.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
         _BookInfoHeaderView.BookNameLab.text = _BookInfoObj.BookName;
         
         [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj WithFatherView:ListBookView];
         
-    } else if (_FatherView == None ) {
-        NSLog(@"TEST");
     }
     
     // 4. Set flag and init models
@@ -88,6 +89,7 @@
         
         NSLog(@"Facebook Test is NOT open");
     }
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -399,6 +401,8 @@
     [self performSelector:@selector(KSemiModalTransNotify)];
     _editBookViewContoller = [self.storyboard instantiateViewControllerWithIdentifier:@"EditBook"];
     _editBookViewContoller.BookInfoObj = _BookInfoObj;
+    _editBookViewContoller.book = _book;
+    
     [self presentSemiViewController:_editBookViewContoller];
 }
 @end

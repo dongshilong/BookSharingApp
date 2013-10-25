@@ -39,6 +39,7 @@ typedef enum {
 @property (strong, nonatomic)   BookListData    *BookDataBase;
 @property (strong, nonatomic)   BooksHtml       *BookInfoQuery;
 @property (strong, nonatomic)   BookInfo        *BookInfoObj;
+@property (strong, nonatomic)   NSManagedObject *book;
 
 @property (strong, nonatomic)     EditBookInfoViewController  *editBookViewContoller;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *EditBtn;
