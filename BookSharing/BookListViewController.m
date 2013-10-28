@@ -11,6 +11,11 @@
 #import "SWRevealViewController.h"
 #import "TableCell.h"
 
+#define UPDATE_THRESHOLD_SEC 300.0
+
+static BOOL GLOBAL_FORCE_SYNC = YES;
+
+
 @interface BookListViewController ()
 
 @end
@@ -65,6 +70,7 @@
     _tableView.bounds = Bounds;
     [_tableView reloadData];
     
+    // 5. Force Snyc with server
     [self SyncDataWithServer];
     
     /*
@@ -398,8 +404,27 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 -(void) SyncDataWithServer
 {
-    [self performSelector:@selector(DatabaseSyncNotification)];
-    [_BookList  Books_GetServerDataAndMerge];
+    // 1. Check Force Update
+    if (GLOBAL_FORCE_SYNC) {
+        
+        [self performSelector:@selector(DatabaseSyncNotification)];
+        [_BookList  Books_GetServerDataAndMerge];
+        GLOBAL_FORCE_SYNC = NO;
+        
+    } else {
+
+        // 2. Check current time and update time (in core data)
+        // if diff is over then 5 min, then sync
+        NSDate *CurrentTime = [NSDate date];
+        NSDate *UpdateTime = [_BookList Books_GetTheLastSyncTime];
+        NSTimeInterval secondsBetween = [CurrentTime timeIntervalSinceDate:UpdateTime];
+        
+        if (secondsBetween >= UPDATE_THRESHOLD_SEC) {
+            VIEW_LOG(@"Update 5 min ago, execute update");
+            [_BookList  Books_GetServerDataAndMerge];
+        }
+
+    }
 }
 
 @end

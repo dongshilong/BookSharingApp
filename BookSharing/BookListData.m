@@ -354,6 +354,48 @@
 }
 
 
+#pragma mark - Sync Data
+
+// Save update time for server
+-(BOOKLIST_STATUS) Books_SaveCurrentAsLastSyncTime
+{
+
+    NSManagedObject *UpdateTimeObj;
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"SyncTime"];
+    NSMutableArray *LastTimeUpdate = [[_context executeFetchRequest:fetchRequest error:nil] mutableCopy];
+
+    if ([LastTimeUpdate count] != 0) {
+        UpdateTimeObj = [[_context executeFetchRequest:fetchRequest error:nil] objectAtIndex:0];
+    } else {
+        UpdateTimeObj = [NSEntityDescription insertNewObjectForEntityForName:@"SyncTime" inManagedObjectContext:_context];
+    }
+
+    NSDate *UpdateTime = [NSDate date];
+    NSLog(@"Save Update Time = %@", UpdateTime);
+    [UpdateTimeObj setValue:UpdateTime forKey:@"lastUpdateTime"];
+    
+    NSError *error = nil;
+    if (![_context save:&error]) {
+        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+        return BOOKSLIST_ERROR;
+    }
+    return BOOKSLIST_SUCCESS;
+}
+
+// Get sync time for server
+-(NSDate*) Books_GetTheLastSyncTime
+{
+    //    NSLog(@"Books_CoreDataFetch");
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"SyncTime"];
+    NSManagedObject *UpdateTimeObj = [[_context executeFetchRequest:fetchRequest error:nil] objectAtIndex:0];
+    NSDate *UpdateTime = [UpdateTimeObj valueForKey:@"lastUpdateTime"];
+    NSLog(@"Get update time %@", UpdateTime);
+    
+    return UpdateTime;
+
+}
+
 -(void) Books_GetServerDataAndMerge
 {
     
@@ -371,10 +413,9 @@
                                              
                                              if ([BooksArray count] != 0) {
                                                  
-                                                 BookListData *BookData = [[BookListData alloc] init];
-                                                 [BookData Books_MergeDataWithCoreData:BooksArray];
+                                                 [self Books_MergeDataWithCoreData:BooksArray];
                                                  
-                                             } else {
+                                          } else {
                                                  
                                                  NSLog(@"TEST VIEW = READ SEARVER - NODATA");
                                                  
@@ -402,6 +443,9 @@
     // 3. Check url
     
     if ([Data count] != 0) {
+        
+        // reverse the Data to ensure the latest object be handled first
+        [Data reverseObjectEnumerator];
         for (int Count = 0; Count < [Data count]; Count++) {
             
             //NSLog(@"%@",[[Data objectAtIndex:Count] valueForKey:BOOKS_WEB_DB_KEY_BOOK_ID]);
@@ -421,6 +465,7 @@
                     //NSLog(@"ID FOUND - DO NOTHING");
                     
                 }
+                
             } else {
                 
                 NSLog(@"GuidStr == nil");
@@ -429,12 +474,17 @@
         }
     }
     
-    [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_END];
+    if (BOOKSLIST_SUCCESS == [self Books_SaveCurrentAsLastSyncTime]) {
+        
+        [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_END];
+        
+    };
+
     
     return BOOKSLIST_SUCCESS;
 }
 
--(void) Books_FirePOSTConnectionToServerWithBookIndo : (BookInfo *)BookInfoObj
+-(void) Books_FirePOSTConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj
 {
     // Encode the Image with Base64
     // NSData *imageData = UIImagePNGRepresentation(_imageView.image);
@@ -462,10 +512,8 @@
     [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoUpdateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_UPDATE_T];
     [newAccount setObject:BookInfoObj.BookInfoStrongIntro forKey:BOOKS_WEB_DB_KEY_BOOK_STRONG_INTRO];
     [newAccount setObject:BookInfoObj.BookInfoIntro forKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
-
     [newAccount setObject:BookInfoObj.BookInfoGUID forKey:BOOKS_WEB_DB_KEY_BOOK_ID];
 
-    
     //NSLog(@"%@", newAccount);
     
     //transform the dictionary key-value pair into NSData object
@@ -488,7 +536,7 @@
 
 // CASPER TEST
 // TODO: Get specific Book info URL on the Server
--(void) Books_FireDELETEConnectionToServerWithBookIndo : (BookInfo *)BookInfoObj
+-(void) Books_FireDELETEConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj
 {
     // Encode the Image with Base64
     // NSData *imageData = UIImagePNGRepresentation(_imageView.image);
@@ -503,37 +551,6 @@
     [request setHTTPMethod:@"DELETE"];
     NSLog(@"DELETE id = 1");
     NSLog(@"Htttp Method%@ ", request.HTTPMethod);
-    /*
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY-MM-d H:m:s"];
-    NSLog(@"POST Date = %@", [formatter stringFromDate:BookInfoObj.BookInfoCreateTime]);
-    
-    NSMutableDictionary *newAccount = [[NSMutableDictionary alloc]init];
-    [newAccount setObject:BookInfoObj.BookName forKey:BOOKS_WEB_DB_KEY_BOOK_NAME];
-    [newAccount setObject:BookInfoObj.BookAuthor forKey:BOOKS_WEB_DB_KEY_BOOK_AUTHOR];
-    [newAccount setObject:BookInfoObj.BookISBN forKey:BOOKS_WEB_DB_KEY_BOOK_ISBN];
-    [newAccount setObject:[BookInfoObj.BookCoverHDURL absoluteString] forKey:BOOKS_WEB_DB_KEY_BOOK_IMG_URL];
-    [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoCreateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_CREATE_T];
-    [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoUpdateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_UPDATE_T];
-    [newAccount setObject:BookInfoObj.BookInfoStrongIntro forKey:BOOKS_WEB_DB_KEY_BOOK_STRONG_INTRO];
-    [newAccount setObject:BookInfoObj.BookInfoIntro forKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
-    
-    NSLog(@"BookInfoObj.BookInfoGUID = %@", BookInfoObj.BookInfoGUID);
-    [newAccount setObject:BookInfoObj.BookInfoGUID forKey:BOOKS_WEB_DB_KEY_BOOK_ID];
-    
-    
-    NSLog(@"%@", newAccount);
-    
-    //transform the dictionary key-value pair into NSData object
-    //#warning Casper modified POST Method without testing
-    //NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONReadingMutableContainers error:nil];
-    NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONWritingPrettyPrinted error:nil];
-    
-    
-    //let the NSData object be the data of the request
-    [request setHTTPBody:newAccountJSONData];
-    */
-    //create connection with the request and the connection will be sented immediately
     NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
     
     // the connection created is successfully
@@ -546,7 +563,7 @@
 
 // CASPER TEST "PUT"
 // TODO: Get specific Book info URL on the Server
--(void) Books_FirePUTConnectionToServerWithBookIndo : (BookInfo *)BookInfoObj
+-(void) Books_FirePUTConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj
 {
     // Encode the Image with Base64
     // NSData *imageData = UIImagePNGRepresentation(_imageView.image);
@@ -620,7 +637,6 @@
 
 
 #pragma mark - delege meethod of NSURLConnection
-
 -(void) Books_SendNotificationToViewController:(id) Object withSinglevalue:(NSString*) Value andSingleKey:(NSString*) Key
 {
     

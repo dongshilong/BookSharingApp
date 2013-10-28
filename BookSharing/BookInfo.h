@@ -21,6 +21,7 @@
 #define BOOKS_CORE_DATA_KEY_BOOK_CREATE_T           @"bookCreateTime"
 #define BOOKS_CORE_DATA_KEY_BOOK_UPDATE_T           @"bookUpdateTime"
 #define BOOKS_CORE_DATA_KEY_BOOK_ID                 @"bookGuid"
+#define BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL         @"bookServerIRL"
 
 
 

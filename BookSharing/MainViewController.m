@@ -32,7 +32,7 @@
     
     // Google Analytics
     self.screenName = @"What's HOT";
-    
+
 	// Do any additional setup after loading the view.
 }
 

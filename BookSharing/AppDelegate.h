@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+//#import "Facebook.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "SettingViewViewController.h"
 #import "GAI.h"

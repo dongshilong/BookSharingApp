@@ -50,10 +50,11 @@ typedef enum {
 
 // Data connection with server
 -(BOOKLIST_STATUS) Books_MergeDataWithCoreData:(NSArray*) LocalData;
--(void) Books_FirePOSTConnectionToServerWithBookIndo : (BookInfo *)BookInfoObj;
--(void) Books_FireDELETEConnectionToServerWithBookIndo : (BookInfo *)BookInfoObj;
--(void) Books_FirePUTConnectionToServerWithBookIndo : (BookInfo *)BookInfoObj;
+-(void) Books_FirePOSTConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj;
+-(void) Books_FireDELETEConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj;
+-(void) Books_FirePUTConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj;
 -(void) Books_GetServerDataAndMerge;
+-(NSDate*) Books_GetTheLastSyncTime;
 
 
 @end

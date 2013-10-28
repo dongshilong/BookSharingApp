@@ -362,7 +362,7 @@
     if (BOOKSLIST_SUCCESS != [_BookDataBase Books_SaveBookInfoObj:_BookInfoObj]) {
         VIEW_ERROR_LOG(@"SAVE ERROR");
     }
-    [_BookDataBase Books_FirePOSTConnectionToServerWithBookIndo:_BookInfoObj];
+    [_BookDataBase Books_FirePOSTConnectionToServerWithBookInfo:_BookInfoObj];
     
     [self BookSaveViewAlert];
     
