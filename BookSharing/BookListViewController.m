@@ -420,8 +420,11 @@ shouldReloadTableForSearchString:(NSString *)searchString
         NSTimeInterval secondsBetween = [CurrentTime timeIntervalSinceDate:UpdateTime];
         
         if (secondsBetween >= UPDATE_THRESHOLD_SEC) {
+            
             VIEW_LOG(@"Update 5 min ago, execute update");
             [_BookList  Books_GetServerDataAndMerge];
+            
+            
         }
 
     }
