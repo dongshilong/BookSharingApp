@@ -711,7 +711,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/GIGIGUN/Documents/ios_project/CASPER/BookSharing/BookSharing,
-					/Users/GIGIGUN/Documents/FacebookSDK,
 					/Users/GIGIGUN/Documents/ios_project/CASPER/BookSharing,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
