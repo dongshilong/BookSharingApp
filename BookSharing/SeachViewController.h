@@ -11,7 +11,7 @@
 #import "BooksHtml.h"
 #import "Searching.h"
 
-@interface SeachViewController : GAITrackedViewController
+@interface SeachViewController : UIViewController
                     <UISearchBarDelegate, UISearchDisplayDelegate,
                     UITableViewDataSource, UITableViewDelegate> {
     BOOL ShowSearchResult;

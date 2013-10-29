@@ -11,7 +11,7 @@
 #import <FacebookSDK/FBSessionTokenCachingStrategy.h>
 
 // Google analytics
-static NSString *const kTrackingId = @"UA-44954174-1";
+//static NSString *const kTrackingId = @"UA-44954174-1";
 
 
 
@@ -26,8 +26,8 @@ static NSString *const kTrackingId = @"UA-44954174-1";
 {    
     // Override point for customization after application launch.
     // Google analytics
-    self.tracker = [[GAI sharedInstance] trackerWithName:@"mobiletest" trackingId:kTrackingId];
-    self.loginViewController = [[SettingViewViewController alloc] initWithNibName:@"SettingViewViewController" bundle:nil];
+    //self.tracker = [[GAI sharedInstance] trackerWithName:@"mobiletest" trackingId:kTrackingId];
+    //self.loginViewController = [[SettingViewViewController alloc] initWithNibName:@"SettingViewViewController" bundle:nil];
     
     [FBLoginView class];
     

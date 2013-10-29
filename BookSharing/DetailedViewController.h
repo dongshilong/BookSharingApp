@@ -16,7 +16,7 @@
 #import "Searching.h"
 #import "EditBookInfoViewController.h"
 
-@interface DetailedViewController : GAITrackedViewController <NSURLConnectionDelegate> {
+@interface DetailedViewController : UIViewController <NSURLConnectionDelegate> {
     NSURLConnection     *BookCoverConn;
     NSMutableData       *_responseData;
 

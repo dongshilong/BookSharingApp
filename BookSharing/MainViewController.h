@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController : GAITrackedViewController
+@interface MainViewController : UIViewController
 
 @end

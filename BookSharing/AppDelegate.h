@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "Facebook.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "SettingViewViewController.h"
-#import "GAI.h"
+//#import "GAI.h"
 
 @class SettingViewViewController;
 
@@ -25,7 +24,7 @@
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator    *persistentStoreCoordinator;
 
 // Google analytics
-@property(nonatomic, strong) id<GAITracker> tracker;
+//@property(nonatomic, strong) id<GAITracker> tracker;
 
 @property (strong, nonatomic) FBSession *session;
 @property (strong, nonatomic) SettingViewViewController *loginViewController;
