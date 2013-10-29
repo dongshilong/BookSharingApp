@@ -704,7 +704,7 @@
 					"$(inherited)",
 					/Users/GIGIGUN/Documents/ios_project/CASPER/BookSharing/BookSharing,
 					/Users/GIGIGUN/Documents/ios_project/CASPER/BookSharing,
-					/Users/GIGIGUN/Documents/FacebookSDK,
+					"~/Documents/FacebookSDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BookSharing/BookSharing-Prefix.pch";
@@ -731,7 +731,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/GIGIGUN/Documents/ios_project/CASPER/BookSharing/BookSharing,
-					/Users/GIGIGUN/Documents/FacebookSDK,
+					"~/Documents/FacebookSDK",
 					/Users/GIGIGUN/Documents/ios_project/CASPER/BookSharing,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
