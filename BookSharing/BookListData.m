@@ -36,6 +36,7 @@
                        BOOKS_CORE_DATA_KEY_BOOK_INFO_INTRO,
                        BOOKS_CORE_DATA_KEY_BOOK_INFO_STRONG_INTRO,
                        @"bookAuthorIntro",
+                       BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL,
                        nil];
         
         AppDelegate *theAppDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
@@ -114,6 +115,10 @@
         BookInfoObj.BookInfoAuthorIntro = BOOKS_CORE_DATA_DEFAULT_VALUE;
     }
     
+    if (BookInfoObj.BookSearverURL == nil) {
+        BookInfoObj.BookSearverURL = [NSURL URLWithString:BOOKS_CORE_DATA_DEFAULT_VALUE];
+    }
+    
     return BookInfoObj;
 }
 
@@ -148,6 +153,7 @@
                               BookInfoObj.BookInfoIntro,
                               BookInfoObj.BookInfoStrongIntro,
                               BookInfoObj.BookInfoAuthorIntro,
+                              [BookInfoObj.BookSearverURL absoluteString],
                               nil];
     
     return [self Books_CoreDataSave:[self Books_GetCoreDataKey] andValue:CoreDataValue];
@@ -442,6 +448,8 @@
     // 2. Check Update Time
     // 3. Check url
     
+    int countForMerge = 0;
+    
     if ([Data count] != 0) {
         
         // reverse the Data to ensure the latest object be handled first
@@ -455,8 +463,7 @@
                 NSArray *IDFound =[NSArray arrayWithArray:[self Books_CoreDataSearchWithBookID:GuidStr]];
                 
                 if([IDFound count] == 0) {
-                    
-                    NSLog(@"NOT MATCHED - Create BookInfoObj and save to DB");
+                    countForMerge++;
                     BookInfo *BookInfoObj = [[BookInfo alloc] initWithJSONObj:[Data objectAtIndex:Count]];
                     [self Books_SaveBookInfoObj:BookInfoObj];
                     
@@ -474,11 +481,16 @@
         }
     }
     
+    NSLog(@"Total %i books save into DB", countForMerge);
     if (BOOKSLIST_SUCCESS == [self Books_SaveCurrentAsLastSyncTime]) {
         
         [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_END];
         
-    };
+    } else {
+        
+        [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_ERROR];
+
+    }
 
     
     return BOOKSLIST_SUCCESS;

@@ -12,6 +12,7 @@
         <attribute name="bookIntro" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="bookISBN" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="bookName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookServerURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="bookStrongIntro" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="bookType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="bookUpdateTime" optional="YES" attributeType="Date" syncable="YES"/>

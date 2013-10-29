@@ -21,7 +21,7 @@
 #define BOOKS_CORE_DATA_KEY_BOOK_CREATE_T           @"bookCreateTime"
 #define BOOKS_CORE_DATA_KEY_BOOK_UPDATE_T           @"bookUpdateTime"
 #define BOOKS_CORE_DATA_KEY_BOOK_ID                 @"bookGuid"
-#define BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL         @"bookServerIRL"
+#define BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL         @"bookServerURL"
 
 
 
@@ -37,6 +37,8 @@
 #define BOOKS_WEB_DB_KEY_BOOK_TAG                   @"tag"
 #define BOOKS_WEB_DB_KEY_BOOK_TYPE                  @"booktype"
 #define BOOKS_WEB_DB_KEY_BOOK_ID                    @"bookid"
+#define BOOKS_WEB_DB_KEY_BOOK_SEARVER_URL           @"url"
+
 
 
 #define BOOK_DIC_BOOK_NAME_KEY                      BOOKS_CORE_DATA_KEY_BOOK_NAME
@@ -50,6 +52,7 @@
 
 @interface BookInfo : NSObject
 @property (nonatomic, strong) NSURL         *BookInfoURL;
+@property (nonatomic, strong) NSURL         *BookSearverURL;
 @property (nonatomic, strong) NSString      *BookName;
 @property (nonatomic, strong) NSString      *BookISBN;
 @property (nonatomic, strong) NSString      *BookAuthor;

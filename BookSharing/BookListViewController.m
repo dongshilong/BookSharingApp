@@ -181,7 +181,13 @@ static BOOL GLOBAL_FORCE_SYNC = YES;
          } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_END]) {
              
              NSLog(@"BOOKLIST_DATABASE_SYNC_END - To ensure the table data is full filled");
+             _tableData = [_BookList Books_CoreDataFetch];
+             [_tableView reloadData];
              
+         } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_ERROR]) {
+             
+             NSLog(@"BOOKLIST_DATABASE_SYNC_ERROR");
+         
          }
 
      }];

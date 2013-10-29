@@ -11,6 +11,7 @@
 @implementation BookInfo
 
 @synthesize BookInfoURL;
+@synthesize BookSearverURL;
 @synthesize BookName;
 @synthesize BookISBN;
 @synthesize BookAuthor;
@@ -37,6 +38,7 @@
         BookInfoIntro = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_INFO_INTRO];
         BookISBN = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_ISBN];
         BookInfoGUID = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_ID];
+        BookSearverURL = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL];
         
     }
     
@@ -57,8 +59,8 @@
         BookInfoIntro = [bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
         BookISBN = [bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_ISBN];
         BookInfoGUID = [bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_ID];
-        
-        
+        BookSearverURL = [NSURL URLWithString:[bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_SEARVER_URL]];
+
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"YYYY-MM-d H:m:s"];
         NSDate *CreateTimeDate = [dateFormatter dateFromString:[bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_CREATE_T]];
