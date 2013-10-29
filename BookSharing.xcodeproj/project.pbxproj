@@ -34,6 +34,8 @@
 		1091586717F5802700AD0984 /* TableCellSmall.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1091586517F5802700AD0984 /* TableCellSmall.xib */; };
 		1091C1391810CE8A00A22957 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1091C1381810CE8A00A22957 /* SystemConfiguration.framework */; };
 		109318CA17F413A600C3ED26 /* SeachViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 109318C917F413A600C3ED26 /* SeachViewController.m */; };
+		10CF3CAA181F6A8D004D8B74 /* NSMutableArray+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CF3CA9181F6A8D004D8B74 /* NSMutableArray+Stack.m */; };
+		10CF3CAD181F6ACB004D8B74 /* NSMutableArray+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CF3CAC181F6ACB004D8B74 /* NSMutableArray+Queue.m */; };
 		10D72946181E5A970046A562 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10D72945181E5A970046A562 /* FacebookSDK.framework */; };
 		10E6B19717F4230800AD814E /* BooksHtml.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E6B19617F4230800AD814E /* BooksHtml.m */; };
 		10E6B19A17F4231F00AD814E /* SearchBooksTW.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E6B19917F4231F00AD814E /* SearchBooksTW.m */; };
@@ -131,6 +133,10 @@
 		1091C1381810CE8A00A22957 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		109318C817F413A600C3ED26 /* SeachViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeachViewController.h; sourceTree = "<group>"; };
 		109318C917F413A600C3ED26 /* SeachViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeachViewController.m; sourceTree = "<group>"; };
+		10CF3CA8181F6A8D004D8B74 /* NSMutableArray+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Stack.h"; path = "Categories/NSMutableArray+Stack.h"; sourceTree = "<group>"; };
+		10CF3CA9181F6A8D004D8B74 /* NSMutableArray+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Stack.m"; path = "Categories/NSMutableArray+Stack.m"; sourceTree = "<group>"; };
+		10CF3CAB181F6ACB004D8B74 /* NSMutableArray+Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Queue.h"; path = "Categories/NSMutableArray+Queue.h"; sourceTree = "<group>"; };
+		10CF3CAC181F6ACB004D8B74 /* NSMutableArray+Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Queue.m"; path = "Categories/NSMutableArray+Queue.m"; sourceTree = "<group>"; };
 		10D72945181E5A970046A562 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		10E6B19517F4230800AD814E /* BooksHtml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksHtml.h; sourceTree = "<group>"; };
 		10E6B19617F4230800AD814E /* BooksHtml.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksHtml.m; sourceTree = "<group>"; };
@@ -306,6 +312,17 @@
 			name = GOOGLE_Ana;
 			sourceTree = "<group>";
 		};
+		10CF3CA4181F6A02004D8B74 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				10CF3CA8181F6A8D004D8B74 /* NSMutableArray+Stack.h */,
+				10CF3CA9181F6A8D004D8B74 /* NSMutableArray+Stack.m */,
+				10CF3CAB181F6ACB004D8B74 /* NSMutableArray+Queue.h */,
+				10CF3CAC181F6ACB004D8B74 /* NSMutableArray+Queue.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		10EBD26017F170F4002B49F0 = {
 			isa = PBXGroup;
 			children = (
@@ -346,10 +363,10 @@
 		10EBD27217F170F4002B49F0 /* BookSharing */ = {
 			isa = PBXGroup;
 			children = (
+				10CF3CA4181F6A02004D8B74 /* Categories */,
 				10EBD2C117F19452002B49F0 /* Models */,
 				10EBD2AE17F1835F002B49F0 /* AppDelegate.h */,
 				10EBD2AF17F1835F002B49F0 /* AppDelegate.m */,
-				1091C12E1810CD4A00A22957 /* ListView */,
 				105FDBB218151226001E7AE6 /* SettingViewViewController.h */,
 				105FDBB318151226001E7AE6 /* SettingViewViewController.m */,
 				10EBD27E17F170F4002B49F0 /* Main.storyboard */,
@@ -359,16 +376,17 @@
 				10EBD2A917F181B6002B49F0 /* MainViewController.m */,
 				10905AA417FE9FDD002E416C /* UI_Def.h */,
 				10EBD2AB17F18346002B49F0 /* Books.xcdatamodeld */,
+				1091C12E1810CD4A00A22957 /* ListView */,
 				10905AA617FEAF92002E416C /* SeachView */,
 				10905AA817FEAFB1002E416C /* DetailedInfoView */,
 				1091586817F583C600AD0984 /* SubViews */,
 				10EBD2A417F171A8002B49F0 /* SDKs */,
-				10EBD28417F170F4002B49F0 /* Images.xcassets */,
 				10EBD27317F170F4002B49F0 /* Supporting Files */,
 				10EBD2B917F188E0002B49F0 /* menu@2x.png */,
 				10469AE11814CEC500888186 /* photo-frame.png */,
 				1090EFC4181A05410079BC7B /* book.png */,
 				100ABA0E17F4900200601973 /* BarcodeReader.png */,
+				10EBD28417F170F4002B49F0 /* Images.xcassets */,
 			);
 			path = BookSharing;
 			sourceTree = "<group>";
@@ -549,6 +567,7 @@
 				1012552717F2919B00D30132 /* DetailedViewController.m in Sources */,
 				109318CA17F413A600C3ED26 /* SeachViewController.m in Sources */,
 				1090EFDC181A60A20079BC7B /* AFImageRequestOperation.m in Sources */,
+				10CF3CAD181F6ACB004D8B74 /* NSMutableArray+Queue.m in Sources */,
 				1090EFDA181A60A20079BC7B /* AFHTTPClient.m in Sources */,
 				1090EFE0181A60A20079BC7B /* AFURLConnectionOperation.m in Sources */,
 				1090EFDF181A60A20079BC7B /* AFPropertyListRequestOperation.m in Sources */,
@@ -567,6 +586,7 @@
 				10EBD2B017F1835F002B49F0 /* AppDelegate.m in Sources */,
 				105FDBB418151226001E7AE6 /* SettingViewViewController.m in Sources */,
 				10E6B1A117F4276200AD814E /* TFHpple.m in Sources */,
+				10CF3CAA181F6A8D004D8B74 /* NSMutableArray+Stack.m in Sources */,
 				107FC4CF17F825DC00736AC8 /* DetailedScroller.m in Sources */,
 				10EBD2B517F183BC002B49F0 /* BookListViewController.m in Sources */,
 				10E6B19717F4230800AD814E /* BooksHtml.m in Sources */,
@@ -712,10 +732,7 @@
 					"$(SDKROOT)/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = "BookSharing/BookSharing-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/GIGIGUN/Documents/ios_project/CASPER/BookSharing,
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -738,10 +755,7 @@
 					"$(SDKROOT)/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = "BookSharing/BookSharing-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/GIGIGUN/Documents/ios_project/CASPER/BookSharing,
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

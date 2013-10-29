@@ -10,6 +10,9 @@
 
 #import "BookListData.h"
 #import "BookInfo.h"
+#import "NSMutableArray+Queue.h"
+
+extern BOOL GLOBAL_FORCE_SYNC;
 
 @interface BookListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     BOOL InitedInViewDidLoaded;

@@ -29,7 +29,8 @@
     _BookDataBase = [[BookListData alloc] init];
     _TheBookIsDeleted = NO;
     _TheBookIsEdited = NO;
-    NSLog(@"%@", _BookInfoObj.BookName);
+//    NSLog(@"%@", _BookInfoObj.BookName);
+    _BookInfoObj = [[BookInfo alloc] initWithCoreDataObj:_book];
 	// Do any additional setup after loading the view.
 }
 
@@ -43,8 +44,19 @@
     
     _TheBookIsDeleted = YES;
     _TheBookIsEdited = NO;
-    [_BookDataBase Books_CoreDataDelete:_book];
-    //[_BookDataBase Books_FireDELETEConnectionToServerWithBookIndo:_BookInfoObj];
+
+    if ((_BookInfoObj.BookSearverURL == nil) || ([[_BookInfoObj.BookSearverURL absoluteString] isEqualToString:BOOKS_CORE_DATA_DEFAULT_VALUE])) {
+        //([[_BookInfoObj.BookSearverURL absoluteString] isEqualToString:BOOKS_CORE_DATA_DEFAULT_VALUE])
+        // TODO: To update coredata deleted flag, and wait to delete it during sync process
+        
+    } else {
+
+        
+        [_BookDataBase Books_CoreDataUpdateWithoObject:_book];
+        [_BookDataBase Books_FireDELETEConnectionToServerWithBookInfo:_BookInfoObj];
+        
+    }
+    
     [self dismissSemiModalView];
 }
 - (IBAction)CancelBtn:(id)sender {

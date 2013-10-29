@@ -11,9 +11,9 @@
 #import "SWRevealViewController.h"
 #import "TableCell.h"
 
-#define UPDATE_THRESHOLD_SEC 300.0
+#define SYNC_THRESHOLD_SEC 300.0
 
-static BOOL GLOBAL_FORCE_SYNC = YES;
+BOOL GLOBAL_FORCE_SYNC = YES;
 
 
 @interface BookListViewController ()
@@ -46,6 +46,7 @@ static BOOL GLOBAL_FORCE_SYNC = YES;
 
     // 2. Init table data
     _tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetch]];
+    
 //    [self.tableView reloadData];
     
     
@@ -69,8 +70,8 @@ static BOOL GLOBAL_FORCE_SYNC = YES;
     Bounds.origin.y = Bounds.origin.y + _SearchBar.bounds.size.height;
     _tableView.bounds = Bounds;
     [_tableView reloadData];
+
     
-    // 5. Force Snyc with server
     [self SyncDataWithServer];
     
     /*
@@ -176,19 +177,26 @@ static BOOL GLOBAL_FORCE_SYNC = YES;
          NSDictionary *dict = notification.userInfo;
          if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_START]) {
              
-             NSLog(@"BOOKLIST_DATABASE_SYNC_START");
+             VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_START");
              
          } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_END]) {
              
-             NSLog(@"BOOKLIST_DATABASE_SYNC_END - To ensure the table data is full filled");
+             VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_END - To ensure the table data is full filled");
              _tableData = [_BookList Books_CoreDataFetch];
              [_tableView reloadData];
              
          } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_ERROR]) {
              
-             NSLog(@"BOOKLIST_DATABASE_SYNC_ERROR");
+             VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_ERROR");
          
+         } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_GET_IMAGE_COVER_END]) {
+             
+             VIEW_LOG(@"BOOKLIST_DATABASE_GET_IMAGE_COVER_END");
+             _tableData = [_BookList Books_CoreDataFetch];
+             [_tableView reloadData];
+        
          }
+
 
      }];
     
@@ -425,11 +433,11 @@ shouldReloadTableForSearchString:(NSString *)searchString
         NSDate *UpdateTime = [_BookList Books_GetTheLastSyncTime];
         NSTimeInterval secondsBetween = [CurrentTime timeIntervalSinceDate:UpdateTime];
         
-        if (secondsBetween >= UPDATE_THRESHOLD_SEC) {
+        if (secondsBetween >= SYNC_THRESHOLD_SEC) {
             
             VIEW_LOG(@"Update 5 min ago, execute update");
+            [self performSelector:@selector(DatabaseSyncNotification)];
             [_BookList  Books_GetServerDataAndMerge];
-            
             
         }
 

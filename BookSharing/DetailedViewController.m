@@ -8,6 +8,7 @@
 
 #import "DetailedViewController.h"
 #import "UIViewController+KNSemiModal.h"
+#import "BookListViewController.h"
 
 @interface DetailedViewController ()
 
@@ -28,7 +29,6 @@
 {
     [super viewDidLoad];
     
-    
     // 1. Assign Header View
     NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"BookInfoHeader" owner:self options:nil];
     _BookInfoHeaderView = (BookInfoHeader *)[subviewArray objectAtIndex:0];
@@ -39,6 +39,8 @@
     // 2. If self came from SearchView, Fire detailed info connection.
     VIEW_LOG(@"From %i", _FatherView);
     if (_FatherView == SearchBookView) {
+        
+        self.navigationItem.rightBarButtonItem = nil;
         
         if (_BookInfoObj.BookCoverImage != nil) {
             
@@ -76,7 +78,6 @@
     
     // Facebook
     if (FBSession.activeSession.isOpen) {
-        NSLog(@"Facebook Test isOpen");
         [[FBRequest requestForMe] startWithCompletionHandler:
          ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
              if (!error) {
@@ -87,7 +88,7 @@
          }];
     } else {
         
-        NSLog(@"Facebook Test is NOT open");
+        //VIEW_LOG(@"Facebook Test is NOT open");
     }
     
 }
@@ -362,6 +363,11 @@
     if (BOOKSLIST_SUCCESS != [_BookDataBase Books_SaveBookInfoObj:_BookInfoObj]) {
         VIEW_ERROR_LOG(@"SAVE ERROR");
     }
+    
+    // Set Force Sync
+    extern BOOL GLOBAL_FORCE_SYNC;
+    GLOBAL_FORCE_SYNC = YES;
+    
     [_BookDataBase Books_FirePOSTConnectionToServerWithBookInfo:_BookInfoObj];
     
     [self BookSaveViewAlert];
@@ -400,7 +406,7 @@
     
     [self performSelector:@selector(KSemiModalTransNotify)];
     _editBookViewContoller = [self.storyboard instantiateViewControllerWithIdentifier:@"EditBook"];
-    _editBookViewContoller.BookInfoObj = _BookInfoObj;
+    //_editBookViewContoller.BookInfoObj = _BookInfoObj;
     _editBookViewContoller.book = _book;
     
     [self presentSemiViewController:_editBookViewContoller];

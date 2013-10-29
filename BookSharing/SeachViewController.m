@@ -567,8 +567,8 @@
     
     
     [_SearchBar resignFirstResponder];
-//    _SearchBar.text = @"9789866272516";   // 風之名
-    _SearchBar.text = @"9789861739694";     // 欲望與絕爽：拉岡視野下的當代華語文學與文化
+    _SearchBar.text = @"9789866272516";   // 風之名
+//    _SearchBar.text = @"9789861739694";     // 欲望與絕爽：拉岡視野下的當代華語文學與文化
 
     [self SearchBookWebTaskWithKeyWord:_SearchBar.text];
     [self ShowLoadingView];

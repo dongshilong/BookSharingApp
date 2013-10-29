@@ -14,6 +14,8 @@
 //
 //  =====================================================
 #import "BookListData.h"
+#import "BookListViewController.h"
+#import "NSMutableArray+Queue.h"
 
 @implementation BookListData
 //@synthesize fetchedResultsController;
@@ -32,13 +34,14 @@
                        BOOKS_CORE_DATA_KEY_BOOK_CREATE_T,
                        BOOKS_CORE_DATA_KEY_BOOK_UPDATE_T,
                        @"bookCoverUrlSmall",
-                       @"bookCoverUrlLarge",
+                       BOOKS_CORE_DATA_KEY_BOOK_IMG_URL,
                        BOOKS_CORE_DATA_KEY_BOOK_INFO_INTRO,
                        BOOKS_CORE_DATA_KEY_BOOK_INFO_STRONG_INTRO,
                        @"bookAuthorIntro",
                        BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL,
                        nil];
         
+        _waitToGetImgCoverArray = [[NSMutableArray alloc] init];
         AppDelegate *theAppDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
         _context = [theAppDelegate managedObjectContext];
 
@@ -229,6 +232,60 @@
 }
 
 
+// 取出 Core Data 中所有 Book 的資料，Array 中存的是 NSManagedObject
+-(NSMutableArray*) Books_CoreDataFetchNonDeletedData
+{
+    NSMutableArray *BookList = [[NSMutableArray alloc] init];
+    //    NSLog(@"Books_CoreDataFetch");
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Book"];
+    BookList = [[_context executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    
+    for (int i = 0; i < [BookList count]; i++) {
+        NSManagedObject *tempBook = [BookList objectAtIndex:i];
+        
+        if ((BOOL)[tempBook valueForKey:BOOKS_CORE_DATA_KEY_BOOK_DELETED]) {
+            [BookList removeObjectAtIndex:i];
+        }
+        
+    }
+    
+    return BookList;
+}
+
+
+// 在 Book 中搜尋 Book Server URL
+-(NSArray*) Books_CoreDataSearchWithBookSearverURL : (NSURL*) BookSearverURL
+{
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+	// NSSortDescriptor tells defines how to sort the fetched results
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL ascending:YES];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+	[fetchRequest setSortDescriptors:sortDescriptors];
+	
+    // fetchRequest needs to know what entity to fetch
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Book" inManagedObjectContext:_context];
+	[fetchRequest setEntity:entity];
+    
+    NSFetchedResultsController  *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_context sectionNameKeyPath:nil cacheName:@"Root"];
+    
+    
+    NSPredicate *predicate =[NSPredicate predicateWithFormat:@"bookServerURL contains[cd] %@", [BookSearverURL absoluteString]];
+    
+    [fetchedResultsController.fetchRequest setPredicate:predicate];
+    
+	NSError *error = nil;
+	if (![fetchedResultsController performFetch:&error])
+	{
+		// Handle error
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		exit(-1);  // Fail
+	}
+    
+    return fetchedResultsController.fetchedObjects;
+
+}
 
 // 在 Book 中搜尋 Book Name
 -(NSArray*) Books_CoreDataSearchWithBookName : (NSString*) BookNameString
@@ -438,18 +495,51 @@
     
 }
 
+// 利用 BookInfo 中的 IMG_URL 來拿網路上的 IMG
+-(void) Books_GetImageCoverAndUpdateIntoCoreData
+{
+    [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_GET_IMAGE_COVER_START];
+
+    if ((_waitToGetImgCoverArray == nil) || [_waitToGetImgCoverArray count] == 0) {
+        // NOTHING
+    } else {
+        
+        do {
+            
+            BookInfo *TempBookInfoObj = [_waitToGetImgCoverArray dequeue];
+
+            NSArray *BookDBArray = [self Books_CoreDataSearchWithBookID:TempBookInfoObj.BookInfoGUID];
+            
+            if ([BookDBArray count] != 0) {
+                
+                NSManagedObject *BookManagedObj = [BookDBArray objectAtIndex:0];
+                NSURL *BookImgURL = [NSURL URLWithString:[BookManagedObj valueForKey:BOOKS_CORE_DATA_KEY_BOOK_IMG_URL]];
+                NSData *BookImgCover = [NSData dataWithContentsOfURL:BookImgURL];
+                [BookManagedObj setValue:BookImgCover forKey:BOOKS_CORE_DATA_KEY_BOOK_COVER_IMG];
+                
+                [self Books_CoreDataUpdateWithoObject:BookManagedObj];
+            }
+
+            
+        } while ([_waitToGetImgCoverArray count] != 0);
+        
+    }
+    
+    [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_GET_IMAGE_COVER_END];
+
+    
+}
 
 
 // To Merge data between Server and Local Data
+// Force Sync Data 是有缺 SERVER URL Attr 的資料
 -(BOOKLIST_STATUS) Books_MergeDataWithCoreData:(NSArray*) Data
 {
-    
     // 1. Check ID
     // 2. Check Update Time
     // 3. Check url
     
     int countForMerge = 0;
-    
     if ([Data count] != 0) {
         
         // reverse the Data to ensure the latest object be handled first
@@ -463,12 +553,31 @@
                 NSArray *IDFound =[NSArray arrayWithArray:[self Books_CoreDataSearchWithBookID:GuidStr]];
                 
                 if([IDFound count] == 0) {
+                    
                     countForMerge++;
                     BookInfo *BookInfoObj = [[BookInfo alloc] initWithJSONObj:[Data objectAtIndex:Count]];
                     [self Books_SaveBookInfoObj:BookInfoObj];
                     
-                } else {
+                    // Add to queue, and list view will filled it out when loading
+                    [_waitToGetImgCoverArray enqueue:BookInfoObj];
                     
+                } else {
+                    NSLog(@"ID FOUND");
+
+                    if ([IDFound count] == 1) {
+                        // Check url Area
+                        NSManagedObject *TempBookObj = [IDFound objectAtIndex:0];
+                        if ([[TempBookObj valueForKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL] isEqualToString:BOOKS_CORE_DATA_DEFAULT_VALUE]) {
+                            
+                            NSLog(@"server url == NAN");
+                            [TempBookObj setValue:[[Data objectAtIndex:Count] valueForKey:BOOKS_WEB_DB_KEY_BOOK_SEARVER_URL] forKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL];
+                            
+                            [self Books_CoreDataUpdateWithoObject:TempBookObj];
+                            
+                        }
+                        
+                        
+                    }
                     //NSLog(@"ID FOUND - DO NOTHING");
                     
                 }
@@ -477,14 +586,21 @@
                 
                 NSLog(@"GuidStr == nil");
                 
+                
             }
         }
     }
     
     NSLog(@"Total %i books save into DB", countForMerge);
+    
     if (BOOKSLIST_SUCCESS == [self Books_SaveCurrentAsLastSyncTime]) {
         
         [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_END];
+        
+        // If the data comes from server, the book cover image is nil.
+        // Then the following method would get image cover and update core data
+        [self Books_GetImageCoverAndUpdateIntoCoreData];
+
         
     } else {
         
@@ -556,18 +672,19 @@
     
     // Send Request to Server
     // Create the request with url
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://booksharingapps.herokuapp.com/bookinfos/3.json"]];
-    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:BookInfoObj.BookSearverURL];
+
     // Add header value and set http for POST requeest as JSON
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"DELETE"];
-    NSLog(@"DELETE id = 1");
-    NSLog(@"Htttp Method%@ ", request.HTTPMethod);
+    
+    NSLog(@"Htttp Method %@ ", request.HTTPMethod);
     NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
     
     // the connection created is successfully
     if (connection) {
         _receivedData = [[NSMutableData alloc] init];
+        _ServerState = BOOKLIST_STATE_DELETING;
     }
 }
 
@@ -645,7 +762,45 @@
     }
 }
 
+-(void) Books_HandleResponseWithHttpResponse:(NSHTTPURLResponse*) response;
+{
+    switch (_ServerState) {
+            
+        case BOOKLIST_STATE_IDLE:
+            NSLog(@"BOOK LIST IDLE - Nothing happen");
+            break;
+            
+        case BOOKLIST_STATE_DELETING:
+            
+            NSLog(@"BOOK LIST DELETING");
+            if (([response statusCode] == 204) || ([response statusCode] == 404)) {
+                
+                NSLog(@"responseURL = %@", [response.URL absoluteString]);
+                NSArray *TempBookObjArray = [self Books_CoreDataSearchWithBookSearverURL:response.URL];
+                
+                if (([TempBookObjArray count] != 1) || ([TempBookObjArray count] == 0)) {
+                    
+                    NSLog(@"[TempBookObjArray count] = %i ERROR", [TempBookObjArray count]);
+                    
+                } else {
+                    
+                    NSLog(@"delete book in core data");
+                    NSManagedObject *bookObj = [TempBookObjArray objectAtIndex:0];
+                    [self Books_CoreDataDelete:bookObj];
+                    
+                }
+            }
+            break;
+            
+        case BOOKLIST_STATE_POSTING:
+            NSLog(@"BOOK LIST POSTING");
 
+            break;
+            
+        default:
+            break;
+    }
+}
 
 
 #pragma mark - delege meethod of NSURLConnection
@@ -671,7 +826,6 @@
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     // Send Notification to tell ViewController the data is done uploaded.  
-    [self Books_SendNotificationToViewController:nil withSinglevalue:@"Finished Uploading Data" andSingleKey:@"Status"];
     [connection cancel];
 }
 
@@ -680,8 +834,8 @@
     if ([response isKindOfClass:[NSHTTPURLResponse class]])
     {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
-
         NSLog(@"did receive responced %d - %@", [httpResponse statusCode], [httpResponse.URL absoluteString]);
+        [self Books_HandleResponseWithHttpResponse:httpResponse];
     }
 }
 

@@ -22,6 +22,9 @@
 #define BOOKS_CORE_DATA_KEY_BOOK_UPDATE_T           @"bookUpdateTime"
 #define BOOKS_CORE_DATA_KEY_BOOK_ID                 @"bookGuid"
 #define BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL         @"bookServerURL"
+#define BOOKS_CORE_DATA_KEY_BOOK_IMG_URL            @"bookCoverUrlLarge"
+#define BOOKS_CORE_DATA_KEY_BOOK_DELETED            @"deleted"
+
 
 
 

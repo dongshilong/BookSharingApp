@@ -32,13 +32,13 @@
         //BookInfo *BookInfoObj = [[BookInfo alloc] init];
         BookName = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_NAME];
         BookAuthor = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_AUTHOR];
-        BookInfoURL = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_INFO_URL];
+        BookInfoURL = [NSURL URLWithString:[bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_INFO_URL] ];
         BookCoverImage = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_COVER_IMG];
         BookInfoStrongIntro = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_INFO_STRONG_INTRO];
         BookInfoIntro = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_INFO_INTRO];
         BookISBN = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_ISBN];
         BookInfoGUID = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_ID];
-        BookSearverURL = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL];
+        BookSearverURL = [NSURL URLWithString:[bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL]];
         
     }
     
@@ -60,7 +60,8 @@
         BookISBN = [bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_ISBN];
         BookInfoGUID = [bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_ID];
         BookSearverURL = [NSURL URLWithString:[bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_SEARVER_URL]];
-
+        BookCoverHDURL = [NSURL URLWithString:[bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_IMG_URL]];
+        
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"YYYY-MM-d H:m:s"];
         NSDate *CreateTimeDate = [dateFormatter dateFromString:[bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_CREATE_T]];
