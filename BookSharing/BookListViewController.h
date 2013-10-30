@@ -14,7 +14,7 @@
 
 extern BOOL GLOBAL_FORCE_SYNC;
 
-@interface BookListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+@interface BookListViewController : GAITrackedViewController <UITableViewDataSource, UITableViewDelegate> {
     BOOL InitedInViewDidLoaded;
 }
 

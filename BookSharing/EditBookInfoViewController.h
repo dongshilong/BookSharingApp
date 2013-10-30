@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BookListData.h"
 #import "BookInfo.h"
-@interface EditBookInfoViewController : UIViewController
+@interface EditBookInfoViewController : GAITrackedViewController
 @property  BOOL TheBookIsDeleted;
 @property  BOOL TheBookIsEdited;
 @property (strong, nonatomic)   BookListData    *BookDataBase;

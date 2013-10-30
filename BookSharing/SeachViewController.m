@@ -54,7 +54,7 @@
     BarcodeDefaultLocation.y = UI_BARCODEBTN_DEFAULT_LOC_CENTER;
     
     // 5. Google Analytics
-    //self.screenName = @"Shearch View";
+    self.screenName = @"Shearch View";
     
     [self ResetBarcodeReaderBtnAndDisapear:NO];
 	// Do any additional setup after loading the view.
