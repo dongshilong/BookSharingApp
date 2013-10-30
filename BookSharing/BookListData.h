@@ -14,6 +14,7 @@
 #define BOOKLIST_NOTIFY_KEY                         @"BOOKLIST_NOTIFY_KEY"
 #define BOOKLIST_DATABASE_SYNC_START                @"BOOKLIST_DATABASE_SYNC_START"
 #define BOOKLIST_DATABASE_SYNC_END                  @"BOOKLIST_DATABASE_SYNC_END"
+#define BOOKLIST_DATABASE_SYNC_END_NO_MERGE         @"BOOKLIST_DATABASE_SYNC_END_NO_MERGE"
 #define BOOKLIST_DATABASE_SYNC_ERROR                @"BOOKLIST_DATABASE_SYNC_ERROR"
 #define BOOKLIST_DATABASE_GET_IMAGE_COVER_START     @"BOOKLIST_DATABASE_GET_IMAGE_COVER_START"
 #define BOOKLIST_DATABASE_GET_IMAGE_COVER_END       @"BOOKLIST_DATABASE_GET_IMAGE_COVER_END"
@@ -39,6 +40,7 @@ typedef enum {
 @property (nonatomic, strong) NSManagedObjectContext * context;
 @property (strong, nonatomic) NSMutableData *receivedData;
 @property (strong) NSMutableArray *waitToGetImgCoverArray; //(BookInfo)
+@property (strong) NSMutableArray *waitToDeleteBookArray; //(NSURL)
 
 // Contructor
 -(BookListData*) init;
@@ -66,9 +68,9 @@ typedef enum {
 // Data connection with server
 -(void) Books_GetServerDataAndMerge;
 //-(BOOKLIST_STATUS) Books_MergeDataWithCoreData:(NSArray*) ServerData andForceSyncData:(NSArray*) ForceSyncData;
--(void) Books_FirePOSTConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj;
--(void) Books_FireDELETEConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj;
--(void) Books_FirePUTConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj;
+-(BOOKLIST_STATUS) Books_FirePOSTConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj;
+-(BOOKLIST_STATUS) Books_FireDELETEConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj;
+-(BOOKLIST_STATUS) Books_FirePUTConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj;
 -(NSDate*) Books_GetTheLastSyncTime;
 
 

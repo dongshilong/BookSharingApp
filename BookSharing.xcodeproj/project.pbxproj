@@ -324,6 +324,7 @@
 		10B049561820BB10006F2FC2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1091586817F583C600AD0984 /* SubViews */,
 				10905AA617FEAF92002E416C /* SeachView */,
 				10905AA817FEAFB1002E416C /* DetailedInfoView */,
 				1091C12E1810CD4A00A22957 /* ListView */,
@@ -398,7 +399,6 @@
 				10EBD2AB17F18346002B49F0 /* Books.xcdatamodeld */,
 				10B049561820BB10006F2FC2 /* ViewControllers */,
 				10EBD2C117F19452002B49F0 /* Models */,
-				1091586817F583C600AD0984 /* SubViews */,
 				10EBD2A417F171A8002B49F0 /* SDKs */,
 				10EBD27317F170F4002B49F0 /* Supporting Files */,
 				10EBD2B917F188E0002B49F0 /* menu@2x.png */,

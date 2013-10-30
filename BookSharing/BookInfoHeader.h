@@ -15,5 +15,6 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *BackLab;
 @property (weak, nonatomic) IBOutlet UILabel *BookNameLab;
+@property (weak, nonatomic) IBOutlet UILabel *BookAuthorLab;
 
 @end

@@ -44,11 +44,19 @@
                     <color key="shadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eez-2E-ZL2">
+                    <rect key="frame" x="23" y="58" width="132" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="BackLab" destination="9Ts-Dm-e71" id="l1b-g1-DeN"/>
+                <outlet property="BookAuthorLab" destination="eez-2E-ZL2" id="dgh-0e-sYn"/>
                 <outlet property="BookCoverView" destination="8h9-Vk-KKs" id="i42-SN-P2D"/>
                 <outlet property="BookCoverViewSMALL" destination="6eU-pN-Wce" id="vRf-TR-1ID"/>
                 <outlet property="BookNameLab" destination="1WM-oi-Sx3" id="oF8-in-wkQ"/>

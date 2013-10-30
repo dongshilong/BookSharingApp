@@ -28,6 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _BookAlreadyHave = NO;
     
     // 1. Assign Header View
     NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"BookInfoHeader" owner:self options:nil];
@@ -46,8 +47,8 @@
             
             _BookInfoHeaderView.BookCoverViewSMALL.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
             _BookInfoHeaderView.BookNameLab.text = _BookInfoObj.BookName;
+            _BookInfoHeaderView.BookAuthorLab.text = _BookInfoObj.BookAuthor;
             
-            // TODO: [Casper] Tty to get detailed information
             VIEW_LOG(@"%@", [_BookInfoObj.BookInfoURL absoluteString]);
             [self FireDetailedInfoWithBookInfoURL:_BookInfoObj.BookInfoURL];
             [self ShowLoadingView];
@@ -61,7 +62,8 @@
         
         _BookInfoHeaderView.BookCoverView.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
         _BookInfoHeaderView.BookNameLab.text = _BookInfoObj.BookName;
-        
+        _BookInfoHeaderView.BookAuthorLab.text = _BookInfoObj.BookAuthor;
+
         [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj WithFatherView:ListBookView];
         
     }
@@ -164,8 +166,16 @@
                  _BookInfoObj.BookInfoStrongIntro = _BookInfoQuery.BookInfoObj.BookInfoStrongIntro;
                  _BookInfoObj.BookInfoIntro = _BookInfoQuery.BookInfoObj.BookInfoIntro;
                  
+                 NSArray *SearchISBN = [_BookDataBase Books_CoreDataSearchWithBookISBN:_BookInfoObj.BookISBN];
+                 if ([SearchISBN count] != 0) {
+                     
+                     _BookAlreadyHave = YES;
+                     NSLog(@"ISBN FOUND!!");
+                     
+                 }
+                 
                  // TODO: [Casper] if BookISBN is nil, try to get it from somewhere else.
-                [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj WithFatherView:SearchBookView];
+                 [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj WithFatherView:SearchBookView];
                  
                  if (_BookInfoObj.BookCoverHDURL != nil) {
                      
@@ -276,13 +286,24 @@
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     UIFont *font2 = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
 
-    float StartY = 220.0f;
+    float StartY = 230.0f;
     CGSize size = CGSizeMake(300, 0);
     
     // Hide Save Btn when came from list view
     if (FatherView == ListBookView) {
+        
         StartY = 180.0f;
         [_BookInfoDetailedView.SaveBtn setHidden:YES];
+        
+    } else {
+        
+        if (_BookAlreadyHave) {
+            
+            // Book Already in by judging from ISBN barcode
+            _BookInfoDetailedView.SaveBtn.alpha = 0.4;
+            _BookInfoDetailedView.SaveBtn.enabled = NO;
+            
+        }
     }
     
     // Assign Save Btn

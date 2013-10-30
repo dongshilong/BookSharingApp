@@ -12,7 +12,7 @@
 @synthesize BookCoverView;
 @synthesize BackLab;
 @synthesize BookCoverViewSMALL;
-
+@synthesize BookAuthorLab;
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];

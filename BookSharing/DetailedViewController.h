@@ -29,6 +29,8 @@ typedef enum {
 } FatherViewController;
 @property FatherViewController FatherView;
 
+@property BOOL BookAlreadyHave;
+
 @property (weak, nonatomic) IBOutlet UIScrollView *Scroller;
 @property (weak, nonatomic)     BookInfoHeader      *BookInfoHeaderView;
 @property (strong, nonatomic)   DetailedScroller    *BookInfoDetailedView;
