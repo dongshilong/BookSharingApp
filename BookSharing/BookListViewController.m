@@ -146,8 +146,6 @@ BOOL GLOBAL_FORCE_SYNC = YES;
              [_tableView reloadData];
         
          }
-
-
      }];
     
 }

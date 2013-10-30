@@ -51,7 +51,7 @@
         
     } else {
         
-        [_BookDataBase Books_CoreDataSetThisBookAsDeleted:_book];
+        [self performSelectorOnMainThread:@selector(SetDeletedSelector) withObject:Nil waitUntilDone:YES];
         [_BookDataBase Books_FireDELETEConnectionToServerWithBookInfo:_BookInfoObj];
         
     }
@@ -75,5 +75,11 @@
     //[_BookDataBase Books_FirePUTConnectionToServerWithBookInfo:_BookInfoObj];
     [self dismissSemiModalView];
     
+}
+
+-(void) SetDeletedSelector
+{
+    [_BookDataBase Books_CoreDataSetThisBookAsDeleted:_book];
+
 }
 @end
