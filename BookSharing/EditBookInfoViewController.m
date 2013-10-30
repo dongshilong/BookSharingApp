@@ -50,9 +50,8 @@
         // TODO: To update coredata deleted flag, and wait to delete it during sync process
         
     } else {
-
         
-        [_BookDataBase Books_CoreDataUpdateWithoObject:_book];
+        [_BookDataBase Books_CoreDataSetThisBookAsDeleted:_book];
         [_BookDataBase Books_FireDELETEConnectionToServerWithBookInfo:_BookInfoObj];
         
     }
@@ -73,7 +72,7 @@
     _TheBookIsEdited = YES;
     NSDate *UpdateDate = [[NSDate alloc] init];
     _BookInfoObj.BookInfoUpdateTime = UpdateDate;
-    [_BookDataBase Books_FirePUTConnectionToServerWithBookInfo:_BookInfoObj];
+    //[_BookDataBase Books_FirePUTConnectionToServerWithBookInfo:_BookInfoObj];
     [self dismissSemiModalView];
     
 }

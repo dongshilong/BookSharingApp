@@ -39,6 +39,7 @@
                        BOOKS_CORE_DATA_KEY_BOOK_INFO_STRONG_INTRO,
                        @"bookAuthorIntro",
                        BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL,
+                       BOOKS_CORE_DATA_KEY_BOOK_DELETED,
                        nil];
         
         _waitToGetImgCoverArray = [[NSMutableArray alloc] init];
@@ -122,6 +123,7 @@
         BookInfoObj.BookSearverURL = [NSURL URLWithString:BOOKS_CORE_DATA_DEFAULT_VALUE];
     }
     
+    
     return BookInfoObj;
 }
 
@@ -141,6 +143,7 @@
     }
     
     BookInfoObj = [self Books_CheckDataNilForBookInfo:BookInfoObj];
+    NSString *DeletedString = BOOKS_CORE_DATA_NOT_DELETED;
     
     NSArray *CoreDataValue = [NSArray arrayWithObjects:
                               BookInfoObj.BookName,
@@ -157,6 +160,7 @@
                               BookInfoObj.BookInfoStrongIntro,
                               BookInfoObj.BookInfoAuthorIntro,
                               [BookInfoObj.BookSearverURL absoluteString],
+                              DeletedString,
                               nil];
     
     return [self Books_CoreDataSave:[self Books_GetCoreDataKey] andValue:CoreDataValue];
@@ -233,7 +237,8 @@
 
 
 // 取出 Core Data 中所有 Book 的資料，Array 中存的是 NSManagedObject
--(NSMutableArray*) Books_CoreDataFetchNonDeletedData
+// 新增判斷是否為 deleted
+-(NSMutableArray*) Books_CoreDataFetchNoDeletedData
 {
     NSMutableArray *BookList = [[NSMutableArray alloc] init];
     //    NSLog(@"Books_CoreDataFetch");
@@ -241,10 +246,18 @@
     BookList = [[_context executeFetchRequest:fetchRequest error:nil] mutableCopy];
     
     for (int i = 0; i < [BookList count]; i++) {
-        NSManagedObject *tempBook = [BookList objectAtIndex:i];
         
-        if ((BOOL)[tempBook valueForKey:BOOKS_CORE_DATA_KEY_BOOK_DELETED]) {
+        NSManagedObject *tempBook = [BookList objectAtIndex:i];
+
+        if ([[tempBook valueForKey:BOOKS_CORE_DATA_KEY_BOOK_DELETED] isEqualToString:BOOKS_CORE_DATA_IS_DELETED]) {
+            
             [BookList removeObjectAtIndex:i];
+            
+        }
+        else {
+            
+            NSLog(@"PUT INTO BOOKLIST = %@", [tempBook valueForKey:BOOKS_CORE_DATA_KEY_BOOK_NAME]);
+            
         }
         
     }
@@ -252,6 +265,13 @@
     return BookList;
 }
 
+-(BOOKLIST_STATUS) Books_CoreDataSetThisBookAsDeleted : (NSManagedObject *) Book
+{
+    
+    [Book setValue:BOOKS_CORE_DATA_IS_DELETED forKey:BOOKS_CORE_DATA_KEY_BOOK_DELETED];
+    return [self Books_CoreDataUpdateWithoObject:Book];
+
+}
 
 // 在 Book 中搜尋 Book Server URL
 -(NSArray*) Books_CoreDataSearchWithBookSearverURL : (NSURL*) BookSearverURL
@@ -569,13 +589,12 @@
                         NSManagedObject *TempBookObj = [IDFound objectAtIndex:0];
                         if ([[TempBookObj valueForKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL] isEqualToString:BOOKS_CORE_DATA_DEFAULT_VALUE]) {
                             
-                            NSLog(@"server url == NAN");
+
                             [TempBookObj setValue:[[Data objectAtIndex:Count] valueForKey:BOOKS_WEB_DB_KEY_BOOK_SEARVER_URL] forKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL];
-                            
+                            NSLog(@"New book update url = %@", [TempBookObj valueForKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL]);
                             [self Books_CoreDataUpdateWithoObject:TempBookObj];
                             
                         }
-                        
                         
                     }
                     //NSLog(@"ID FOUND - DO NOTHING");
@@ -585,7 +604,6 @@
             } else {
                 
                 NSLog(@"GuidStr == nil");
-                
                 
             }
         }
@@ -659,11 +677,11 @@
     // the connection created is successfully
     if (connection) {
         _receivedData = [[NSMutableData alloc] init];
+        _ServerState = BOOKLIST_STATE_POSTING;
     }
 }
 
 // CASPER TEST
-// TODO: Get specific Book info URL on the Server
 -(void) Books_FireDELETEConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj
 {
     // Encode the Image with Base64

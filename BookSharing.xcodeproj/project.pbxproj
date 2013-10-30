@@ -363,8 +363,6 @@
 		10EBD27217F170F4002B49F0 /* BookSharing */ = {
 			isa = PBXGroup;
 			children = (
-				10CF3CA4181F6A02004D8B74 /* Categories */,
-				10EBD2C117F19452002B49F0 /* Models */,
 				10EBD2AE17F1835F002B49F0 /* AppDelegate.h */,
 				10EBD2AF17F1835F002B49F0 /* AppDelegate.m */,
 				105FDBB218151226001E7AE6 /* SettingViewViewController.h */,
@@ -377,8 +375,9 @@
 				10905AA417FE9FDD002E416C /* UI_Def.h */,
 				10EBD2AB17F18346002B49F0 /* Books.xcdatamodeld */,
 				1091C12E1810CD4A00A22957 /* ListView */,
-				10905AA617FEAF92002E416C /* SeachView */,
 				10905AA817FEAFB1002E416C /* DetailedInfoView */,
+				10EBD2C117F19452002B49F0 /* Models */,
+				10905AA617FEAF92002E416C /* SeachView */,
 				1091586817F583C600AD0984 /* SubViews */,
 				10EBD2A417F171A8002B49F0 /* SDKs */,
 				10EBD27317F170F4002B49F0 /* Supporting Files */,
@@ -440,6 +439,7 @@
 		10EBD2C117F19452002B49F0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				10CF3CA4181F6A02004D8B74 /* Categories */,
 				10E6B19817F4231F00AD814E /* SearchBooksTW.h */,
 				10E6B19917F4231F00AD814E /* SearchBooksTW.m */,
 				10E6B19517F4230800AD814E /* BooksHtml.h */,

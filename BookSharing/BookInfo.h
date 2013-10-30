@@ -23,7 +23,7 @@
 #define BOOKS_CORE_DATA_KEY_BOOK_ID                 @"bookGuid"
 #define BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL         @"bookServerURL"
 #define BOOKS_CORE_DATA_KEY_BOOK_IMG_URL            @"bookCoverUrlLarge"
-#define BOOKS_CORE_DATA_KEY_BOOK_DELETED            @"deleted"
+#define BOOKS_CORE_DATA_KEY_BOOK_DELETED            @"bookDeleted"
 
 
 
@@ -42,7 +42,8 @@
 #define BOOKS_WEB_DB_KEY_BOOK_ID                    @"bookid"
 #define BOOKS_WEB_DB_KEY_BOOK_SEARVER_URL           @"url"
 
-
+#define BOOKS_CORE_DATA_IS_DELETED                  @"IS_DELETED"
+#define BOOKS_CORE_DATA_NOT_DELETED                 @"NOT_DELETED"
 
 #define BOOK_DIC_BOOK_NAME_KEY                      BOOKS_CORE_DATA_KEY_BOOK_NAME
 #define BOOK_DIC_BOOK_AUTHOR_KEY                    BOOKS_CORE_DATA_KEY_BOOK_AUTHOR

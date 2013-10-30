@@ -7,6 +7,7 @@
         <attribute name="bookCoverUrlLarge" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="bookCoverUrlSmall" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="bookCreateTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="bookDeleted" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="bookGuid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="bookInfoURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="bookIntro" optional="YES" attributeType="String" syncable="YES"/>
@@ -16,7 +17,6 @@
         <attribute name="bookStrongIntro" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="bookType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="bookUpdateTime" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="deleted" optional="YES" attributeType="Boolean" syncable="YES"/>
     </entity>
     <entity name="SyncTime" syncable="YES">
         <attribute name="lastUpdateTime" optional="YES" attributeType="Date" syncable="YES"/>

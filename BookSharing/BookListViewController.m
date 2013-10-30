@@ -45,8 +45,8 @@ BOOL GLOBAL_FORCE_SYNC = YES;
     _LocalIndexPath = [[NSIndexPath alloc] init];
 
     // 2. Init table data
-    _tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetch]];
-    
+    //_tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetch]];
+    _tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetchNoDeletedData]];
 //    [self.tableView reloadData];
     
     
@@ -74,79 +74,27 @@ BOOL GLOBAL_FORCE_SYNC = YES;
     
     [self SyncDataWithServer];
     
-    /*
-    if ([_tableData count] == 0) {
-        // Hide Table View And Place Search
-        _tableView.hidden = YES;
-        NSLog(@"No data, Place search Suggestion view");
-        NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"NothingInDB" owner:self options:nil];
-        UIView *SuggestionView = [subviewArray objectAtIndex:0];
-        SuggestionView.frame = CGRectMake(0, 44, SuggestionView.frame.size.width, SuggestionView.frame.size.height);
-        
-        //[self.view addSubview:SuggestionView];
-        
-    } else {
-        
-        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            // Add code here to do background processing
-            //
-            //
-#warning selector not implemented
-            //[self performSelector:@selector(getTableImage)];
-            
-            dispatch_async( dispatch_get_main_queue(), ^{
-                // Add code here to update the UI/send notifications based on the
-                // results of the background processing
-                [_tableView reloadData];
-            });
-        });
-        
-    }
-    */
-    
 }
 
 
 -(void) viewWillAppear:(BOOL)animated
 {
     if (InitedInViewDidLoaded) {
+        
         // Everything is ready in ViewDidLoaded
         InitedInViewDidLoaded = NO;
+        
     } else {
+        
         // View appeared without init
         // UI function should reloaded
-        _tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetch]];
+        //_tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetch]];
+        _tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetchNoDeletedData]];
         [_tableView reloadData];
+        
     }
     [_tableView deselectRowAtIndexPath:_LocalIndexPath animated:NO];
     [super viewWillAppear:animated];
-
-    /*
-    [_tableView deselectRowAtIndexPath:_LocalIndexPath animated:animated];
-    _tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetch]];
-    
-    if ([_tableData count] == 0) {
-        // Hide Table View And Place Search
-        _tableView.hidden = YES;
-        NSLog(@"No data, Place search Suggestion view");
-        
-        NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"NothingInDB" owner:self options:nil];
-        UIView *SuggestionView = [subviewArray objectAtIndex:0];
-        SuggestionView.frame = CGRectMake(0, 44, SuggestionView.frame.size.width, SuggestionView.frame.size.height);
-        
-        //[self.view addSubview:SuggestionView];
-        
-    } else {
-        //[self.view addSubview:_tableView];
-    }
-    [self.searchDisplayController setActive:NO];
-    // Hide Search Bar at the beginning
-    CGRect Bounds = _tableView.bounds;
-    Bounds.origin.y = Bounds.origin.y + _SearchBar.bounds.size.height;
-    _tableView.bounds = Bounds;
-    [_tableView reloadData];
-    
-    */
 }
 
 
@@ -345,6 +293,8 @@ BOOL GLOBAL_FORCE_SYNC = YES;
 #pragma mark - SearchBar Method
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
 {
+    
+    // TODO: Modify the data display, deleted data should not be displayed
     _SearchBookNameTableData = [_BookList Books_CoreDataSearchWithBookName:searchText];
     _SearchBookAuthorTableData = [_BookList Books_CoreDataSearchWithBookAuthor:searchText];
     _SearchResultDisplayArray = [NSArray arrayWithObjects:
@@ -389,7 +339,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
             
         } else {
             
-            NSManagedObject *book = [self.tableData objectAtIndex:_LocalIndexPath.row];
+            NSManagedObject *book = [_tableData objectAtIndex:_LocalIndexPath.row];
             destViewController.book = book;
             
         }
