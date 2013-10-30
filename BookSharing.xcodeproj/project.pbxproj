@@ -14,7 +14,6 @@
 		10469AE21814CEC500888186 /* photo-frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 10469AE11814CEC500888186 /* photo-frame.png */; };
 		105FDBB418151226001E7AE6 /* SettingViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105FDBB318151226001E7AE6 /* SettingViewViewController.m */; };
 		105FDBB61815196A001E7AE6 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105FDBB51815196A001E7AE6 /* Social.framework */; };
-		105FDBB8181519CB001E7AE6 /* FacebookSDKOverrides.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 105FDBB7181519CB001E7AE6 /* FacebookSDKOverrides.bundle */; };
 		107FC4CC17F8238E00736AC8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 107FC4CB17F8238E00736AC8 /* QuartzCore.framework */; };
 		107FC4CF17F825DC00736AC8 /* DetailedScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 107FC4CE17F825DC00736AC8 /* DetailedScroller.m */; };
 		107FC4D117F825F300736AC8 /* DetailedScroller.xib in Resources */ = {isa = PBXBuildFile; fileRef = 107FC4D017F825F300736AC8 /* DetailedScroller.xib */; };
@@ -34,9 +33,13 @@
 		1091586717F5802700AD0984 /* TableCellSmall.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1091586517F5802700AD0984 /* TableCellSmall.xib */; };
 		1091C1391810CE8A00A22957 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1091C1381810CE8A00A22957 /* SystemConfiguration.framework */; };
 		109318CA17F413A600C3ED26 /* SeachViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 109318C917F413A600C3ED26 /* SeachViewController.m */; };
+		10B049441820B5EB006F2FC2 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10B049421820B5EB006F2FC2 /* FacebookSDK.framework */; };
+		10B049451820B5EB006F2FC2 /* FacebookSDKOverrides.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 10B049431820B5EB006F2FC2 /* FacebookSDKOverrides.bundle */; };
+		10B049491820B60A006F2FC2 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10B049471820B60A006F2FC2 /* libGoogleAnalyticsServices.a */; };
+		10B0494D1820B9D6006F2FC2 /* libGoogleAnalytics_debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10B0494C1820B9D6006F2FC2 /* libGoogleAnalytics_debug.a */; };
+		10B0494F1820BA31006F2FC2 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 10B0494E1820BA31006F2FC2 /* libz.1.2.5.dylib */; };
 		10CF3CAA181F6A8D004D8B74 /* NSMutableArray+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CF3CA9181F6A8D004D8B74 /* NSMutableArray+Stack.m */; };
 		10CF3CAD181F6ACB004D8B74 /* NSMutableArray+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CF3CAC181F6ACB004D8B74 /* NSMutableArray+Queue.m */; };
-		10D72946181E5A970046A562 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10D72945181E5A970046A562 /* FacebookSDK.framework */; };
 		10E6B19717F4230800AD814E /* BooksHtml.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E6B19617F4230800AD814E /* BooksHtml.m */; };
 		10E6B19A17F4231F00AD814E /* SearchBooksTW.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E6B19917F4231F00AD814E /* SearchBooksTW.m */; };
 		10E6B1A117F4276200AD814E /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E6B19C17F4276200AD814E /* TFHpple.m */; };
@@ -92,7 +95,6 @@
 		105FDBB218151226001E7AE6 /* SettingViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewViewController.h; sourceTree = "<group>"; };
 		105FDBB318151226001E7AE6 /* SettingViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewViewController.m; sourceTree = "<group>"; };
 		105FDBB51815196A001E7AE6 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		105FDBB7181519CB001E7AE6 /* FacebookSDKOverrides.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FacebookSDKOverrides.bundle; sourceTree = "<group>"; };
 		107FC4CB17F8238E00736AC8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		107FC4CD17F825DC00736AC8 /* DetailedScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailedScroller.h; sourceTree = "<group>"; };
 		107FC4CE17F825DC00736AC8 /* DetailedScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedScroller.m; sourceTree = "<group>"; };
@@ -124,20 +126,24 @@
 		1091586317F5802700AD0984 /* TableCellSmall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableCellSmall.h; sourceTree = "<group>"; };
 		1091586417F5802700AD0984 /* TableCellSmall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableCellSmall.m; sourceTree = "<group>"; };
 		1091586517F5802700AD0984 /* TableCellSmall.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableCellSmall.xib; sourceTree = "<group>"; };
-		1091C1301810CE4900A22957 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
-		1091C1311810CE4900A22957 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
-		1091C1321810CE4900A22957 /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
-		1091C1331810CE4900A22957 /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
-		1091C1341810CE4900A22957 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
-		1091C1351810CE4900A22957 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
 		1091C1381810CE8A00A22957 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		109318C817F413A600C3ED26 /* SeachViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeachViewController.h; sourceTree = "<group>"; };
 		109318C917F413A600C3ED26 /* SeachViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeachViewController.m; sourceTree = "<group>"; };
+		10B049421820B5EB006F2FC2 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = 3rdParty_Frameworks/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		10B049431820B5EB006F2FC2 /* FacebookSDKOverrides.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKOverrides.bundle; path = 3rdParty_Frameworks/FacebookSDK/FacebookSDKOverrides.bundle; sourceTree = "<group>"; };
+		10B049471820B60A006F2FC2 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalyticsServices.a; path = 3rdParty_Frameworks/GoogleAnaSDK/libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		10B0494C1820B9D6006F2FC2 /* libGoogleAnalytics_debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalytics_debug.a; path = 3rdParty_Frameworks/GoogleAnaSDK/libGoogleAnalytics_debug.a; sourceTree = "<group>"; };
+		10B0494E1820BA31006F2FC2 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
+		10B049501820BA70006F2FC2 /* GAI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		10B049511820BA70006F2FC2 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		10B049521820BA70006F2FC2 /* GAIFields.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
+		10B049531820BA70006F2FC2 /* GAILogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
+		10B049541820BA70006F2FC2 /* GAITrackedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		10B049551820BA70006F2FC2 /* GAITracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
 		10CF3CA8181F6A8D004D8B74 /* NSMutableArray+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Stack.h"; path = "Categories/NSMutableArray+Stack.h"; sourceTree = "<group>"; };
 		10CF3CA9181F6A8D004D8B74 /* NSMutableArray+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Stack.m"; path = "Categories/NSMutableArray+Stack.m"; sourceTree = "<group>"; };
 		10CF3CAB181F6ACB004D8B74 /* NSMutableArray+Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Queue.h"; path = "Categories/NSMutableArray+Queue.h"; sourceTree = "<group>"; };
 		10CF3CAC181F6ACB004D8B74 /* NSMutableArray+Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Queue.m"; path = "Categories/NSMutableArray+Queue.m"; sourceTree = "<group>"; };
-		10D72945181E5A970046A562 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		10E6B19517F4230800AD814E /* BooksHtml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksHtml.h; sourceTree = "<group>"; };
 		10E6B19617F4230800AD814E /* BooksHtml.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksHtml.m; sourceTree = "<group>"; };
 		10E6B19817F4231F00AD814E /* SearchBooksTW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBooksTW.h; sourceTree = "<group>"; };
@@ -195,13 +201,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10B0494F1820BA31006F2FC2 /* libz.1.2.5.dylib in Frameworks */,
+				10B0494D1820B9D6006F2FC2 /* libGoogleAnalytics_debug.a in Frameworks */,
 				105FDBB61815196A001E7AE6 /* Social.framework in Frameworks */,
 				1091C1391810CE8A00A22957 /* SystemConfiguration.framework in Frameworks */,
 				107FC4CC17F8238E00736AC8 /* QuartzCore.framework in Frameworks */,
 				10E6B1A517F4277B00AD814E /* libxml2.2.dylib in Frameworks */,
 				10EBD2B217F1836F002B49F0 /* CoreData.framework in Frameworks */,
+				10B049441820B5EB006F2FC2 /* FacebookSDK.framework in Frameworks */,
 				10EBD26F17F170F4002B49F0 /* CoreGraphics.framework in Frameworks */,
-				10D72946181E5A970046A562 /* FacebookSDK.framework in Frameworks */,
+				10B049491820B60A006F2FC2 /* libGoogleAnalyticsServices.a in Frameworks */,
 				10EBD27117F170F4002B49F0 /* UIKit.framework in Frameworks */,
 				10EBD26D17F170F4002B49F0 /* Foundation.framework in Frameworks */,
 			);
@@ -302,14 +311,30 @@
 		1091C12F1810CE3A00A22957 /* GOOGLE_Ana */ = {
 			isa = PBXGroup;
 			children = (
-				1091C1301810CE4900A22957 /* GAI.h */,
-				1091C1311810CE4900A22957 /* GAIDictionaryBuilder.h */,
-				1091C1321810CE4900A22957 /* GAIFields.h */,
-				1091C1331810CE4900A22957 /* GAILogger.h */,
-				1091C1341810CE4900A22957 /* GAITrackedViewController.h */,
-				1091C1351810CE4900A22957 /* GAITracker.h */,
+				10B049501820BA70006F2FC2 /* GAI.h */,
+				10B049511820BA70006F2FC2 /* GAIDictionaryBuilder.h */,
+				10B049521820BA70006F2FC2 /* GAIFields.h */,
+				10B049531820BA70006F2FC2 /* GAILogger.h */,
+				10B049541820BA70006F2FC2 /* GAITrackedViewController.h */,
+				10B049551820BA70006F2FC2 /* GAITracker.h */,
 			);
 			name = GOOGLE_Ana;
+			sourceTree = "<group>";
+		};
+		10B049561820BB10006F2FC2 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				10905AA617FEAF92002E416C /* SeachView */,
+				10905AA817FEAFB1002E416C /* DetailedInfoView */,
+				1091C12E1810CD4A00A22957 /* ListView */,
+				105FDBB218151226001E7AE6 /* SettingViewViewController.h */,
+				105FDBB318151226001E7AE6 /* SettingViewViewController.m */,
+				10EBD2B617F18590002B49F0 /* SlideViewController.h */,
+				10EBD2B717F18590002B49F0 /* SlideViewController.m */,
+				10EBD2A817F181B6002B49F0 /* MainViewController.h */,
+				10EBD2A917F181B6002B49F0 /* MainViewController.m */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		10CF3CA4181F6A02004D8B74 /* Categories */ = {
@@ -345,8 +370,11 @@
 		10EBD26B17F170F4002B49F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				10D72945181E5A970046A562 /* FacebookSDK.framework */,
-				105FDBB7181519CB001E7AE6 /* FacebookSDKOverrides.bundle */,
+				10B0494E1820BA31006F2FC2 /* libz.1.2.5.dylib */,
+				10B0494C1820B9D6006F2FC2 /* libGoogleAnalytics_debug.a */,
+				10B049471820B60A006F2FC2 /* libGoogleAnalyticsServices.a */,
+				10B049421820B5EB006F2FC2 /* FacebookSDK.framework */,
+				10B049431820B5EB006F2FC2 /* FacebookSDKOverrides.bundle */,
 				105FDBB51815196A001E7AE6 /* Social.framework */,
 				1091C1381810CE8A00A22957 /* SystemConfiguration.framework */,
 				107FC4CB17F8238E00736AC8 /* QuartzCore.framework */,
@@ -365,19 +393,11 @@
 			children = (
 				10EBD2AE17F1835F002B49F0 /* AppDelegate.h */,
 				10EBD2AF17F1835F002B49F0 /* AppDelegate.m */,
-				105FDBB218151226001E7AE6 /* SettingViewViewController.h */,
-				105FDBB318151226001E7AE6 /* SettingViewViewController.m */,
 				10EBD27E17F170F4002B49F0 /* Main.storyboard */,
-				10EBD2B617F18590002B49F0 /* SlideViewController.h */,
-				10EBD2B717F18590002B49F0 /* SlideViewController.m */,
-				10EBD2A817F181B6002B49F0 /* MainViewController.h */,
-				10EBD2A917F181B6002B49F0 /* MainViewController.m */,
 				10905AA417FE9FDD002E416C /* UI_Def.h */,
 				10EBD2AB17F18346002B49F0 /* Books.xcdatamodeld */,
-				1091C12E1810CD4A00A22957 /* ListView */,
-				10905AA817FEAFB1002E416C /* DetailedInfoView */,
+				10B049561820BB10006F2FC2 /* ViewControllers */,
 				10EBD2C117F19452002B49F0 /* Models */,
-				10905AA617FEAF92002E416C /* SeachView */,
 				1091586817F583C600AD0984 /* SubViews */,
 				10EBD2A417F171A8002B49F0 /* SDKs */,
 				10EBD27317F170F4002B49F0 /* Supporting Files */,
@@ -539,8 +559,8 @@
 				100ABA0F17F4900200601973 /* BarcodeReader.png in Resources */,
 				10EBD28017F170F4002B49F0 /* Main.storyboard in Resources */,
 				10469AE21814CEC500888186 /* photo-frame.png in Resources */,
-				105FDBB8181519CB001E7AE6 /* FacebookSDKOverrides.bundle in Resources */,
 				1012552417F28A5100D30132 /* TableCell.xib in Resources */,
+				10B049451820B5EB006F2FC2 /* FacebookSDKOverrides.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -722,17 +742,25 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"~/Documents/FacebookSDK",
+					./3rdParty_Frameworks,
+					./3rdParty_Frameworks/FacebookSDK,
+					./3rdParty_Frameworks/GoogleAnaSDK,
 				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BookSharing/BookSharing-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SDKROOT)/usr/include/libxml2",
+					./3rdParty_Frameworks/GoogleAnaSDK,
 				);
 				INFOPLIST_FILE = "BookSharing/BookSharing-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					./3rdParty_Frameworks/GoogleAnaSDK,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -745,17 +773,25 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"~/Documents/FacebookSDK",
+					./3rdParty_Frameworks,
+					./3rdParty_Frameworks/FacebookSDK,
+					./3rdParty_Frameworks/GoogleAnaSDK,
 				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BookSharing/BookSharing-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SDKROOT)/usr/include/libxml2",
+					./3rdParty_Frameworks/GoogleAnaSDK,
 				);
 				INFOPLIST_FILE = "BookSharing/BookSharing-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					./3rdParty_Frameworks/GoogleAnaSDK,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

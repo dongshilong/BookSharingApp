@@ -19,7 +19,7 @@
     #import "UI_Def.h"
 
     // Google Analytics
-    //#import "GAI.h"
+    #import "GAI.h"
 
     // Facebook
     #import <FacebookSDK/FacebookSDK.h>

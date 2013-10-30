@@ -31,7 +31,7 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
     // Google Analytics
-    //self.screenName = @"What's HOT";
+    self.screenName = @"What's HOT";
 
 	// Do any additional setup after loading the view.
 }

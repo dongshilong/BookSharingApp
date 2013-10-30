@@ -63,7 +63,7 @@ BOOL GLOBAL_FORCE_SYNC = YES;
     //self.clearsSelectionOnViewWillAppear = YES;
 
     // Google Analytics
-    //self.screenName = @"ListView";
+    self.screenName = @"ListView";
 
         // Hide Search Bar at the beginning
     CGRect Bounds = _tableView.bounds;

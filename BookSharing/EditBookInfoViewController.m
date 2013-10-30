@@ -31,7 +31,8 @@
     _TheBookIsEdited = NO;
 //    NSLog(@"%@", _BookInfoObj.BookName);
     _BookInfoObj = [[BookInfo alloc] initWithCoreDataObj:_book];
-	// Do any additional setup after loading the view.
+    // Google Analytics
+    self.screenName = @"EditView";
 }
 
 - (void)didReceiveMemoryWarning

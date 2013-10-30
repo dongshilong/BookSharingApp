@@ -74,7 +74,7 @@
     _responseData = [[NSMutableData alloc] init];
     
     // Google Analytics
-    //self.screenName = @"Detailed Info View";
+    self.screenName = @"Detailed Info View";
     
     // Facebook
     if (FBSession.activeSession.isOpen) {
