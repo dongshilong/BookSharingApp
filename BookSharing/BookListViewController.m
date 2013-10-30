@@ -130,7 +130,8 @@ BOOL GLOBAL_FORCE_SYNC = YES;
          } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_END]) {
              
              VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_END - To ensure the table data is full filled");
-             _tableData = [_BookList Books_CoreDataFetch];
+             //_tableData = [_BookList Books_CoreDataFetch];
+             _tableData = [_BookList Books_CoreDataFetchNoDeletedData];
              [_tableView reloadData];
              
          } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_ERROR]) {
@@ -140,7 +141,8 @@ BOOL GLOBAL_FORCE_SYNC = YES;
          } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_GET_IMAGE_COVER_END]) {
              
              VIEW_LOG(@"BOOKLIST_DATABASE_GET_IMAGE_COVER_END");
-             _tableData = [_BookList Books_CoreDataFetch];
+             //_tableData = [_BookList Books_CoreDataFetch];
+             _tableData = [_BookList Books_CoreDataFetchNoDeletedData];
              [_tableView reloadData];
         
          }
