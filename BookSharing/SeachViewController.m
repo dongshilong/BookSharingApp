@@ -526,7 +526,10 @@
         DetailedViewController *destViewController = segue.destinationViewController;
         destViewController.FatherView = SearchBookView;
         destViewController.BookInfoObj = BookInfoForParse;
-        destViewController.BookInfoObj.BookCoverImage = [_TableCoverImageArray objectAtIndex:Selection.row];
+        
+        if ([_TableCoverImageArray count] >= Selection.row) {
+            destViewController.BookInfoObj.BookCoverImage = [_TableCoverImageArray objectAtIndex:Selection.row];
+        }
     }
 }
 

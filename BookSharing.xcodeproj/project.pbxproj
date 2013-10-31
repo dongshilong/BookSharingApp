@@ -635,6 +635,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = GIGIGUN;
 				TargetAttributes = {
+					10EBD26817F170F4002B49F0 = {
+						DevelopmentTeam = MY3NCV255J;
+					};
 					10EBD28917F170F4002B49F0 = {
 						TestTargetID = 10EBD26817F170F4002B49F0;
 					};
@@ -861,6 +864,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					./3rdParty_Frameworks,
@@ -879,12 +884,14 @@
 					./3rdParty_Frameworks/GoogleAnaSDK,
 				);
 				INFOPLIST_FILE = "BookSharing/BookSharing-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					./3rdParty_Frameworks/GoogleAnaSDK,
 					./3rdParty_Frameworks/zBarSDK,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -894,6 +901,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					./3rdParty_Frameworks,
@@ -912,12 +921,14 @@
 					./3rdParty_Frameworks/GoogleAnaSDK,
 				);
 				INFOPLIST_FILE = "BookSharing/BookSharing-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					./3rdParty_Frameworks/GoogleAnaSDK,
 					./3rdParty_Frameworks/zBarSDK,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
