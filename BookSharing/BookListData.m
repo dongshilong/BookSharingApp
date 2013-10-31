@@ -128,7 +128,7 @@
 }
 
 // 將 BookInfo 的 object 存入 Core Data
--(BOOKLIST_STATUS) Books_SaveBookInfoObj : (BookInfo*) BookInfoObj
+-(BOOKLIST_STATUS) Books_SaveBookInfoObj : (BookInfo*) BookInfoObj InDatabase : (BOOKLIST_CORE_DATA_DB) BookListDB
 {
     if (BookInfoObj.BookInfoCreateTime == nil) {
         
@@ -163,12 +163,12 @@
                               DeletedString,
                               nil];
     
-    return [self Books_CoreDataSave:[self Books_GetCoreDataKey] andValue:CoreDataValue];
+    return [self Books_CoreDataSave:[self Books_GetCoreDataKey] andValue:CoreDataValue InDatabase:BookListDB];
     
 }
 
 
--(BOOKLIST_STATUS) Books_CoreDataSave:(NSArray*) Key andValue:(NSArray*) Value
+-(BOOKLIST_STATUS) Books_CoreDataSave:(NSArray*) Key andValue:(NSArray*) Value InDatabase : (BOOKLIST_CORE_DATA_DB) BookListDB
 {
     
     if ([Value count] != [Key count]) {
@@ -176,7 +176,17 @@
         return BOOKSLIST_ERROR;
     }
     
-    NSManagedObject *newBook = [NSEntityDescription insertNewObjectForEntityForName:@"Book" inManagedObjectContext:_context];
+    NSString *BookCoreDataEntityName;
+    if (BookListDB == BOOK_LIST) {
+        
+        BookCoreDataEntityName = BOOK_LIST_DB_ENTITY;
+        
+    } else if (BookListDB == BOOK_HISTORY) {
+        
+        BookCoreDataEntityName = BOOK_HISTORY_DB_ENTITY;
+    }
+    
+    NSManagedObject *newBook = [NSEntityDescription insertNewObjectForEntityForName:BookCoreDataEntityName inManagedObjectContext:_context];
     for (NSInteger i = 0; i < [Key count]; i++) {
         // fill out the book value
         [newBook setValue:[Value objectAtIndex:i] forKey:[Key objectAtIndex:i]];
@@ -436,6 +446,7 @@
 }
 
 
+
 #pragma mark - Sync Data
 
 // Save update time for server
@@ -577,7 +588,7 @@
                     
                     countForMerge++;
                     BookInfo *BookInfoObj = [[BookInfo alloc] initWithJSONObj:[Data objectAtIndex:Count]];
-                    [self Books_SaveBookInfoObj:BookInfoObj];
+                    [self Books_SaveBookInfoObj:BookInfoObj InDatabase:BOOK_LIST];
                     
                     // Add to queue, and list view will filled it out when loading
                     [_waitToGetImgCoverArray enqueue:BookInfoObj];

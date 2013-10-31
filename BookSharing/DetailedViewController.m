@@ -381,7 +381,7 @@
     }
     
     VIEW_LOG(@"Save %@ to data base", _BookInfoObj.BookName);
-    if (BOOKSLIST_SUCCESS != [_BookDataBase Books_SaveBookInfoObj:_BookInfoObj]) {
+    if (BOOKSLIST_SUCCESS != [_BookDataBase Books_SaveBookInfoObj:_BookInfoObj InDatabase:BOOK_LIST]) {
         VIEW_ERROR_LOG(@"SAVE ERROR");
     }
     
