@@ -10,10 +10,13 @@
 #import "SWRevealViewController.h"
 #import "BooksHtml.h"
 #import "Searching.h"
+#import "ZBarSDK.h"
+
 
 @interface SeachViewController : GAITrackedViewController
                     <UISearchBarDelegate, UISearchDisplayDelegate,
-                    UITableViewDataSource, UITableViewDelegate> {
+                    UITableViewDataSource, UITableViewDelegate,
+                    ZBarReaderDelegate> {
     BOOL ShowSearchResult;
     CGPoint BarcodeDefaultLocation;
 }

@@ -549,8 +549,20 @@
     
 }
 
+#pragma mark - Barcode Reader
 - (IBAction)BarcodeReaderBtn:(id)sender
 {
+    
+    ZBarReaderViewController *reader = [ZBarReaderViewController new];
+    reader.readerDelegate = self;
+    [reader.scanner setSymbology: ZBAR_QRCODE
+                          config: ZBAR_CFG_ENABLE
+                              to: 0];
+    reader.readerView.zoom = 1.0;
+    [self presentViewController:reader animated:YES completion:nil];
+
+    
+    /*
     VIEW_LOG(@"BarcodeReaderBtn");
     
     if (_TableCoverImageArray == nil) {
@@ -573,8 +585,49 @@
     [self SearchBookWebTaskWithKeyWord:_SearchBar.text];
     [self ShowLoadingView];
     [self ResetBarcodeReaderBtnAndDisapear:YES];
+    */
     
 }
+
+
+- (void) imagePickerController: (UIImagePickerController*) reader
+ didFinishPickingMediaWithInfo: (NSDictionary*) info
+{    // ADD: get the decode results
+    id<NSFastEnumeration> results =
+    [info objectForKey: ZBarReaderControllerResults];
+    ZBarSymbol *symbol = nil;
+    for(symbol in results)
+        // EXAMPLE: just grab the first barcode
+        break;
+    
+    // EXAMPLE: do something useful with the barcode data
+    _SearchBar.text = symbol.data;
+    
+    // EXAMPLE: do something useful with the barcode image
+    //resultImage.image =[info objectForKey: UIImagePickerControllerOriginalImage];
+    
+    [reader dismissViewControllerAnimated:YES completion:nil];
+    
+    
+    if (_TableCoverImageArray == nil) {
+        _TableCoverImageArray = [[NSMutableArray alloc] init];
+    }
+    
+    if (_SearchBookInfoObjArray == nil) {
+        _SearchBookInfoObjArray = [[NSMutableArray alloc] init];
+    }
+    _NotificationState_OLD = @"Init";
+    //[_TableCoverImageArray removeAllObjects];
+  //  [_SearchBookInfoObjArray removeAllObjects];
+//    [_TableView setHidden:YES];
+
+    
+    [self SearchBookWebTaskWithKeyWord:_SearchBar.text];
+    [self ShowLoadingView];
+    [self ResetBarcodeReaderBtnAndDisapear:YES];
+
+}
+
 
 
 @end
