@@ -58,7 +58,7 @@ typedef enum {
 
 // Core data 
 //-(BOOKLIST_STATUS) Books_CoreDataSave : (NSArray*) Key andValue:(NSArray*) Value;
--(NSMutableArray*) Books_CoreDataFetch;
+-(NSMutableArray*) Books_CoreDataFetchDataInDataBase:(BOOKLIST_CORE_DATA_DB) BookListDB;
 -(NSMutableArray*) Books_CoreDataFetchNoDeletedData;
 -(BOOKLIST_STATUS) Books_CoreDataDelete : (NSManagedObject*) Book;
 -(BOOKLIST_STATUS) Books_CoreDataUpdateWithoObject : (NSManagedObject*) Book;
@@ -67,10 +67,10 @@ typedef enum {
 
 
 // Search Book Name in Core Data with KeyWord
--(NSArray*) Books_CoreDataSearchWithBookName : (NSString*) BookNameString;
--(NSArray*) Books_CoreDataSearchWithBookAuthor : (NSString*) SearchString;
--(NSArray*) Books_CoreDataSearchWithBookISBN : (NSString*) SearchString;
--(NSArray*) Books_CoreDataSearchWithBookID : (NSString*) BookIDStr;
+-(NSArray*) Books_CoreDataSearchWithBookName : (NSString*) BookNameString inDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB;
+-(NSArray*) Books_CoreDataSearchWithBookAuthor : (NSString*) SearchString inDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB;
+-(NSArray*) Books_CoreDataSearchWithBookISBN : (NSString*) SearchString inDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB;
+-(NSArray*) Books_CoreDataSearchWithBookID : (NSString*) BookIDStr inDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB;
 
 
 // Data connection with server

@@ -166,7 +166,7 @@
                  _BookInfoObj.BookInfoStrongIntro = _BookInfoQuery.BookInfoObj.BookInfoStrongIntro;
                  _BookInfoObj.BookInfoIntro = _BookInfoQuery.BookInfoObj.BookInfoIntro;
                  
-                 NSArray *SearchISBN = [_BookDataBase Books_CoreDataSearchWithBookISBN:_BookInfoObj.BookISBN];
+                 NSArray *SearchISBN = [_BookDataBase Books_CoreDataSearchWithBookISBN:_BookInfoObj.BookISBN inDatabase:BOOK_LIST];
                  if ([SearchISBN count] != 0) {
                      
                      _BookAlreadyHave = YES;
@@ -362,24 +362,7 @@
 #pragma mark - Book Database methods
 -(void) SaveBookInfoObj
 {
-    
     // Search Book In DB With ISBN
-    NSArray *SearchResult;
-    if (_BookInfoObj.BookISBN != nil) {
-        
-        SearchResult = [NSArray arrayWithArray:[_BookDataBase Books_CoreDataSearchWithBookISBN:_BookInfoObj.BookISBN]];
-        
-        if ([SearchResult count] != 0) {
-            VIEW_LOG(@"Book Already in the DB");
-        }
-
-    } else {
-        
-        // TODO: if there were no ISBN in this book,
-        VIEW_ERROR_LOG(@"Could not execute ISBN search");
-
-    }
-    
     VIEW_LOG(@"Save %@ to data base", _BookInfoObj.BookName);
     if (BOOKSLIST_SUCCESS != [_BookDataBase Books_SaveBookInfoObj:_BookInfoObj InDatabase:BOOK_LIST]) {
         VIEW_ERROR_LOG(@"SAVE ERROR");

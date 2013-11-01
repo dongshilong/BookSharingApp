@@ -11,6 +11,7 @@
 		1012552317F28A5100D30132 /* TableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1012552117F28A5100D30132 /* TableCell.m */; };
 		1012552417F28A5100D30132 /* TableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1012552217F28A5100D30132 /* TableCell.xib */; };
 		1012552717F2919B00D30132 /* DetailedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1012552617F2919B00D30132 /* DetailedViewController.m */; };
+		1016716018235F5A00241733 /* PAPER.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1016715F18235F5A00241733 /* PAPER.jpg */; };
 		102559C91821F5BD00AC59AD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 102559C81821F5BD00AC59AD /* AVFoundation.framework */; };
 		102559CB1821F5C900AC59AD /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 102559CA1821F5C900AC59AD /* CoreMedia.framework */; };
 		102559CD1821F5D400AC59AD /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 102559CC1821F5D400AC59AD /* CoreVideo.framework */; };
@@ -101,6 +102,7 @@
 		1012552217F28A5100D30132 /* TableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableCell.xib; sourceTree = "<group>"; };
 		1012552517F2919B00D30132 /* DetailedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailedViewController.h; sourceTree = "<group>"; };
 		1012552617F2919B00D30132 /* DetailedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedViewController.m; sourceTree = "<group>"; };
+		1016715F18235F5A00241733 /* PAPER.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PAPER.jpg; sourceTree = "<group>"; };
 		102559C81821F5BD00AC59AD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		102559CA1821F5C900AC59AD /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		102559CC1821F5D400AC59AD /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -519,6 +521,7 @@
 				10EBD2B917F188E0002B49F0 /* menu@2x.png */,
 				10469AE11814CEC500888186 /* photo-frame.png */,
 				1090EFC4181A05410079BC7B /* book.png */,
+				1016715F18235F5A00241733 /* PAPER.jpg */,
 				100ABA0E17F4900200601973 /* BarcodeReader.png */,
 				10EBD28417F170F4002B49F0 /* Images.xcassets */,
 			);
@@ -667,6 +670,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1016716018235F5A00241733 /* PAPER.jpg in Resources */,
 				10EBD28517F170F4002B49F0 /* Images.xcassets in Resources */,
 				10407CAA18222D670026AAE4 /* zbar-helpicons.png in Resources */,
 				10407CAB18222D670026AAE4 /* zbar-samples.png in Resources */,

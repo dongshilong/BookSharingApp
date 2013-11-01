@@ -13,8 +13,6 @@
 // Google analytics
 static NSString *const kTrackingId = @"UA-44954174-1";
 
-
-
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
