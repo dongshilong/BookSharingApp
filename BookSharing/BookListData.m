@@ -577,7 +577,8 @@
                                          {
 
                                              NSLog(@"NSError: %@",error.localizedDescription);
-                                             
+                                             [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_ERROR];
+
                                          }];
     [operation start];
     
