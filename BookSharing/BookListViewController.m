@@ -299,8 +299,8 @@ BOOL GLOBAL_FORCE_SYNC = YES;
 {
     
     // TODO: Modify the data display, deleted data should not be displayed
-    _SearchBookNameTableData = [_BookList Books_CoreDataSearchWithBookName:searchText];
-    _SearchBookAuthorTableData = [_BookList Books_CoreDataSearchWithBookAuthor:searchText];
+    _SearchBookNameTableData = [_BookList Books_CoreDataSearchWithBookName:searchText inDatabase:BOOK_LIST];
+    _SearchBookAuthorTableData = [_BookList Books_CoreDataSearchWithBookAuthor:searchText inDatabase:BOOK_LIST];
     _SearchResultDisplayArray = [NSArray arrayWithObjects:
                                  _SearchBookNameTableData,
                                  _SearchBookAuthorTableData,

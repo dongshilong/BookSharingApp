@@ -142,6 +142,7 @@
         
     }
     
+    
     BookInfoObj = [self Books_CheckDataNilForBookInfo:BookInfoObj];
     NSString *DeletedString = BOOKS_CORE_DATA_NOT_DELETED;
     
@@ -233,11 +234,21 @@
 }
 
 // 取出 Core Data 中所有 Book 的資料，Array 中存的是 NSManagedObject
--(NSMutableArray*) Books_CoreDataFetch
+-(NSMutableArray*) Books_CoreDataFetchDataInDataBase:(BOOKLIST_CORE_DATA_DB) BookListDB
 {
     NSMutableArray *BookList = [[NSMutableArray alloc] init];
-//    NSLog(@"Books_CoreDataFetch");
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Book"];
+    
+    NSString *BookCoreDataEntityName;
+    if (BookListDB == BOOK_LIST) {
+        
+        BookCoreDataEntityName = BOOK_LIST_DB_ENTITY;
+        
+    } else if (BookListDB == BOOK_HISTORY) {
+        
+        BookCoreDataEntityName = BOOK_HISTORY_DB_ENTITY;
+    }
+
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:BookCoreDataEntityName];
     BookList = [[_context executeFetchRequest:fetchRequest error:nil] mutableCopy];
   
     return BookList;
@@ -250,7 +261,7 @@
 {
     NSMutableArray *BookList = [[NSMutableArray alloc] init];
     //    NSLog(@"Books_CoreDataFetch");
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Book"];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:BOOK_LIST_DB_ENTITY];
     BookList = [[_context executeFetchRequest:fetchRequest error:nil] mutableCopy];
     
     for (int i = 0; i < [BookList count]; i++) {
@@ -283,18 +294,26 @@
 }
 
 // 在 Book 中搜尋 Book Server URL
--(NSArray*) Books_CoreDataSearchWithBookSearverURL : (NSURL*) BookSearverURL
+-(NSArray*) Books_CoreDataSearchWithBookSearverURL : (NSURL*) BookSearverURL inDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB
 {
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
+    NSString *BookCoreDataEntityName;
+    if (BookListDB == BOOK_LIST) {
+        
+        BookCoreDataEntityName = BOOK_LIST_DB_ENTITY;
+        
+    } else if (BookListDB == BOOK_HISTORY) {
+        
+        BookCoreDataEntityName = BOOK_HISTORY_DB_ENTITY;
+    }
 	// NSSortDescriptor tells defines how to sort the fetched results
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL ascending:YES];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
     // fetchRequest needs to know what entity to fetch
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Book" inManagedObjectContext:_context];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:BookCoreDataEntityName inManagedObjectContext:_context];
 	[fetchRequest setEntity:entity];
     
     NSFetchedResultsController  *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_context sectionNameKeyPath:nil cacheName:@"Root"];
@@ -317,17 +336,27 @@
 }
 
 // 在 Book 中搜尋 Book Name
--(NSArray*) Books_CoreDataSearchWithBookName : (NSString*) BookNameString
+-(NSArray*) Books_CoreDataSearchWithBookName : (NSString*) BookNameString inDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
+    NSString *BookCoreDataEntityName;
+    if (BookListDB == BOOK_LIST) {
+        
+        BookCoreDataEntityName = BOOK_LIST_DB_ENTITY;
+        
+    } else if (BookListDB == BOOK_HISTORY) {
+        
+        BookCoreDataEntityName = BOOK_HISTORY_DB_ENTITY;
+    }
+
 	// NSSortDescriptor tells defines how to sort the fetched results
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:BOOKS_CORE_DATA_KEY_BOOK_NAME ascending:YES];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
     // fetchRequest needs to know what entity to fetch
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Book" inManagedObjectContext:_context];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:BookCoreDataEntityName inManagedObjectContext:_context];
 	[fetchRequest setEntity:entity];
     
     NSFetchedResultsController  *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_context sectionNameKeyPath:nil cacheName:@"Root"];
@@ -350,17 +379,27 @@
 
 
 // 在 Book 中搜尋 Book Author
--(NSArray*) Books_CoreDataSearchWithBookAuthor : (NSString*) SearchString
+-(NSArray*) Books_CoreDataSearchWithBookAuthor : (NSString*) SearchString inDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
+    NSString *BookCoreDataEntityName;
+    if (BookListDB == BOOK_LIST) {
+        
+        BookCoreDataEntityName = BOOK_LIST_DB_ENTITY;
+        
+    } else if (BookListDB == BOOK_HISTORY) {
+        
+        BookCoreDataEntityName = BOOK_HISTORY_DB_ENTITY;
+    }
+
 	// NSSortDescriptor tells defines how to sort the fetched results
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:BOOKS_CORE_DATA_KEY_BOOK_AUTHOR ascending:YES];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
     // fetchRequest needs to know what entity to fetch
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Book" inManagedObjectContext:_context];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:BookCoreDataEntityName inManagedObjectContext:_context];
 	[fetchRequest setEntity:entity];
     
     NSFetchedResultsController  *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_context sectionNameKeyPath:nil cacheName:@"Root"];
@@ -382,17 +421,26 @@
 }
 
 // 在 Book 中搜尋 Book ISBN
--(NSArray*) Books_CoreDataSearchWithBookISBN : (NSString*) SearchString
+-(NSArray*) Books_CoreDataSearchWithBookISBN : (NSString*) SearchString inDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
+    NSString *BookCoreDataEntityName;
+    if (BookListDB == BOOK_LIST) {
+        
+        BookCoreDataEntityName = BOOK_LIST_DB_ENTITY;
+        
+    } else if (BookListDB == BOOK_HISTORY) {
+        
+        BookCoreDataEntityName = BOOK_HISTORY_DB_ENTITY;
+    }
 	// NSSortDescriptor tells defines how to sort the fetched results
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:BOOKS_CORE_DATA_KEY_BOOK_ISBN ascending:YES];
 	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
     // fetchRequest needs to know what entity to fetch
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Book" inManagedObjectContext:_context];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:BookCoreDataEntityName inManagedObjectContext:_context];
 	[fetchRequest setEntity:entity];
     
     NSFetchedResultsController  *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_context sectionNameKeyPath:nil cacheName:@"Root"];
@@ -414,9 +462,18 @@
 }
 
 // 在 Book 中搜尋 Book GUID
--(NSArray*) Books_CoreDataSearchWithBookID : (NSString*) BookIDStr
+-(NSArray*) Books_CoreDataSearchWithBookID : (NSString*) BookIDStr inDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSString *BookCoreDataEntityName;
+    if (BookListDB == BOOK_LIST) {
+        
+        BookCoreDataEntityName = BOOK_LIST_DB_ENTITY;
+        
+    } else if (BookListDB == BOOK_HISTORY) {
+        
+        BookCoreDataEntityName = BOOK_HISTORY_DB_ENTITY;
+    }
     
 	// NSSortDescriptor tells defines how to sort the fetched results
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:BOOKS_CORE_DATA_KEY_BOOK_ID ascending:YES];
@@ -424,7 +481,7 @@
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
     // fetchRequest needs to know what entity to fetch
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Book" inManagedObjectContext:_context];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:BookCoreDataEntityName inManagedObjectContext:_context];
 	[fetchRequest setEntity:entity];
     
     NSFetchedResultsController  *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_context sectionNameKeyPath:nil cacheName:@"Root"];
@@ -539,7 +596,7 @@
             
             BookInfo *TempBookInfoObj = [_waitToGetImgCoverArray dequeue];
 
-            NSArray *BookDBArray = [self Books_CoreDataSearchWithBookID:TempBookInfoObj.BookInfoGUID];
+            NSArray *BookDBArray = [self Books_CoreDataSearchWithBookID:TempBookInfoObj.BookInfoGUID inDatabase:BOOK_LIST];
             
             if ([BookDBArray count] != 0) {
                 
@@ -582,7 +639,7 @@
             
             NSString *GuidStr = [[Data objectAtIndex:Count] valueForKey:BOOKS_WEB_DB_KEY_BOOK_ID];
             if (GuidStr != nil) {
-                NSArray *IDFound =[NSArray arrayWithArray:[self Books_CoreDataSearchWithBookID:GuidStr]];
+                NSArray *IDFound =[NSArray arrayWithArray:[self Books_CoreDataSearchWithBookID:GuidStr inDatabase:BOOK_LIST]];
                 
                 if([IDFound count] == 0) {
                     
@@ -810,7 +867,7 @@
             if (([response statusCode] == 204) || ([response statusCode] == 404)) {
                 
                 NSLog(@"responseURL = %@", [response.URL absoluteString]);
-                NSArray *TempBookObjArray = [self Books_CoreDataSearchWithBookSearverURL:response.URL];
+                NSArray *TempBookObjArray = [self Books_CoreDataSearchWithBookSearverURL:response.URL inDatabase:BOOK_LIST];
                 
                 if (([TempBookObjArray count] != 1) || ([TempBookObjArray count] == 0)) {
                     

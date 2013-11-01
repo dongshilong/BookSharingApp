@@ -125,6 +125,7 @@
     
 }
 
+
 -(void) ResetBarcodeReaderBtnAndDisapear : (BOOL) SetDisapear
 {
     CGPoint Reset = BarcodeDefaultLocation;
@@ -362,6 +363,7 @@
     [_TableCoverImageArray removeAllObjects];
     [_SearchBookInfoObjArray removeAllObjects];
     [_TableView reloadData];
+    
     [_TableView setHidden:YES];
     [_SearchBar resignFirstResponder];
     [_BarCodeReaderBtn setHidden:YES];
@@ -563,32 +565,6 @@
                               to: 0];
     reader.readerView.zoom = 1.0;
     [self presentViewController:reader animated:YES completion:nil];
-
-    
-    /*
-    VIEW_LOG(@"BarcodeReaderBtn");
-    
-    if (_TableCoverImageArray == nil) {
-        _TableCoverImageArray = [[NSMutableArray alloc] init];
-    }
-    
-    if (_SearchBookInfoObjArray == nil) {
-        _SearchBookInfoObjArray = [[NSMutableArray alloc] init];
-    }
-    _NotificationState_OLD = @"Init";
-    [_TableCoverImageArray removeAllObjects];
-    [_SearchBookInfoObjArray removeAllObjects];
-    [_TableView setHidden:YES];
-    
-    
-    [_SearchBar resignFirstResponder];
-    _SearchBar.text = @"9789866272516";   // 風之名
-//    _SearchBar.text = @"9789861739694";     // 欲望與絕爽：拉岡視野下的當代華語文學與文化
-
-    [self SearchBookWebTaskWithKeyWord:_SearchBar.text];
-    [self ShowLoadingView];
-    [self ResetBarcodeReaderBtnAndDisapear:YES];
-    */
     
 }
 
@@ -620,10 +596,6 @@
         _SearchBookInfoObjArray = [[NSMutableArray alloc] init];
     }
     _NotificationState_OLD = @"Init";
-    //[_TableCoverImageArray removeAllObjects];
-  //  [_SearchBookInfoObjArray removeAllObjects];
-//    [_TableView setHidden:YES];
-
     
     [self SearchBookWebTaskWithKeyWord:_SearchBar.text];
     [self ShowLoadingView];
