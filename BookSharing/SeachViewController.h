@@ -37,7 +37,7 @@
 @property (strong, atomic)      BooksHtml   *BookSearch;
 @property (strong, nonatomic)   BookInfo    *BookInfoObj;
 
-
+@property (strong, nonatomic)   ZBarReaderViewController *reader;
 
 - (IBAction)BookListBtn:(id)sender;
 - (IBAction)BarcodeReaderBtn:(id)sender;

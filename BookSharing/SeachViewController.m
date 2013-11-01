@@ -56,8 +56,31 @@
     // 5. Google Analytics
     self.screenName = @"Shearch View";
     
+    // Setup Barcode Reader
     [self ResetBarcodeReaderBtnAndDisapear:NO];
-	// Do any additional setup after loading the view.
+    _reader = [ZBarReaderViewController new];
+    _reader.readerDelegate = self;
+    
+    [_reader.scanner setSymbology: ZBAR_ISBN10
+                          config: ZBAR_CFG_ENABLE
+                              to: 0];
+    
+    [_reader.scanner setSymbology: ZBAR_ISBN13
+                           config: ZBAR_CFG_ENABLE
+                               to: 0];
+    
+    _reader.readerView.zoom = 1.0;
+
+    /*
+     // you can use this to support the simulator
+     if(TARGET_IPHONE_SIMULATOR) {
+     cameraSim = [[ZBarCameraSimulator alloc]
+     initWithViewController: self];
+     cameraSim.readerView = readerView;
+     }
+
+     */
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -557,14 +580,16 @@
 #pragma mark - Barcode Reader
 - (IBAction)BarcodeReaderBtn:(id)sender
 {
-    
+/*
     ZBarReaderViewController *reader = [ZBarReaderViewController new];
     reader.readerDelegate = self;
     [reader.scanner setSymbology: ZBAR_QRCODE
                           config: ZBAR_CFG_ENABLE
                               to: 0];
     reader.readerView.zoom = 1.0;
-    [self presentViewController:reader animated:YES completion:nil];
+ */
+    
+    [self presentViewController:_reader animated:YES completion:nil];
     
 }
 
