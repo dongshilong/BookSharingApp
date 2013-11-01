@@ -72,9 +72,18 @@ BOOL GLOBAL_FORCE_SYNC = YES;
     [_tableView reloadData];
 
     
+    // [CASPER] : 2013/11/01 Setup Pull to refresh
+    _PullToRefresh = [[UIRefreshControl alloc] init];
+    [_PullToRefresh setBackgroundColor:[UIColor whiteColor]];
+    [_PullToRefresh addTarget:self action:@selector(SyncDataWithServer) forControlEvents:UIControlEventValueChanged];
+
+    [_tableView addSubview:_PullToRefresh];
+
     [self SyncDataWithServer];
     
 }
+
+
 
 
 -(void) viewWillAppear:(BOOL)animated
@@ -124,13 +133,13 @@ BOOL GLOBAL_FORCE_SYNC = YES;
          NSDictionary *dict = notification.userInfo;
          if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_START]) {
              
-             VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_START");
+             LIST_VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_START");
              [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 
              
          } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_END]) {
              
-             VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_END - To ensure the table data is full filled");
+             LIST_VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_END - To ensure the table data is full filled");
 
              _tableData = [_BookList Books_CoreDataFetchNoDeletedData];
              [_tableView reloadData];
@@ -138,18 +147,24 @@ BOOL GLOBAL_FORCE_SYNC = YES;
              
          } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_END_NO_MERGE]) {
              
-             VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_END_NO_MERGE");
+             LIST_VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_END_NO_MERGE");
+             if (_PullToRefresh.refreshing){
+                 [self performSelector:@selector(stopRefresh) withObject:nil afterDelay:0.5];
+             }
              [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
              
          } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_ERROR]) {
              
-             VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_ERROR");
+             LIST_VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_ERROR");
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
          
          } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_GET_IMAGE_COVER_END]) {
              
-             VIEW_LOG(@"BOOKLIST_DATABASE_GET_IMAGE_COVER_END");
-
+             LIST_VIEW_LOG(@"BOOKLIST_DATABASE_GET_IMAGE_COVER_END");
+             
+             if (_PullToRefresh.refreshing){
+                 [self performSelector:@selector(stopRefresh) withObject:nil afterDelay:0.5];
+             }
              _tableData = [_BookList Books_CoreDataFetchNoDeletedData];
              [_tableView reloadData];
              [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
@@ -218,6 +233,8 @@ BOOL GLOBAL_FORCE_SYNC = YES;
     }
 }
 
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -284,7 +301,7 @@ BOOL GLOBAL_FORCE_SYNC = YES;
     
     // 2013.10.16 [CASPER] Fix front view behavior
     //                     front view go back when touched.
-    VIEW_LOG(@"    self.revealViewController.frontViewPosition  = %i", self.revealViewController.frontViewPosition );
+    LIST_VIEW_LOG(@"    self.revealViewController.frontViewPosition  = %i", self.revealViewController.frontViewPosition );
     if (self.revealViewController.frontViewPosition == FrontViewPositionRight) {
         
         [self.revealViewController setFrontViewPosition: FrontViewPositionLeft animated: YES];
@@ -312,8 +329,8 @@ BOOL GLOBAL_FORCE_SYNC = YES;
                                  _SearchBookAuthorTableData,
                                  nil];
     
-    VIEW_LOG(@"Search result %i ！！！！～～～～", [_SearchBookNameTableData count]);
-    VIEW_LOG(@"Search result %i ！！！！～～～～", [_SearchBookAuthorTableData count]);
+    LIST_VIEW_LOG(@"Search result %i ！！！！～～～～", [_SearchBookNameTableData count]);
+    LIST_VIEW_LOG(@"Search result %i ！！！！～～～～", [_SearchBookAuthorTableData count]);
     
 }
 
@@ -359,6 +376,12 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 
 #pragma mark - Button Event
+- (void)stopRefresh
+{
+    [_PullToRefresh endRefreshing];
+}
+
+
 - (IBAction)AddBtn:(id)sender
 {
     UIViewController *View = [self.storyboard instantiateViewControllerWithIdentifier:@"SearchView"];
@@ -378,6 +401,12 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 -(void) SyncDataWithServer
 {
+    LIST_VIEW_LOG(@"Syncing");
+    
+    if (_PullToRefresh.isRefreshing) {
+        GLOBAL_FORCE_SYNC = YES;
+    }
+    
     // 1. Check Force Update
     if (GLOBAL_FORCE_SYNC) {
         
@@ -395,7 +424,7 @@ shouldReloadTableForSearchString:(NSString *)searchString
         
         if (secondsBetween >= SYNC_THRESHOLD_SEC) {
             
-            VIEW_LOG(@"Update 5 min ago, execute update");
+            LIST_VIEW_LOG(@"Update 5 min ago, execute update");
             [self performSelector:@selector(DatabaseSyncNotification)];
             [_BookList  Books_GetServerDataAndMerge];
             
