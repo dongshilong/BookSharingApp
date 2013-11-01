@@ -281,7 +281,7 @@
     
     // Assign btn on the subview
     _BookInfoDetailedView = (DetailedScroller *)[subviewArray objectAtIndex:0];
-    
+    _Scroller.backgroundColor =[UIColor colorWithPatternImage:[UIImage imageNamed:@"PAPER.jpg"]];
     [_Scroller addSubview:_BookInfoDetailedView];
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     UIFont *font2 = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
@@ -326,6 +326,7 @@
         size = [StrongLab sizeThatFits:constraint];
         [StrongLab setFrame:CGRectMake(10, StartY + 20, size.width, size.height)];
         StrongLab.numberOfLines = 0;
+        StrongLab.backgroundColor = [UIColor clearColor];
         [_Scroller addSubview: StrongLab];
         
         StartY = StartY + 20 + size.height;
@@ -346,6 +347,7 @@
         size = [IntroLab sizeThatFits:constraint];
         [IntroLab setFrame:CGRectMake(10, StartY + 20, size.width, size.height)];
         IntroLab.numberOfLines = 0;
+        IntroLab.backgroundColor = [UIColor clearColor];
         [_Scroller addSubview: IntroLab];
         
         StartY = StartY + 20 + size.height;
