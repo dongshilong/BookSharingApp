@@ -125,6 +125,8 @@ BOOL GLOBAL_FORCE_SYNC = YES;
          if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_START]) {
              
              VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_START");
+             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+
              
          } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_END]) {
              
@@ -132,15 +134,17 @@ BOOL GLOBAL_FORCE_SYNC = YES;
 
              _tableData = [_BookList Books_CoreDataFetchNoDeletedData];
              [_tableView reloadData];
+
              
          } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_END_NO_MERGE]) {
              
              VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_END_NO_MERGE");
-
+             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
              
          } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_SYNC_ERROR]) {
              
              VIEW_LOG(@"BOOKLIST_DATABASE_SYNC_ERROR");
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
          
          } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_GET_IMAGE_COVER_END]) {
              
@@ -148,6 +152,8 @@ BOOL GLOBAL_FORCE_SYNC = YES;
 
              _tableData = [_BookList Books_CoreDataFetchNoDeletedData];
              [_tableView reloadData];
+             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+
         
          }
      }];
