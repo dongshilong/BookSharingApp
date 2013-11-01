@@ -286,13 +286,13 @@
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     UIFont *font2 = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
 
-    float StartY = 230.0f;
+    float StartY = 200.0f;
     CGSize size = CGSizeMake(300, 0);
     
     // Hide Save Btn when came from list view
     if (FatherView == ListBookView) {
         
-        StartY = 180.0f;
+        StartY = 150.0f;
         [_BookInfoDetailedView.SaveBtn setHidden:YES];
         
     } else {
