@@ -580,15 +580,7 @@
 #pragma mark - Barcode Reader
 - (IBAction)BarcodeReaderBtn:(id)sender
 {
-/*
-    ZBarReaderViewController *reader = [ZBarReaderViewController new];
-    reader.readerDelegate = self;
-    [reader.scanner setSymbology: ZBAR_QRCODE
-                          config: ZBAR_CFG_ENABLE
-                              to: 0];
-    reader.readerView.zoom = 1.0;
- */
-    
+
     [self presentViewController:_reader animated:YES completion:nil];
     
 }
