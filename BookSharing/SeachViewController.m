@@ -50,14 +50,38 @@
     // 4. Init Data
     _TableDataSec0 = [NSMutableArray arrayWithObjects:@"Click to clear search results", nil];
     
-    BarcodeDefaultLocation.x = _BarCodeReaderBtn.center.x;
-    BarcodeDefaultLocation.y = UI_BARCODEBTN_DEFAULT_LOC_CENTER;
-    
     // 5. Google Analytics
     self.screenName = @"Shearch View";
     
+    
+ 
     // Setup Barcode Reader
-    [self ResetBarcodeReaderBtnAndDisapear:NO];
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    
+    if (screenBounds.size.height == IPHONE_SCREEN_4_INCH_HEIGHT) {
+        // iPhone 4"
+        _BarcodeDefaultLocation.x = _BarCodeReaderBtn.center.x;
+        _BarcodeDefaultLocation.y = UI_BARCODEBTN_DEFAULT_LOC_CENTER_4_INCH;
+
+        _BarcodeMoveLocation.x = _BarCodeReaderBtn.center.x;
+        _BarcodeMoveLocation.y = UI_BARCODEBTN_MOVE_LOC_CENTER_4_INCH;
+        
+        _BarCodeReaderBtn.center = _BarcodeDefaultLocation;
+        
+    } else {
+        
+        // iPhone 3.5"
+        _BarcodeDefaultLocation.x = _BarCodeReaderBtn.center.x;
+        _BarcodeDefaultLocation.y = UI_BARCODEBTN_DEFAULT_LOC_CENTER_3_5_INCH;
+        
+        _BarcodeMoveLocation.x = _BarCodeReaderBtn.center.x;
+        _BarcodeMoveLocation.y = UI_BARCODEBTN_MOVE_LOC_CENTER_3_5_INCH;
+        
+        _BarCodeReaderBtn.center = _BarcodeDefaultLocation;
+        
+    }
+
+
     _reader = [ZBarReaderViewController new];
     _reader.readerDelegate = self;
     
@@ -80,6 +104,15 @@
      }
 
      */
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    
+    [super viewDidAppear:animated];
+    NSLog(@"ViewDidAppear");
+    [self ResetBarcodeReaderBtnAndDisapear:NO];
     
 }
 
@@ -138,7 +171,7 @@
 -(void) MoveUpBarcodeReaderBtn
 {
     
-    CGPoint MoveUp = CGPointMake( _BarCodeReaderBtn.center.x, UI_BARCODEBTN_MOVE_LOC_CENTER);
+    CGPoint MoveUp = CGPointMake( _BarCodeReaderBtn.center.x, _BarcodeMoveLocation.y);
 
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.5f];
@@ -151,7 +184,7 @@
 
 -(void) ResetBarcodeReaderBtnAndDisapear : (BOOL) SetDisapear
 {
-    CGPoint Reset = BarcodeDefaultLocation;
+    CGPoint Reset = _BarcodeDefaultLocation;
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.5f];

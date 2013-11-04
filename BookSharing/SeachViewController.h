@@ -13,12 +13,19 @@
 #import "ZBarSDK.h"
 
 
+
+#define UI_BARCODEBTN_DEFAULT_LOC_CENTER_4_INCH         473.0
+#define UI_BARCODEBTN_MOVE_LOC_CENTER_4_INCH            253.0
+#define UI_BARCODEBTN_DEFAULT_LOC_CENTER_3_5_INCH       373.0
+#define UI_BARCODEBTN_MOVE_LOC_CENTER_3_5_INCH          203.0
+
+
 @interface SeachViewController : GAITrackedViewController
                     <UISearchBarDelegate, UISearchDisplayDelegate,
                     UITableViewDataSource, UITableViewDelegate,
                     ZBarReaderDelegate> {
     BOOL ShowSearchResult;
-    CGPoint BarcodeDefaultLocation;
+                        
 }
 
 @property (weak, nonatomic)     IBOutlet UISearchBar        *SearchBar;
@@ -32,6 +39,9 @@
 @property (strong, atomic)      NSMutableArray  *SearchBookInfoObjArray;
 @property (strong, atomic)      NSMutableArray  *TableCoverImageArray;
 @property (strong, nonatomic)   NSIndexPath     *LocalIndexPath;
+@property (nonatomic)           CGPoint BarcodeDefaultLocation;
+@property (nonatomic)           CGPoint BarcodeMoveLocation;
+
 
 @property (weak, nonatomic)     Searching   *SearchingView;
 @property (strong, atomic)      BooksHtml   *BookSearch;

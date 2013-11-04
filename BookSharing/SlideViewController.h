@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "SWRevealViewController.h"
+
+#define FB_LOGIN_VIEW_LOCATION_4_INCH_Y     524
+#define FB_LOGIN_VIEW_LOCATION_3_5_INCH_Y   324
+
 @interface SlideViewController : UIViewController <FBLoginViewDelegate, FBUserSettingsDelegate, UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -20,5 +24,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *FbUserNameLab;
 @property (strong, nonatomic) IBOutlet FBLoginView *LoginView;
 @property (strong, nonatomic) IBOutlet FBProfilePictureView *userProfileImage;
+
+//@property                     CGPoint       LoginViewLocation;
+
 
 @end
