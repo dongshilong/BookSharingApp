@@ -39,8 +39,6 @@
 }
 
 
-
-
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
@@ -72,6 +70,7 @@
 
 }
 
+
 - (void)updateView {
     // get the app delegate, so that we can reference the session property
     if (FBSession.activeSession.isOpen) {
@@ -81,6 +80,7 @@
         self.userProfileImage.hidden = YES;
     }
 }
+
 
 - (void)loginView:(FBLoginView *)loginView
       handleError:(NSError *)error{

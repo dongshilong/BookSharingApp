@@ -816,8 +816,7 @@
     }
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:BookInfoObj.BookSearverURL];
-    
-    
+    NSLog(@"URL = %@", BookInfoObj.BookSearverURL);
     // Add header value and set http for POST requeest as JSON
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"PUT"];
@@ -828,9 +827,15 @@
     [formatter setDateFormat:@"YYYY-MM-d H:m:s"];
     
     NSMutableDictionary *newAccount = [[NSMutableDictionary alloc]init];
+    [newAccount setObject:BookInfoObj.BookName forKey:BOOKS_WEB_DB_KEY_BOOK_NAME];
+    [newAccount setObject:BookInfoObj.BookAuthor forKey:BOOKS_WEB_DB_KEY_BOOK_AUTHOR];
+    [newAccount setObject:BookInfoObj.BookISBN forKey:BOOKS_WEB_DB_KEY_BOOK_ISBN];
+    [newAccount setObject:[BookInfoObj.BookCoverHDURL absoluteString] forKey:BOOKS_WEB_DB_KEY_BOOK_IMG_URL];
+    [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoCreateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_CREATE_T];
     [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoUpdateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_UPDATE_T];
-
-    NSLog(@"%@", newAccount);
+    [newAccount setObject:BookInfoObj.BookInfoStrongIntro forKey:BOOKS_WEB_DB_KEY_BOOK_STRONG_INTRO];
+    [newAccount setObject:BookInfoObj.BookInfoIntro forKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
+    [newAccount setObject:BookInfoObj.BookInfoGUID forKey:BOOKS_WEB_DB_KEY_BOOK_ID];
     
     NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONWritingPrettyPrinted error:nil];
     
@@ -843,6 +848,8 @@
     if (connection) {
         
         _receivedData = [[NSMutableData alloc] init];
+        _ServerState = BOOKLIST_STATE_UPDATING;
+
         return BOOKSLIST_SUCCESS;
         
     } else {
@@ -887,6 +894,14 @@
         case BOOKLIST_STATE_POSTING:
             
             NSLog(@"BOOK LIST POSTING");
+            _ServerState = BOOKLIST_STATE_IDLE;
+            
+            break;
+            
+            
+        case BOOKLIST_STATE_UPDATING:
+            
+            NSLog(@"BOOK LIST UPDATING");
             _ServerState = BOOKLIST_STATE_IDLE;
             
             break;

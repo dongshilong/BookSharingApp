@@ -73,7 +73,7 @@
     _TheBookIsEdited = YES;
     NSDate *UpdateDate = [[NSDate alloc] init];
     _BookInfoObj.BookInfoUpdateTime = UpdateDate;
-    //[_BookDataBase Books_FirePUTConnectionToServerWithBookInfo:_BookInfoObj];
+    [_BookDataBase Books_FirePUTConnectionToServerWithBookInfo:_BookInfoObj];
     [self dismissSemiModalView];
     
 }
