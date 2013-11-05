@@ -659,10 +659,33 @@
                         NSManagedObject *TempBookObj = [IDFound objectAtIndex:0];
                         if ([[TempBookObj valueForKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL] isEqualToString:BOOKS_CORE_DATA_DEFAULT_VALUE]) {
                             
+                            // If URL Attr is nil or NaN, the book is new one.
                             [TempBookObj setValue:[[Data objectAtIndex:Count] valueForKey:BOOKS_WEB_DB_KEY_BOOK_SEARVER_URL] forKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL];
                             NSLog(@"New book update url = %@", [TempBookObj valueForKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL]);
                             [self Books_CoreDataUpdateWithoObject:TempBookObj];
                             
+                        } else {
+                            
+                            // For the book already in, compare the update time on the server and local
+                            // to guarantee that all data is new
+                            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                            [dateFormatter setDateFormat:@"YYYY-MM-d H:m:s"];
+                            
+                            NSDate *BookUpdateTimeDateServer = [dateFormatter dateFromString:[[Data objectAtIndex:Count] valueForKey:BOOKS_WEB_DB_KEY_BOOK_UPDATE_T]];
+                            NSDate *BookUpdateTimeDateLocal = [TempBookObj valueForKey:BOOKS_CORE_DATA_KEY_BOOK_UPDATE_T];
+
+                            if (NSOrderedSame != [BookUpdateTimeDateServer compare:BookUpdateTimeDateLocal]) {
+                                if (NSOrderedAscending == [BookUpdateTimeDateServer compare:BookUpdateTimeDateLocal]) {
+                                    // Local is newer
+                                    // TODO: the local data is not yet update to server
+                                    
+                                } else {
+                                    // Server is newer
+                                    // TODO: use server data -> Convert WEB JSON -> CORE DATA
+                                    
+                                }
+                            };
+                        
                         }
                         
                         if ([[TempBookObj valueForKey:BOOKS_CORE_DATA_KEY_BOOK_DELETED] isEqualToString:BOOKS_CORE_DATA_IS_DELETED]) {
@@ -826,17 +849,19 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-d H:m:s"];
     
+    
     NSMutableDictionary *newAccount = [[NSMutableDictionary alloc]init];
+    [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoUpdateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_UPDATE_T];
+/*
     [newAccount setObject:BookInfoObj.BookName forKey:BOOKS_WEB_DB_KEY_BOOK_NAME];
     [newAccount setObject:BookInfoObj.BookAuthor forKey:BOOKS_WEB_DB_KEY_BOOK_AUTHOR];
     [newAccount setObject:BookInfoObj.BookISBN forKey:BOOKS_WEB_DB_KEY_BOOK_ISBN];
     [newAccount setObject:[BookInfoObj.BookCoverHDURL absoluteString] forKey:BOOKS_WEB_DB_KEY_BOOK_IMG_URL];
     [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoCreateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_CREATE_T];
-    [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoUpdateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_UPDATE_T];
     [newAccount setObject:BookInfoObj.BookInfoStrongIntro forKey:BOOKS_WEB_DB_KEY_BOOK_STRONG_INTRO];
     [newAccount setObject:BookInfoObj.BookInfoIntro forKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
     [newAccount setObject:BookInfoObj.BookInfoGUID forKey:BOOKS_WEB_DB_KEY_BOOK_ID];
-    
+    */
     NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONWritingPrettyPrinted error:nil];
     
     //let the NSData object be the data of the request

@@ -314,28 +314,18 @@
                                 </connections>
                             </tableView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UQd-bW-5dN">
-                                <rect key="frame" x="98" y="430" width="155" height="21"/>
+                                <rect key="frame" x="98" y="527" width="155" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iAh-6t-Mx5" customClass="FBLoginView">
-                                <rect key="frame" x="37" y="403" width="200" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RAR-dN-4f8" customClass="FBProfilePictureView">
-                                <rect key="frame" x="20" y="381" width="70" height="70"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="FbUserNameLab" destination="UQd-bW-5dN" id="Etq-hY-XtQ"/>
-                        <outlet property="LoginView" destination="iAh-6t-Mx5" id="zt3-f4-k37"/>
                         <outlet property="tableView" destination="XFF-Wz-B9A" id="NiE-Y6-uKB"/>
-                        <outlet property="userProfileImage" destination="RAR-dN-4f8" id="p4n-ai-K9h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lcl-fb-beZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -489,16 +479,6 @@
                                     <outlet property="delegate" destination="Bkf-d9-EiM" id="dUd-mE-URi"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7cQ-lz-EHG">
-                                <rect key="frame" x="92" y="409" width="136" height="122"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="BarcodeReader.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="BarcodeReaderBtn:" destination="Bkf-d9-EiM" eventType="touchUpInside" id="Dwl-Ak-D6n"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -515,7 +495,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="BarCodeReaderBtn" destination="7cQ-lz-EHG" id="Xd6-Bu-PZ6"/>
                         <outlet property="SearchBar" destination="Cdn-x5-aB1" id="mGr-iQ-JQa"/>
                         <outlet property="TableView" destination="EVE-VA-Q2d" id="hLP-G1-y9a"/>
                         <outlet property="bookListButton" destination="gqo-1Y-uST" id="Zw0-Kk-nDI"/>
@@ -573,7 +552,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="BarcodeReader.png" width="138" height="138"/>
         <image name="menu.png" width="28" height="20"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -583,9 +561,9 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="7Re-bu-2mw"/>
-        <segue reference="sd9-f6-OcX"/>
         <segue reference="jzJ-ST-0ht"/>
+        <segue reference="sd9-f6-OcX"/>
         <segue reference="JqE-AV-Cpw"/>
-        <segue reference="zQU-O1-vI6"/>
+        <segue reference="0rx-KS-8eK"/>
     </inferredMetricsTieBreakers>
 </document>

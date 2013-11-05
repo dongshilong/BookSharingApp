@@ -31,7 +31,7 @@
 @property (weak, nonatomic)     IBOutlet UISearchBar        *SearchBar;
 @property (strong, nonatomic)   IBOutlet UIBarButtonItem    *sidebarButton;
 @property (strong, nonatomic)   IBOutlet UIBarButtonItem    *bookListButton;
-@property (weak, nonatomic)     IBOutlet UIButton           *BarCodeReaderBtn;
+@property (strong, nonatomic)   IBOutlet UIButton           *BarCodeReaderBtn;
 @property (weak, nonatomic)     IBOutlet UITableView        *TableView;
 
 @property (strong, atomic)      NSString        *NotificationState_OLD;
@@ -50,7 +50,7 @@
 @property (strong, nonatomic)   ZBarReaderViewController *reader;
 
 - (IBAction)BookListBtn:(id)sender;
-- (IBAction)BarcodeReaderBtn:(id)sender;
+//- (IBAction)BarcodeReaderBtn:(id)sender;
 
 
 @end

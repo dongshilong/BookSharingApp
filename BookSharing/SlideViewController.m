@@ -28,30 +28,35 @@
     [super viewDidLoad];
     [FBLoginView class];
     [FBProfilePictureView class];
-    
-    
 
-    
     if(!_LoginView){
         _LoginView = [[FBLoginView alloc] initWithPublishPermissions:nil defaultAudience:FBSessionDefaultAudienceFriends];
     }
     _LoginView.frame = self.LoginView.bounds; //whatever you want
-    NSLog(@"%f - %f", _LoginView.center.x, _LoginView.center.y);
     _LoginView.delegate = self;
     
-    [self.view addSubview:_LoginView];
+    if (!_userProfileImage) {
+        _userProfileImage = [[FBProfilePictureView alloc] init];
+        // TODO: !!! 2013/11/05 Check user profile image !!!
+    }
+    
+    
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     
     if (screenBounds.size.height == IPHONE_SCREEN_4_INCH_HEIGHT) {
         
-        [self.LoginView setCenter: CGPointMake(_LoginView.center.x, FB_LOGIN_VIEW_LOCATION_4_INCH_Y)];
-        
+        [self.LoginView setCenter: CGPointMake(FB_LOGIN_VIEW_LOCATION_X, FB_LOGIN_VIEW_LOCATION_4_INCH_Y)];
+        [self.userProfileImage setCenter: CGPointMake(FB_LOGIN_VIEW_LOCATION_X, FB_PROFILE_VIEW_LOCATION_4_INCH_Y)];
     } else {
         
-        [self.LoginView setCenter: CGPointMake(_LoginView.center.x, FB_LOGIN_VIEW_LOCATION_3_5_INCH_Y)];
-        
+        [self.LoginView setCenter: CGPointMake(FB_LOGIN_VIEW_LOCATION_X, FB_LOGIN_VIEW_LOCATION_3_5_INCH_Y)];
+        [self.userProfileImage setCenter: CGPointMake(FB_LOGIN_VIEW_LOCATION_X, FB_PROFILE_VIEW_LOCATION_3_5_INCH_Y)];
     }
     
+    [self.view addSubview:_LoginView];
+    [self.view addSubview:_userProfileImage];
+    
+
     if (FBSession.activeSession.isOpen) {
         
         [self populateUserDetails];

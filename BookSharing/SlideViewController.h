@@ -9,8 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "SWRevealViewController.h"
 
+#define FB_LOGIN_VIEW_LOCATION_X            130
 #define FB_LOGIN_VIEW_LOCATION_4_INCH_Y     524
-#define FB_LOGIN_VIEW_LOCATION_3_5_INCH_Y   324
+#define FB_LOGIN_VIEW_LOCATION_3_5_INCH_Y   424
+
+#define FB_PROFILE_VIEW_LOCATION_X          25
+#define FB_PROFILE_VIEW_LOCATION_4_INCH_Y   513
+#define FB_PROFILE_VIEW_LOCATION_3_5_INCH_Y 413
 
 @interface SlideViewController : UIViewController <FBLoginViewDelegate, FBUserSettingsDelegate, UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
