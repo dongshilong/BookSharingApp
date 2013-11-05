@@ -14,9 +14,7 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <CoreData/CoreData.h>
-
     #import "AppDelegate.h"
-    #import "UI_Def.h"
 
     // Google Analytics
     #import "GAI.h"
@@ -24,7 +22,7 @@
     // Facebook
     #import <FacebookSDK/FacebookSDK.h>
 
-
+#define IPHONE_SCREEN_4_INCH_HEIGHT     568
 
 //#define DEBUG_BOOK_SEARCH
 //#define DEBUG_VIEW

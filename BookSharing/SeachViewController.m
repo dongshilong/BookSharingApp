@@ -50,26 +50,42 @@
     // 4. Init Data
     _TableDataSec0 = [NSMutableArray arrayWithObjects:@"Click to clear search results", nil];
     
-    BarcodeDefaultLocation.x = _BarCodeReaderBtn.center.x;
-    BarcodeDefaultLocation.y = UI_BARCODEBTN_DEFAULT_LOC_CENTER;
-    
     // 5. Google Analytics
     self.screenName = @"Shearch View";
     
+    
+    
+    _BarCodeReaderBtn = [[UIButton alloc] initWithFrame:CGRectMake(160.0, 470.0, 136.0, 122.0)];
+    [_BarCodeReaderBtn setBackgroundImage:[UIImage imageNamed:@"BarcodeReader.png"] forState:UIControlStateNormal];
+    
     // Setup Barcode Reader
-    [self ResetBarcodeReaderBtnAndDisapear:NO];
-    _reader = [ZBarReaderViewController new];
-    _reader.readerDelegate = self;
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    _BarcodeDefaultLocation.x = screenBounds.size.width / 2;
+    _BarcodeMoveLocation.x = _BarcodeDefaultLocation.x;
+
+    if (screenBounds.size.height == IPHONE_SCREEN_4_INCH_HEIGHT) {
+        
+        // iPhone 4"
+        _BarcodeDefaultLocation.y = UI_BARCODEBTN_DEFAULT_LOC_CENTER_4_INCH;
+        _BarcodeMoveLocation.y = UI_BARCODEBTN_MOVE_LOC_CENTER_4_INCH;
+        
+        _BarCodeReaderBtn.center = _BarcodeDefaultLocation;
+        
+    } else {
+        
+        // iPhone 3.5"
+        _BarcodeDefaultLocation.y = UI_BARCODEBTN_DEFAULT_LOC_CENTER_3_5_INCH;
+        _BarcodeMoveLocation.y = UI_BARCODEBTN_MOVE_LOC_CENTER_3_5_INCH;
+        
+        _BarCodeReaderBtn.center = _BarcodeDefaultLocation;
+        
+    }
     
-    [_reader.scanner setSymbology: ZBAR_ISBN10
-                          config: ZBAR_CFG_ENABLE
-                              to: 0];
-    
-    [_reader.scanner setSymbology: ZBAR_ISBN13
-                           config: ZBAR_CFG_ENABLE
-                               to: 0];
-    
-    _reader.readerView.zoom = 1.0;
+    [_BarCodeReaderBtn addTarget:self
+                        action:@selector(BarcodeReaderPressed)
+                forControlEvents:UIControlEventTouchUpInside];
+
+    [self.view addSubview:_BarCodeReaderBtn];
 
     /*
      // you can use this to support the simulator
@@ -80,6 +96,15 @@
      }
 
      */
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    
+    [super viewDidAppear:animated];
+    NSLog(@"ViewDidAppear");
+    [self ResetBarcodeReaderBtnAndDisapear:NO];
     
 }
 
@@ -138,7 +163,7 @@
 -(void) MoveUpBarcodeReaderBtn
 {
     
-    CGPoint MoveUp = CGPointMake( _BarCodeReaderBtn.center.x, UI_BARCODEBTN_MOVE_LOC_CENTER);
+    CGPoint MoveUp = CGPointMake( _BarCodeReaderBtn.center.x, _BarcodeMoveLocation.y);
 
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.5f];
@@ -151,7 +176,7 @@
 
 -(void) ResetBarcodeReaderBtnAndDisapear : (BOOL) SetDisapear
 {
-    CGPoint Reset = BarcodeDefaultLocation;
+    CGPoint Reset = _BarcodeDefaultLocation;
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.5f];
@@ -578,13 +603,36 @@
 }
 
 #pragma mark - Barcode Reader
+/*
 - (IBAction)BarcodeReaderBtn:(id)sender
 {
 
     [self presentViewController:_reader animated:YES completion:nil];
     
 }
+*/
+- (void)BarcodeReaderPressed
+{
+    
+    if(_reader == nil) {
+        _reader = [[ZBarReaderViewController alloc] init];
+    }
+    
+    _reader.readerDelegate = self;
+    
+    [_reader.scanner setSymbology: ZBAR_ISBN10
+                           config: ZBAR_CFG_ENABLE
+                               to: 0];
+    
+    [_reader.scanner setSymbology: ZBAR_ISBN13
+                           config: ZBAR_CFG_ENABLE
+                               to: 0];
+    
+    _reader.readerView.zoom = 1.0;
 
+    [self presentViewController:_reader animated:YES completion:nil];
+    
+}
 
 - (void) imagePickerController: (UIImagePickerController*) reader
  didFinishPickingMediaWithInfo: (NSDictionary*) info

@@ -61,15 +61,16 @@ BOOL GLOBAL_FORCE_SYNC = YES;
     self.navigationItem.title = @"Book List";
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     //self.clearsSelectionOnViewWillAppear = YES;
-
-    // Google Analytics
-    self.screenName = @"ListView";
-
-        // Hide Search Bar at the beginning
+    
+    
+    // Hide Search Bar at the beginning
     CGRect Bounds = _tableView.bounds;
     Bounds.origin.y = Bounds.origin.y + _SearchBar.bounds.size.height;
     _tableView.bounds = Bounds;
     [_tableView reloadData];
+
+    // Google Analytics
+    self.screenName = @"ListView";
 
     
     // [CASPER] : 2013/11/01 Setup Pull to refresh
