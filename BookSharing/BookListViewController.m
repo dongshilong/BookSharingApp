@@ -99,10 +99,12 @@ BOOL GLOBAL_FORCE_SYNC = YES;
         // View appeared without init
         // UI function should reloaded
         //_tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetch]];
+        LIST_VIEW_LOG(@"RELOAD DATA");
         _tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetchNoDeletedData]];
+        [_tableView reloadData];
         
     }
-    [_tableView reloadData];
+    
     [_tableView deselectRowAtIndexPath:_LocalIndexPath animated:NO];
     [super viewWillAppear:animated];
 }
@@ -280,11 +282,14 @@ BOOL GLOBAL_FORCE_SYNC = YES;
         if (SEARCH_ENGINE_BOOKS_TW == [_BookList WhereThisBookFromWithCoreData:book]) {
             
             cell.BookCoverImgSmall.hidden = YES;
+            cell.BookCoverImg.hidden = NO;
+
             cell.BookCoverImg.image = [UIImage imageWithData:[book valueForKey:@"bookCoverImage"]];
             
         } else {
             
             cell.BookCoverImg.hidden = YES;
+            cell.BookCoverImgSmall.hidden = NO;
             cell.BookCoverImgSmall.image = [UIImage imageWithData:[book valueForKey:BOOKS_CORE_DATA_KEY_BOOK_COVER_IMG]];
 
         }

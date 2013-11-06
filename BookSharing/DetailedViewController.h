@@ -17,6 +17,18 @@
 #import "EditBookInfoViewController.h"
 #import "SeachViewController.h"
 
+#define DETAILED_VIEW_DEBUG
+
+#ifdef DETAILED_VIEW_DEBUG
+#   define DETAILED_VIEW_LOG(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#   define DETAILED_VIEW_LOG(...)
+#endif
+
+#define DETAILED_VIEW_ERROR_LOG(fmt, ...) NSLog((@"ERROR !! %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+
+
 @interface DetailedViewController : GAITrackedViewController <NSURLConnectionDelegate> {
     NSURLConnection     *BookCoverConn;
     NSMutableData       *_responseData;

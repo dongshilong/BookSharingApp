@@ -30,6 +30,12 @@
     [super viewDidLoad];
     _BookAlreadyHave = NO;
     
+    
+    
+    // Set flag and init models
+    _NotificationState_OLD = @"Init";
+    _BookDataBase = [[BookListData alloc] init];
+    
     // 1. Assign Header View
     NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"BookInfoHeader" owner:self options:nil];
     _BookInfoHeaderView = (BookInfoHeader *)[subviewArray objectAtIndex:0];
@@ -68,7 +74,7 @@
             _BookInfoHeaderView.BookAuthorLab.text = _BookInfoObj.BookAuthor;
             
             [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj WithFatherView:SearchBookView];
-
+            
         }
         
     } else if (_FatherView == ListBookView) {
@@ -76,7 +82,7 @@
         // 3. Assign Scroll View
         // if self comes from List View, the bookInfoObj would init by NSManagedObject
         _BookInfoObj = [[BookInfo alloc] initWithCoreDataObj:_book];
-
+        
         if (SEARCH_ENGINE_FIND_BOOK == [_BookInfoObj WhereThisBookFrom]) {
             _BookInfoHeaderView.BookCoverViewSMALL.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
             _BookInfoHeaderView.BookNameLab.text = _BookInfoObj.BookName;
@@ -93,10 +99,6 @@
         [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj WithFatherView:ListBookView];
         
     }
-    
-    // 4. Set flag and init models
-    _NotificationState_OLD = @"Init";
-    _BookDataBase = [[BookListData alloc] init];
     
     // 5. init image data
     _responseData = [[NSMutableData alloc] init];
@@ -116,7 +118,7 @@
          }];
     } else {
         
-        //VIEW_LOG(@"Facebook Test is NOT open");
+        //DETAILED_VIEW_LOG(@"Facebook Test is NOT open");
     }
     
 }
@@ -142,7 +144,7 @@
                                                       object:nil queue:[NSOperationQueue mainQueue]
                                                   usingBlock:^(NSNotification *notification)
      {
-         VIEW_LOG(@"The Semi View Shows");
+         DETAILED_VIEW_LOG(@"The Semi View Shows");
      }];
     
     
@@ -152,9 +154,24 @@
      {
         if(_editBookViewContoller.TheBookIsDeleted)
         {
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            UIViewController *View = [self.storyboard instantiateViewControllerWithIdentifier:@"BookListView"];
+            
+            
+            CATransition *transition = [CATransition animation];
+            transition.duration = 0.3;
+            transition.type = kCATransitionFade;
+            transition.subtype = kCATransitionFromLeft;
+            
+            [self.navigationController.view.layer
+             addAnimation:transition forKey:kCATransition];
+
+            
+            // 2013.11.06 [CASPER] Modify going to list view after delete.
+            [self.navigationController pushViewController:View animated:YES];
+            
+            // [self.navigationController popToRootViewControllerAnimated:YES];
         }
-         VIEW_LOG(@"The Semi View Hide");
+         DETAILED_VIEW_LOG(@"The Semi View Hide");
      }];
 
 }
@@ -171,19 +188,19 @@
      {
          
          NSDictionary *dict = notification.userInfo;
-         VIEW_LOG(@"GET Notified %@", [dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY]);
+         DETAILED_VIEW_LOG(@"GET Notified %@", [dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY]);
          
          if ([[dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY] isEqualToString:_NotificationState_OLD]) {
              
              // Do nothing if the same notify comes up
-             VIEW_LOG(@"Same as _NotificationState_OLD");
+             DETAILED_VIEW_LOG(@"Same as _NotificationState_OLD");
              
              
          } else {
              
              if (([[dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY] isEqualToString:BOOK_DETAILED_BOOK_INFO_PAGE_DONE]))
              {
-                 VIEW_LOG(@"BOOK_DETAILED_BOOK_INFO_PAGE_DONE");
+                 DETAILED_VIEW_LOG(@"BOOK_DETAILED_BOOK_INFO_PAGE_DONE");
                  _NotificationState_OLD = BOOK_DETAILED_BOOK_INFO_PAGE_DONE;
                  
                  // TODO: [Casper] To Pass whole information to view layer
@@ -236,7 +253,7 @@
 -(void) FireBookCoverHDQueryConnectionWithBookCoverHDURL: (NSURL*) BookCoverURLHD
 {
     
-    VIEW_LOG(@"Fire Image Cover Connection!!!");
+    DETAILED_VIEW_LOG(@"Fire Image Cover Connection!!!");
     NSURLRequest *request=[NSURLRequest requestWithURL:BookCoverURLHD];
     BookCoverConn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     
@@ -391,7 +408,7 @@
 -(void) SaveBookInfoObj
 {
     // Search Book In DB With ISBN
-    VIEW_LOG(@"Save %@ to data base", _BookInfoObj.BookName);
+    DETAILED_VIEW_LOG(@"Save %@ to data base", _BookInfoObj.BookName);
     if (BOOKSLIST_SUCCESS != [_BookDataBase Books_SaveBookInfoObj:_BookInfoObj InDatabase:BOOK_LIST]) {
         VIEW_ERROR_LOG(@"SAVE ERROR");
     }
@@ -421,12 +438,12 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    VIEW_LOG(@"connectionDidFinishLoading");
+    DETAILED_VIEW_LOG(@"connectionDidFinishLoading");
     NSURLRequest *CurrRequest = [connection currentRequest];
     
     if ([[CurrRequest.URL absoluteString] isEqualToString:[_BookInfoObj.BookCoverHDURL absoluteString]]) {
         
-        VIEW_LOG(@"%@", [UIImage imageWithData:_responseData]);
+        DETAILED_VIEW_LOG(@"%@", [UIImage imageWithData:_responseData]);
         _BookInfoHeaderView.BookCoverView.image = [UIImage imageWithData:_responseData];
         _BookInfoObj.BookCoverImage = _responseData;
         [_BookInfoHeaderView.BookCoverViewSMALL setHidden:YES];
