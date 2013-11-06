@@ -49,6 +49,7 @@
     
     // 4. Init Data
     _TableDataSec0 = [NSMutableArray arrayWithObjects:@"Click to clear search results", nil];
+    _CurrentSearchEngine = SEARCH_ENGINE_BOOKS_TW;
     
     // 5. Google Analytics
     self.screenName = @"Shearch View";
@@ -103,7 +104,6 @@
 {
     
     [super viewDidAppear:animated];
-    NSLog(@"ViewDidAppear");
     [self ResetBarcodeReaderBtnAndDisapear:NO];
     
 }
@@ -304,7 +304,7 @@
      {
          
          NSDictionary *dict = notification.userInfo;
-         VIEW_LOG(@"GET Notified %@ - (OLD)%@", [dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY], _NotificationState_OLD);
+         NSLog(@"GET Notified %@ - (OLD)%@", [dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY], _NotificationState_OLD);
          
          if ([[dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY] isEqualToString:_NotificationState_OLD]) {
              
@@ -354,20 +354,77 @@
                          });
                      });
                      
-                 } else {
+                 }
+                 /* // 2013.11.05 [CASPER] move to notify BOOK_SEARCH_NOT_FOUND_NO_RETRY
+                 else {
                      
                      [self SingleBtnAlertWithString:@"Book Not Found"
                                          MessageStr:@"Enter another keyword and try again" andBtnString:@"OK"];
                      VIEW_LOG(@"There's no result");
                      
                  }
+                  */
                  
                  [self RemoveLoadingView];
 
+             } else if (([[dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY] isEqualToString:BOOK_SEARCH_NOT_FOUND_RETRY])) {
+                 _NotificationState_OLD = BOOK_SEARCH_NOT_FOUND_RETRY;
+
+                 VIEW_LOG(@"GET RETRY NOTIFY");
+
+             
+             } else if (([[dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY] isEqualToString:BOOK_SEARCH_NOT_FOUND_NO_RETRY])) {
+                 _NotificationState_OLD = BOOK_SEARCH_NOT_FOUND_NO_RETRY;
+
+                 [self SingleBtnAlertWithString:@"Book Not Found"
+                                     MessageStr:@"Enter another keyword and try again" andBtnString:@"OK"];
+                 VIEW_LOG(@"There's no result");
+             
+             } else if (([[dict objectForKey:BOOK_SEARCH_NOTIFICATION_KEY] isEqualToString:BOOK_SEARCH_NOT_FOUND_RETRY_DONE])) {
+                 
+                 // 2013.11.05 [CASPER] Add RETRY function / Get RETRY DONE Notify
+                 _CurrentSearchEngine = SEARCH_ENGINE_FIND_BOOK;
+                 _NotificationState_OLD = BOOK_SEARCH_NOT_FOUND_RETRY_DONE;
+                 
+                 NSUInteger Size = [[_BookSearch Books_ExtractToBookNameArrayWithDictionary:_BookSearch.BookSearchDic] count];
+                 
+                 if (Size != 0) {
+                     BookInfo *TempBookInfoObj = [[BookInfo alloc] init];
+                     TempBookInfoObj = [_BookSearch Books_ExtractToSingleBookInfoObjWithDictionary:_BookSearch.BookSearchDic ByIndex:0];
+                     // findBook provide the cover because the page is done loading
+                     TempBookInfoObj.BookInfoIntro = [_BookSearch Books_ExtractBookIntro];
+                     [_SearchBookInfoObjArray addObject:TempBookInfoObj];
+                     if (ShowSearchResult == NO) {
+                         
+                         // To avoid execution twice
+                         [_TableView reloadData];
+                         [_TableView setHidden:NO];
+                         ShowSearchResult = YES;
+                         
+                     }
+                     
+                     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                         
+                         // To query table image in background
+                         [self performSelector:@selector(getTableImage)];
+                         
+                         dispatch_async( dispatch_get_main_queue(), ^{
+                             // Add code here to update the UI/send notifications based on the
+                             // results of the background processing
+                             [_TableView reloadData];
+                             
+                         });
+                     });
+
+                     
+                     [self RemoveLoadingView];
+
+                 }
+                 
+                 VIEW_LOG(@"BOOK_SEARCH_NOT_FOUND_RETRY_DONE");
+                 
              }
          }
-         
-         
              
      }];
 }
@@ -576,6 +633,8 @@
         DetailedViewController *destViewController = segue.destinationViewController;
         destViewController.FatherView = SearchBookView;
         destViewController.BookInfoObj = BookInfoForParse;
+        destViewController.CurrentSearchEngine = _CurrentSearchEngine;
+        
         
         if ([_TableCoverImageArray count] >= Selection.row) {
             destViewController.BookInfoObj.BookCoverImage = [_TableCoverImageArray objectAtIndex:Selection.row];

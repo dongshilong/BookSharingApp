@@ -65,6 +65,7 @@ typedef enum {
 -(BOOKLIST_STATUS) Books_CoreDataUpdateWithoObject : (NSManagedObject*) Book;
 -(BOOKLIST_STATUS) Books_SaveBookInfoObj : (BookInfo*) BookInfoObj InDatabase : (BOOKLIST_CORE_DATA_DB) BookListDB;
 -(BOOKLIST_STATUS) Books_CoreDataSetThisBookAsDeleted : (NSManagedObject *) Book;
+-(SearchEngine) WhereThisBookFromWithCoreData:(NSManagedObject *) book;
 
 
 // Search Book Name in Core Data with KeyWord

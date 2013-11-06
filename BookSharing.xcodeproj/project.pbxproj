@@ -99,6 +99,7 @@
 		10EBD2C017F193B2002B49F0 /* BookListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EBD2BF17F193B2002B49F0 /* BookListData.m */; };
 		10EF7B1A1817CD9B0076B839 /* EditBookInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EF7B191817CD9B0076B839 /* EditBookInfoViewController.m */; };
 		10EF7B1D1817D40F0076B839 /* UIViewController+KNSemiModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EF7B1C1817D40F0076B839 /* UIViewController+KNSemiModal.m */; };
+		10F0D5FB1828BC6D002BF350 /* SearchFindBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F0D5FA1828BC6D002BF350 /* SearchFindBook.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -267,6 +268,8 @@
 		10EF7B191817CD9B0076B839 /* EditBookInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditBookInfoViewController.m; sourceTree = "<group>"; };
 		10EF7B1B1817D40F0076B839 /* UIViewController+KNSemiModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+KNSemiModal.h"; sourceTree = "<group>"; };
 		10EF7B1C1817D40F0076B839 /* UIViewController+KNSemiModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+KNSemiModal.m"; sourceTree = "<group>"; };
+		10F0D5F91828BC6D002BF350 /* SearchFindBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchFindBook.h; sourceTree = "<group>"; };
+		10F0D5FA1828BC6D002BF350 /* SearchFindBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchFindBook.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -632,9 +635,8 @@
 		10EBD2C117F19452002B49F0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				10F0D5FC1828CFFB002BF350 /* SearchEngine */,
 				10CF3CA4181F6A02004D8B74 /* Categories */,
-				10E6B19817F4231F00AD814E /* SearchBooksTW.h */,
-				10E6B19917F4231F00AD814E /* SearchBooksTW.m */,
 				10E6B19517F4230800AD814E /* BooksHtml.h */,
 				10E6B19617F4230800AD814E /* BooksHtml.m */,
 				10EBD2BE17F193B2002B49F0 /* BookListData.h */,
@@ -643,6 +645,17 @@
 				10EBD2BC17F193A5002B49F0 /* BookInfo.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		10F0D5FC1828CFFB002BF350 /* SearchEngine */ = {
+			isa = PBXGroup;
+			children = (
+				10E6B19817F4231F00AD814E /* SearchBooksTW.h */,
+				10E6B19917F4231F00AD814E /* SearchBooksTW.m */,
+				10F0D5F91828BC6D002BF350 /* SearchFindBook.h */,
+				10F0D5FA1828BC6D002BF350 /* SearchFindBook.m */,
+			);
+			name = SearchEngine;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -810,6 +823,7 @@
 				10E6B19717F4230800AD814E /* BooksHtml.m in Sources */,
 				1012552317F28A5100D30132 /* TableCell.m in Sources */,
 				10EBD2C017F193B2002B49F0 /* BookListData.m in Sources */,
+				10F0D5FB1828BC6D002BF350 /* SearchFindBook.m in Sources */,
 				1090EFE2181A60A20079BC7B /* UIImageView+AFNetworking.m in Sources */,
 				10E6B1A317F4276200AD814E /* XPathQuery.m in Sources */,
 			);

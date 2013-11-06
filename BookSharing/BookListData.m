@@ -503,6 +503,25 @@
 }
 
 
+-(SearchEngine) WhereThisBookFromWithCoreData:(NSManagedObject *) book
+{
+    NSRange Range;
+    
+    if ([[book valueForKey:BOOKS_CORE_DATA_KEY_BOOK_INFO_URL] isEqualToString:BOOKS_CORE_DATA_DEFAULT_VALUE]) {
+        return SEARCH_ENGINE_BOOKS_TW;
+    }
+    
+    Range = [[book valueForKey:BOOKS_CORE_DATA_KEY_BOOK_INFO_URL] rangeOfString:@"findbook.tw"];
+    
+    if (Range.length != 0) {
+
+        return SEARCH_ENGINE_FIND_BOOK;
+        
+    } else {
+        return SEARCH_ENGINE_BOOKS_TW;
+    }
+}
+
 
 #pragma mark - Sync Data
 
@@ -569,7 +588,9 @@
                                           } else {
                                                  
                                                  NSLog(@"TEST VIEW = READ SEARVER - NODATA");
-                                                 
+                                                [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_END_NO_MERGE];
+
+                                              
                                              }
                                              
                                          }

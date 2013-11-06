@@ -59,6 +59,7 @@
     
     [self dismissSemiModalView];
 }
+
 - (IBAction)CancelBtn:(id)sender {
     
     _TheBookIsDeleted = NO;
