@@ -12,6 +12,7 @@
 @synthesize BookNameLab;
 @synthesize BookAuthorLab;
 @synthesize BookCoverImg;
+@synthesize BookCoverImgSmall;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

@@ -10,12 +10,17 @@
 #import "TFHpple.h"
 #import "BookInfo.h"
 #import "SearchBooksTW.h"
+#import "SearchFindBook.h"
 
 #define BOOK_INFO_NOTIFY_ID                         @"BookInfoNotify"
 #define BOOK_SEARCH_NOTIFICATION_KEY                @"Status"
 
 #define ISBN_MIN_LENGTH 10
 #define ISBN_MAX_LENGTH 13
+
+#define BOOK_SEARCH_NOT_FOUND_NO_RETRY              @"BOOK_SEARCH_NOT_FOUND_NO_RETRY"
+#define BOOK_SEARCH_NOT_FOUND_RETRY                 @"BOOK_SEARCH_NOT_FOUND_RETRY"
+#define BOOK_SEARCH_NOT_FOUND_RETRY_DONE            @"BOOK_SEARCH_NOT_FOUND_RETRY_DONE"
 
 #define BOOK_SEARCH_RESULT_TABLE_DONE               @"BOOK_SEARCH_RESULT_TABLE_DONE"
 #define BOOK_DETAILED_BOOK_INFO_PAGE_DONE           @"BOOK_DETAILED_BOOK_INFO_PAGE_DONE"
@@ -29,15 +34,18 @@
 typedef enum {
     BOOKS_INIT = 0x00,
     BOOKS_SEARCH_KEY_WORDS,
+    BOOKS_SEARCH_KEY_WORDS_RETRY,
     BOOKS_GET_DETAILED_INFO,
     BOOKS_GET_COVER_IMAGE_HD,
 } BOOKS_HTML_STATE;
 
+@property (nonatomic, strong) NSString          *BookSearchKeyWord;
 
-@property BOOKS_HTML_STATE                  State;
-@property (nonatomic, strong) BookInfo      *BookInfoObj;
-@property (nonatomic, strong) SearchBooksTW *BooksTW;
-@property (nonatomic, strong) NSDictionary  *BookSearchDic;
+@property BOOKS_HTML_STATE                      State;
+@property (nonatomic, strong) BookInfo          *BookInfoObj;
+@property (nonatomic, strong) SearchBooksTW     *BooksTW;
+@property (nonatomic, strong) NSDictionary      *BookSearchDic;
+@property (nonatomic, strong) SearchFindBook    *FindBooks;
 
 
 -(BooksHtml*) init;
@@ -53,5 +61,8 @@ typedef enum {
 
 // Book Detailed Info Page Query
 -(void) Books_FireQueryBookDetailedInfoWithURL:(NSURL *) BookInfoURL;
+-(NSString*) Books_ExtractBookIntro;
+
+
 
 @end

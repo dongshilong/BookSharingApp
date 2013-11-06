@@ -55,6 +55,12 @@
 
 
 @interface BookInfo : NSObject
+typedef enum {
+    SEARCH_ENGINE_BOOKS_TW = 0x00,
+    SEARCH_ENGINE_FIND_BOOK,
+} SearchEngine;
+@property SearchEngine  FromSearchEngine;
+
 @property (nonatomic, strong) NSURL         *BookInfoURL;
 @property (nonatomic, strong) NSURL         *BookSearverURL;
 @property (nonatomic, strong) NSString      *BookName;
@@ -74,5 +80,6 @@
 -(BookInfo*) initWithCoreDataObj : (NSManagedObject*) bookCoreData;
 -(BookInfo*) initWithJSONObj : (NSArray*) bookJSONData;
 
+-(SearchEngine) WhereThisBookFrom;
 
 @end

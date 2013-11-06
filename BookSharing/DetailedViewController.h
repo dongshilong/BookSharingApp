@@ -15,6 +15,7 @@
 #import "DetailedScroller.h"
 #import "Searching.h"
 #import "EditBookInfoViewController.h"
+#import "SeachViewController.h"
 
 @interface DetailedViewController : GAITrackedViewController <NSURLConnectionDelegate> {
     NSURLConnection     *BookCoverConn;
@@ -29,12 +30,14 @@ typedef enum {
 } FatherViewController;
 @property FatherViewController FatherView;
 
-@property BOOL BookAlreadyHave;
 
-@property (weak, nonatomic) IBOutlet UIScrollView *Scroller;
-@property (weak, nonatomic)     BookInfoHeader      *BookInfoHeaderView;
-@property (strong, nonatomic)   DetailedScroller    *BookInfoDetailedView;
-@property (weak, nonatomic)     Searching           *SearchingView;
+@property SearchEngine CurrentSearchEngine;
+
+@property BOOL BookAlreadyHave;
+@property (weak, nonatomic) IBOutlet    UIScrollView        *Scroller;
+@property (weak, nonatomic)             BookInfoHeader      *BookInfoHeaderView;
+@property (strong, nonatomic)           DetailedScroller    *BookInfoDetailedView;
+@property (weak, nonatomic)             Searching           *SearchingView;
 
 
 @property (strong, atomic)      NSString        *NotificationState_OLD;

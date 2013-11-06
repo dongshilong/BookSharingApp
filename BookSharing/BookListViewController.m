@@ -100,9 +100,9 @@ BOOL GLOBAL_FORCE_SYNC = YES;
         // UI function should reloaded
         //_tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetch]];
         _tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetchNoDeletedData]];
-        [_tableView reloadData];
         
     }
+    [_tableView reloadData];
     [_tableView deselectRowAtIndexPath:_LocalIndexPath animated:NO];
     [super viewWillAppear:animated];
 }
@@ -275,7 +275,19 @@ BOOL GLOBAL_FORCE_SYNC = YES;
         NSManagedObject *book = [self.tableData objectAtIndex:indexPath.row];
         cell.BookNameLab.text = [NSString stringWithFormat:@"%@", [book valueForKey:@"bookName"]];
         cell.BookAuthorLab.text = [NSString stringWithFormat:@"%@", [book valueForKey:@"bookAuthor"]];
-        cell.BookCoverImg.image = [UIImage imageWithData:[book valueForKey:@"bookCoverImage"]];
+        
+        // 2013.11.06 [CASPER] Add Search Engine judgement
+        if (SEARCH_ENGINE_BOOKS_TW == [_BookList WhereThisBookFromWithCoreData:book]) {
+            
+            cell.BookCoverImgSmall.hidden = YES;
+            cell.BookCoverImg.image = [UIImage imageWithData:[book valueForKey:@"bookCoverImage"]];
+            
+        } else {
+            
+            cell.BookCoverImg.hidden = YES;
+            cell.BookCoverImgSmall.image = [UIImage imageWithData:[book valueForKey:BOOKS_CORE_DATA_KEY_BOOK_COVER_IMG]];
+
+        }
         
         return cell;
     }

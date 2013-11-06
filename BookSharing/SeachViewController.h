@@ -28,6 +28,8 @@
                         
 }
 
+@property SearchEngine CurrentSearchEngine;
+
 @property (weak, nonatomic)     IBOutlet UISearchBar        *SearchBar;
 @property (strong, nonatomic)   IBOutlet UIBarButtonItem    *sidebarButton;
 @property (strong, nonatomic)   IBOutlet UIBarButtonItem    *bookListButton;
@@ -51,6 +53,5 @@
 
 - (IBAction)BookListBtn:(id)sender;
 //- (IBAction)BarcodeReaderBtn:(id)sender;
-
 
 @end

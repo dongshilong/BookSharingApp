@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *BookNameLab;
 @property (weak, nonatomic) IBOutlet UILabel *BookAuthorLab;
 @property (weak, nonatomic) IBOutlet UIImageView *BookCoverImg;
+@property (weak, nonatomic) IBOutlet UIImageView *BookCoverImgSmall;
 
 @end

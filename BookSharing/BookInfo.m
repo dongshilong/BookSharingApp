@@ -77,6 +77,24 @@
 
 }
 
+-(SearchEngine) WhereThisBookFrom
+{
+    NSRange Range;
+
+    if ([[self.BookInfoURL absoluteString] isEqualToString:BOOKS_CORE_DATA_DEFAULT_VALUE]) {
+        return SEARCH_ENGINE_BOOKS_TW;
+    }
+    
+    Range = [[self.BookInfoURL absoluteString] rangeOfString:@"books.com"];
+    if (Range.length != 0) {
+        
+        return SEARCH_ENGINE_BOOKS_TW;
+        
+    } else {
+        
+        return SEARCH_ENGINE_FIND_BOOK;
+    }
+}
 
 
 @end

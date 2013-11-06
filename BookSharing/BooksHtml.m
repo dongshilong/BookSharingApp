@@ -13,6 +13,7 @@
 -(BooksHtml*) init
 {
     if (self != nil) {
+        _BookSearchKeyWord = nil;
         [self Books_ResetAll];
         
     }
@@ -40,6 +41,42 @@
     NotificationSent = NO;
 }
 
+//
+// Usage: 判斷輸入的 String 是否為數字
+// Parameter: string
+//
+-(bool) IS_NumericStr:(NSString*) hexText
+{
+    
+    NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+    
+    NSNumber* number = [numberFormatter numberFromString:hexText];
+    
+    if (number != nil) {
+        NSLog(@"%@ is numeric", hexText);
+        //do some stuff here
+        return YES;
+    }
+    
+    NSLog(@"%@ is not numeric", hexText);
+    //or do some more stuff here
+    return NO;
+}
+
+
+// ISBN String Judgement
+-(BOOL) IS_ISBNStr:(NSString *) inputStr
+{
+    if (![self IS_NumericStr:inputStr]) {
+        return NO;
+    }
+    
+    if (([inputStr length] != 10) && ([inputStr length] != 13)) {
+        return NO;
+    }
+    
+    return YES;
+}
 
 -(void) Books_SendStatusNotificationWithValue: (NSString *) Value
 {
@@ -109,6 +146,11 @@
     return BookInfoObj;
 }
 
+#pragma mark - For FindBook Search Engine Only
+-(NSString*) Books_ExtractBookIntro
+{
+    return [_FindBooks FindBook_PrepareBookIntro:_responseData];
+}
 
 #pragma mark - State Machine
 -(void) Books_StateMachine
@@ -129,18 +171,53 @@
                     _BookSearchDic = [[NSDictionary alloc] init];
                     _BookSearchDic = [_BooksTW BooksTW_PrepareBoosSearchResultTable:_responseData];
                     
+                    
                     if (_BookSearchDic != nil) {
-                        BOOKS_SEARCH_LOG(@"NOTIFICATION  = %i", NotificationSent);
-                        
+                        if ([[_BookSearchDic valueForKey:BOOK_DIC_BOOK_NAME_KEY] count] == 0) {
+                            
+                            [conn cancel];
+                            
+                            // if ISBN, use findbook to research
+                            if ([self IS_ISBNStr:_BookSearchKeyWord]) {
+                                
+                                [self Books_SendStatusNotificationWithValue:BOOK_SEARCH_NOT_FOUND_RETRY];
+                                [self Books_FireRetryQuery];
+
+                            } else {
+                                
+                                [self Books_SendStatusNotificationWithValue:BOOK_SEARCH_NOT_FOUND_NO_RETRY];
+                                
+                            }
+                            
+                        } else {
+                            
+                            BOOKS_SEARCH_LOG(@"NOTIFICATION  = %i", NotificationSent);
+                            
                             [self Books_SendStatusNotificationWithValue:BOOK_SEARCH_RESULT_TABLE_DONE];
                             _State = BOOKS_INIT;
 
+                        }
                     }
                 } else {
                     
                     _State = BOOKS_INIT;
                     
                 }
+            }
+            break;
+            
+        case BOOKS_SEARCH_KEY_WORDS_RETRY:
+            {
+                BOOKS_SEARCH_LOG(@"BOOKS_SEARCH_KEY_WORDS_RETRY");
+                
+                if ([_FindBooks FindBook_isBookExistInHtmlData:_responseData]) {
+                    _BookSearchDic = [_FindBooks FindBook_PrepareBoosSearchResultTable:_responseData];
+                    [self Books_SendStatusNotificationWithValue:BOOK_SEARCH_NOT_FOUND_RETRY_DONE];
+                } else {
+                    [self Books_SendStatusNotificationWithValue:BOOK_SEARCH_NOT_FOUND_NO_RETRY];
+                }
+                _State = BOOKS_INIT;
+
             }
             break;
             
@@ -151,10 +228,6 @@
                 _BookInfoObj.BookISBN = [_BooksTW BooksTW_ScrapingSingleBookISBNInDetailedPage:_responseData];
                 _BookInfoObj.BookInfoStrongIntro = [_BooksTW BooksTW_ScrapingSingleBookStrongDescription:_responseData];
                 _BookInfoObj.BookInfoIntro = [_BooksTW BooksTW_ScrapingSingleBookNormalDescription:_responseData];
-                
-                // TODO: [Casper] Arrange the Strong Intro string :
-                //       1. Delete the blank char
-                //       2. Replce <BR> and <br> by \n
                 
                 
                 BOOKS_SEARCH_LOG(@"%@", [_BookInfoObj.BookCoverHDURL absoluteString]);
@@ -177,9 +250,29 @@
 
 
 #pragma mark - Connection firing
+
+
+-(void) Books_FireRetryQuery
+{
+    if (_FindBooks == nil) {
+        _FindBooks = [[SearchFindBook alloc] init];
+    }
+    
+    NSURL *SearchingURL = [_FindBooks FindBook_PrepareURLByISBN:_BookSearchKeyWord];
+    NSURLRequest *request=[NSURLRequest requestWithURL:SearchingURL];
+    
+    [self Books_ResetAll];
+    BOOKS_SEARCH_LOG(@"Fire Connection !! \n%@", [request.URL absoluteString]);
+    conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    _State = BOOKS_SEARCH_KEY_WORDS_RETRY;
+}
+
+
 -(NSURL*) PrepareSearchURLWithKeyword : (NSString*) KeyWord
 {
     _BooksTW = [[SearchBooksTW alloc] init];
+    _BookSearchKeyWord = [NSString stringWithString:KeyWord];
+    
     return [_BooksTW BooksTW_PrepareSearchURLWithKeyWords:KeyWord];
 }
 

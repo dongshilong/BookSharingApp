@@ -38,20 +38,37 @@
     [self.view addSubview:_BookInfoHeaderView];
     
     // 2. If self came from SearchView, Fire detailed info connection.
-    VIEW_LOG(@"From %i", _FatherView);
     if (_FatherView == SearchBookView) {
         
         self.navigationItem.rightBarButtonItem = nil;
         
-        if (_BookInfoObj.BookCoverImage != nil) {
+        if(_CurrentSearchEngine == SEARCH_ENGINE_BOOKS_TW) {
             
-            _BookInfoHeaderView.BookCoverViewSMALL.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
+            if (_BookInfoObj.BookCoverImage != nil) {
+                
+                _BookInfoHeaderView.BookCoverViewSMALL.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
+                
+            }
+            
             _BookInfoHeaderView.BookNameLab.text = _BookInfoObj.BookName;
             _BookInfoHeaderView.BookAuthorLab.text = _BookInfoObj.BookAuthor;
             
-            VIEW_LOG(@"%@", [_BookInfoObj.BookInfoURL absoluteString]);
             [self FireDetailedInfoWithBookInfoURL:_BookInfoObj.BookInfoURL];
             [self ShowLoadingView];
+            
+        } else {
+            
+            if (_BookInfoObj.BookCoverImage != nil) {
+                
+                _BookInfoHeaderView.BookCoverViewSMALL.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
+                
+            }
+            
+            _BookInfoHeaderView.BookNameLab.text = _BookInfoObj.BookName;
+            _BookInfoHeaderView.BookAuthorLab.text = _BookInfoObj.BookAuthor;
+            
+            [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj WithFatherView:SearchBookView];
+
         }
         
     } else if (_FatherView == ListBookView) {
@@ -59,11 +76,20 @@
         // 3. Assign Scroll View
         // if self comes from List View, the bookInfoObj would init by NSManagedObject
         _BookInfoObj = [[BookInfo alloc] initWithCoreDataObj:_book];
-        
-        _BookInfoHeaderView.BookCoverView.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
-        _BookInfoHeaderView.BookNameLab.text = _BookInfoObj.BookName;
-        _BookInfoHeaderView.BookAuthorLab.text = _BookInfoObj.BookAuthor;
 
+        if (SEARCH_ENGINE_FIND_BOOK == [_BookInfoObj WhereThisBookFrom]) {
+            _BookInfoHeaderView.BookCoverViewSMALL.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
+            _BookInfoHeaderView.BookNameLab.text = _BookInfoObj.BookName;
+            _BookInfoHeaderView.BookAuthorLab.text = _BookInfoObj.BookAuthor;
+            
+        } else {
+            
+            _BookInfoHeaderView.BookCoverView.image = [UIImage imageWithData:_BookInfoObj.BookCoverImage];
+            _BookInfoHeaderView.BookNameLab.text = _BookInfoObj.BookName;
+            _BookInfoHeaderView.BookAuthorLab.text = _BookInfoObj.BookAuthor;
+            
+        }
+        
         [self DetailedView_SetScrollContentWithBookInfoObj:_BookInfoObj WithFatherView:ListBookView];
         
     }
