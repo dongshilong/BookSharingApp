@@ -37,41 +37,53 @@
     
     if (!_userProfileImage) {
         _userProfileImage = [[FBProfilePictureView alloc] init];
-        // TODO: !!! 2013/11/05 Check user profile image !!!
     }
     
+    _userProfileImage.frame = CGRectMake(0, 0, 120, 120);
+    
+    if (!_FbUserNameLab) {
+        _FbUserNameLab = [[UILabel alloc] init];
+    }
+
+
     
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    
     if (screenBounds.size.height == IPHONE_SCREEN_4_INCH_HEIGHT) {
         
         [self.LoginView setCenter: CGPointMake(FB_LOGIN_VIEW_LOCATION_X, FB_LOGIN_VIEW_LOCATION_4_INCH_Y)];
-        [self.userProfileImage setCenter: CGPointMake(FB_LOGIN_VIEW_LOCATION_X, FB_PROFILE_VIEW_LOCATION_4_INCH_Y)];
+        [self.userProfileImage setCenter: CGPointMake(FB_PROFILE_VIEW_LOCATION_X, FB_PROFILE_VIEW_LOCATION_4_INCH_Y)];
+        [self.FbUserNameLab setCenter: CGPointMake(FB_PROFILE_VIEW_LOCATION_X, FB_PROFILE_VIEW_LOCATION_4_INCH_Y)];
+        
     } else {
         
         [self.LoginView setCenter: CGPointMake(FB_LOGIN_VIEW_LOCATION_X, FB_LOGIN_VIEW_LOCATION_3_5_INCH_Y)];
-        [self.userProfileImage setCenter: CGPointMake(FB_LOGIN_VIEW_LOCATION_X, FB_PROFILE_VIEW_LOCATION_3_5_INCH_Y)];
+        [self.userProfileImage setCenter: CGPointMake(FB_PROFILE_VIEW_LOCATION_X, FB_PROFILE_VIEW_LOCATION_3_5_INCH_Y)];
+        [self.FbUserNameLab setCenter: CGPointMake(FB_PROFILE_VIEW_LOCATION_X, FB_PROFILE_VIEW_LOCATION_3_5_INCH_Y)];
+
     }
-    
-    [self.view addSubview:_LoginView];
-    [self.view addSubview:_userProfileImage];
-    
 
     if (FBSession.activeSession.isOpen) {
         
         [self populateUserDetails];
-        self.userProfileImage.hidden = NO;
+        _userProfileImage.hidden = NO;
         _FbUserNameLab.hidden = NO;
         _LoginView.hidden = YES;
         
     } else {
         
         [self populateUserDetails];
-        self.userProfileImage.hidden = YES;
+        _userProfileImage.hidden = YES;
         _FbUserNameLab.hidden = YES;
         _LoginView.hidden = NO;
         
     }
+    
+
+    [self.view addSubview:_LoginView];
+    [self.view addSubview:_userProfileImage];
+    [self.view addSubview:_FbUserNameLab];
+    
+    
     
     _menuItems1 = @[@"HOT"];
     _menuItems2 = @[@"BookList", @"SearchBook", @"Setting"];
@@ -240,6 +252,23 @@
     }
 }
 
+-(void)SetupFBNameLabelWithUserName : (NSString*) UserNameStr
+{
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
+    CGSize size = CGSizeMake(300, 0);
+    
+    [_FbUserNameLab setFont:font];
+    _FbUserNameLab.text = UserNameStr;
+
+    _FbUserNameLab.numberOfLines = 0;
+    //[_FbUserNameLab setBackgroundColor: [UIColor whiteColor]];
+    CGSize constraint = CGSizeMake(300, 20000.0f);
+    size = [_FbUserNameLab sizeThatFits:constraint];
+    [_FbUserNameLab setFrame:CGRectMake(150, _FbUserNameLab.frame.origin.y, size.width, size.height)];
+    //NSLog(@"_FbUserNameLab = %@", _FbUserNameLab);
+
+}
+
 - (void)populateUserDetails {
     
     if (FBSession.activeSession.isOpen) {
@@ -247,6 +276,7 @@
          ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
              if (!error) {
                  _FbUserNameLab.text = user.name;
+                 [self SetupFBNameLabelWithUserName:user.name];
                  self.userProfileImage.profileID = [user objectForKey:@"id"];
                  
              }
