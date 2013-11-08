@@ -28,6 +28,8 @@
 		1012552417F28A5100D30132 /* TableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1012552217F28A5100D30132 /* TableCell.xib */; };
 		1012552717F2919B00D30132 /* DetailedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1012552617F2919B00D30132 /* DetailedViewController.m */; };
 		1016716018235F5A00241733 /* PAPER.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1016715F18235F5A00241733 /* PAPER.jpg */; };
+		10215BBE182C88E90014F703 /* photo-frame copy.png in Resources */ = {isa = PBXBuildFile; fileRef = 10215BBD182C88E90014F703 /* photo-frame copy.png */; };
+		10215BC2182C8F660014F703 /* BookListNotLoginAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10215BC1182C8F660014F703 /* BookListNotLoginAlert.xib */; };
 		102559C91821F5BD00AC59AD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 102559C81821F5BD00AC59AD /* AVFoundation.framework */; };
 		102559CB1821F5C900AC59AD /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 102559CA1821F5C900AC59AD /* CoreMedia.framework */; };
 		102559CD1821F5D400AC59AD /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 102559CC1821F5D400AC59AD /* CoreVideo.framework */; };
@@ -136,6 +138,8 @@
 		1012552517F2919B00D30132 /* DetailedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailedViewController.h; sourceTree = "<group>"; };
 		1012552617F2919B00D30132 /* DetailedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedViewController.m; sourceTree = "<group>"; };
 		1016715F18235F5A00241733 /* PAPER.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PAPER.jpg; sourceTree = "<group>"; };
+		10215BBD182C88E90014F703 /* photo-frame copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-frame copy.png"; sourceTree = "<group>"; };
+		10215BC1182C8F660014F703 /* BookListNotLoginAlert.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookListNotLoginAlert.xib; sourceTree = "<group>"; };
 		102559C81821F5BD00AC59AD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		102559CA1821F5C900AC59AD /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		102559CC1821F5D400AC59AD /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -474,6 +478,7 @@
 			children = (
 				10EBD2B317F183BC002B49F0 /* BookListViewController.h */,
 				10EBD2B417F183BC002B49F0 /* BookListViewController.m */,
+				10215BC1182C8F660014F703 /* BookListNotLoginAlert.xib */,
 			);
 			name = ListView;
 			sourceTree = "<group>";
@@ -576,6 +581,7 @@
 				10EBD27317F170F4002B49F0 /* Supporting Files */,
 				10EBD2B917F188E0002B49F0 /* menu@2x.png */,
 				10469AE11814CEC500888186 /* photo-frame.png */,
+				10215BBD182C88E90014F703 /* photo-frame copy.png */,
 				1090EFC4181A05410079BC7B /* book.png */,
 				1016715F18235F5A00241733 /* PAPER.jpg */,
 				100ABA0E17F4900200601973 /* BarcodeReader.png */,
@@ -737,6 +743,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10215BC2182C8F660014F703 /* BookListNotLoginAlert.xib in Resources */,
 				1002C14118239BBB003003E5 /* Icon-Small-50@2x.png in Resources */,
 				1016716018235F5A00241733 /* PAPER.jpg in Resources */,
 				10EBD28517F170F4002B49F0 /* Images.xcassets in Resources */,
@@ -757,6 +764,7 @@
 				1002C13A18239BBB003003E5 /* Icon-60.png in Resources */,
 				1002C14418239BBB003003E5 /* Icon-Spotlight-40.png in Resources */,
 				10EBD27717F170F4002B49F0 /* InfoPlist.strings in Resources */,
+				10215BBE182C88E90014F703 /* photo-frame copy.png in Resources */,
 				108D29D717F7D20A00C87FE3 /* BookInfoHeader.xib in Resources */,
 				1091586717F5802700AD0984 /* TableCellSmall.xib in Resources */,
 				100ABA0F17F4900200601973 /* BarcodeReader.png in Resources */,

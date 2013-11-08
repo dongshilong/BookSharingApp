@@ -118,7 +118,8 @@
          }];
     } else {
         
-        //DETAILED_VIEW_LOG(@"Facebook Test is NOT open");
+        
+        DETAILED_VIEW_LOG(@"Facebook Test is NOT open");
     }
     
 }

@@ -17,7 +17,7 @@
 #import "EditBookInfoViewController.h"
 #import "SeachViewController.h"
 
-#define DETAILED_VIEW_DEBUG
+//#define DETAILED_VIEW_DEBUG
 
 #ifdef DETAILED_VIEW_DEBUG
 #   define DETAILED_VIEW_LOG(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)

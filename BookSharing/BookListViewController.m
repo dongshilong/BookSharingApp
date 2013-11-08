@@ -75,9 +75,8 @@ BOOL GLOBAL_FORCE_SYNC = YES;
     
     // [CASPER] : 2013/11/01 Setup Pull to refresh
     _PullToRefresh = [[UIRefreshControl alloc] init];
-    [_PullToRefresh setBackgroundColor:[UIColor whiteColor]];
+    [_PullToRefresh setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.5]];
     [_PullToRefresh addTarget:self action:@selector(SyncDataWithServer) forControlEvents:UIControlEventValueChanged];
-
     [_tableView addSubview:_PullToRefresh];
 
     [self SyncDataWithServer];
@@ -117,6 +116,9 @@ BOOL GLOBAL_FORCE_SYNC = YES;
 }
 
 
+
+
+#pragma mark - UI behavior
 // 2013.10.16 [CASPER] Fix front view behavior
 //                     front view go back when touched.
 -(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -124,6 +126,46 @@ BOOL GLOBAL_FORCE_SYNC = YES;
     [super touchesEnded:touches withEvent:event];
     
 }
+
+-(void) ExecuteNotLoginViewWhenRefreshing:(BOOL) Refreshing
+{
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    UIView *NotLoginView = [[UIView alloc] init];
+    NotLoginView = [[[NSBundle mainBundle] loadNibNamed:@"BookListNotLoginAlert" owner:self options:nil] objectAtIndex:0];
+    [NotLoginView setCenter:CGPointMake(screenBounds.size.width / 2, (screenBounds.size.height + NotLoginView.frame.size.height))];
+    
+    NotLoginView.layer.masksToBounds = YES;
+    NotLoginView.layer.opaque = NO;
+    NotLoginView.layer.cornerRadius = 4.0f;
+    [_tableView addSubview:NotLoginView];
+    
+    NotLoginView.alpha = 0.2;
+    [UIView animateWithDuration:2.0
+                     animations:^{
+                         
+                         if (Refreshing) {
+                             
+                              NotLoginView.center = CGPointMake(screenBounds.size.width/2, screenBounds.size.height - NotLoginView.frame.size.height - 50);
+                             
+                         } else {
+                              NotLoginView.center = CGPointMake(screenBounds.size.width/2, screenBounds.size.height - NotLoginView.frame.size.height - 20);
+                         }
+                         
+                        
+                         NotLoginView.alpha = 0.8;
+                     }
+                     completion:^(BOOL finished){
+                         [UIView animateWithDuration:2.0
+                                          animations:^{
+                                              NotLoginView.center = CGPointMake(screenBounds.size.width/2, screenBounds.size.height + NotLoginView.frame.size.height);;
+                                              NotLoginView.alpha = 0.2;
+                                          }
+                                          completion:^(BOOL finished){
+                                              [NotLoginView removeFromSuperview];
+                                              
+                                          }];
+                     }];}
+
 
 #pragma mark - Get Data Sync Notification
 -(void) DatabaseSyncNotification
@@ -425,15 +467,35 @@ shouldReloadTableForSearchString:(NSString *)searchString
         GLOBAL_FORCE_SYNC = YES;
     }
     
-    // 1. Check Force Update
     if (GLOBAL_FORCE_SYNC) {
+        if (FBSession.activeSession.isOpen) {
+            
+            [self performSelector:@selector(DatabaseSyncNotification)];
+            [_BookList  Books_GetServerDataAndMerge];
+ 
+        } else {
+            
+            
+            if (_PullToRefresh.refreshing){
+                
+                [self performSelector:@selector(stopRefresh) withObject:nil afterDelay:0.3];
+                sleep(0.5);
+                [self ExecuteNotLoginViewWhenRefreshing:YES];
+                
+            } else {
+                
+                [self ExecuteNotLoginViewWhenRefreshing:NO];
+                
+            }
+            
+
+        }
         
-        [self performSelector:@selector(DatabaseSyncNotification)];
-        [_BookList  Books_GetServerDataAndMerge];
         GLOBAL_FORCE_SYNC = NO;
         
     } else {
-
+        
+        
         // 2. Check current time and update time (in core data)
         // if diff is over then 5 min, then sync
         NSDate *CurrentTime = [NSDate date];
@@ -442,13 +504,22 @@ shouldReloadTableForSearchString:(NSString *)searchString
         
         if (secondsBetween >= SYNC_THRESHOLD_SEC) {
             
-            LIST_VIEW_LOG(@"Update 5 min ago, execute update");
-            [self performSelector:@selector(DatabaseSyncNotification)];
-            [_BookList  Books_GetServerDataAndMerge];
+            if (FBSession.activeSession.isOpen) {
+            
+                LIST_VIEW_LOG(@"Update 5 min ago, execute update");
+                [self performSelector:@selector(DatabaseSyncNotification)];
+                [_BookList  Books_GetServerDataAndMerge];
+            
+            } else {
+            
+                [self ExecuteNotLoginViewWhenRefreshing:NO];
+
+            }
             
         }
-
+        
     }
+
 }
 
 @end
