@@ -464,15 +464,18 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 -(void) SyncDataWithServer
 {
-    LIST_VIEW_LOG(@"Syncing");
     
     if (_PullToRefresh.isRefreshing) {
         GLOBAL_FORCE_SYNC = YES;
+        LIST_VIEW_LOG(@"is Refreshing");
+
     }
     
     if (GLOBAL_FORCE_SYNC) {
+        
         if (FBSession.activeSession.isOpen) {
             
+            LIST_VIEW_LOG(@"Sync executing");
             [self performSelector:@selector(DatabaseSyncNotification)];
             [_BookList  Books_GetServerDataAndMerge];
  
@@ -506,19 +509,23 @@ shouldReloadTableForSearchString:(NSString *)searchString
         NSTimeInterval secondsBetween = [CurrentTime timeIntervalSinceDate:UpdateTime];
         
         if (secondsBetween >= SYNC_THRESHOLD_SEC) {
-            
+
             if (FBSession.activeSession.isOpen) {
-            
+                
                 LIST_VIEW_LOG(@"Update 5 min ago, execute update");
                 [self performSelector:@selector(DatabaseSyncNotification)];
                 [_BookList  Books_GetServerDataAndMerge];
             
             } else {
-            
+                
                 [self ExecuteNotLoginViewWhenRefreshing:NO];
 
             }
             
+        } else {
+            
+            LIST_VIEW_LOG(@"JUST SYNC - NO NEED to Sync");
+
         }
         
     }

@@ -588,8 +588,16 @@
                                           } else {
                                                  
                                                  NSLog(@"TEST VIEW = READ SEARVER - NODATA");
-                                                [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_END_NO_MERGE];
+                                              if (BOOKSLIST_SUCCESS == [self Books_SaveCurrentAsLastSyncTime]) {
+                                                  
+                                                  [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_END_NO_MERGE];
+                                                  
+                                              } else {
+                                                  NSLog(@"Save current time as sync time error");
+                                                  [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_ERROR];
 
+                                              }
+                                              
                                               
                                              }
                                              
