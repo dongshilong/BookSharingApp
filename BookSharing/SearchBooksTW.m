@@ -391,12 +391,14 @@
             // TAIL location
             BOOKS_SEARCH_LOG(@"Strong Intro KEY = %@", KeyStr);
             TextRange2 = [HtmlDataStr rangeOfString:[SearchDic objectForKey:KeyStr]];
-
-            TextRange1.location = TextRange1.location + TextRange1.length;
-            TextRange1.length = TextRange2.location - TextRange1.location;
             
-            BookDescription = [NSString stringWithFormat:@"%@", [HtmlDataStr substringWithRange:TextRange1]];
-            BookDescription = [self stringArrangeIntroString:BookDescription];
+            // [CASPER] : 2013.11.13 Fix crash issue "[iOS] Detailed info query crash"
+            if (TextRange2.length != 0) {
+                TextRange1.location = TextRange1.location + TextRange1.length;
+                TextRange1.length = TextRange2.location - TextRange1.location;
+                BookDescription = [NSString stringWithFormat:@"%@", [HtmlDataStr substringWithRange:TextRange1]];
+                BookDescription = [self stringArrangeIntroString:BookDescription];
+            }
             break;
         }
         
@@ -439,14 +441,18 @@
             BOOKS_SEARCH_LOG(@"Strong Intro KEY = %@", KeyStr);
             TextRange2 = [HtmlDataStr rangeOfString:[SearchDic objectForKey:KeyStr]];
             
-            TextRange1.location = TextRange1.location + TextRange1.length;
-            TextRange1.length = TextRange2.location - TextRange1.location;
-
-            StrongDescription = [NSString stringWithFormat:@"%@", [HtmlDataStr substringWithRange:TextRange1]];
-            StrongDescription = [self stringArrangeIntroString:StrongDescription];
+            // [CASPER] : 2013.11.13 Fix crash issue "[iOS] Detailed info query crash"
+            if (TextRange2.length != 0) {
+                TextRange1.location = TextRange1.location + TextRange1.length;
+                TextRange1.length = TextRange2.location - TextRange1.location;
+                BookDescription = [NSString stringWithFormat:@"%@", [HtmlDataStr substringWithRange:TextRange1]];
+                BookDescription = [self stringArrangeIntroString:BookDescription];
+            }
             break;
         }
+        
     }
+
     
     
     if (StrongDescription == nil) {
