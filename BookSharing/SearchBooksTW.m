@@ -391,6 +391,8 @@
             // TAIL location
             BOOKS_SEARCH_LOG(@"Strong Intro KEY = %@", KeyStr);
             TextRange2 = [HtmlDataStr rangeOfString:[SearchDic objectForKey:KeyStr]];
+            
+            // [CASPER] : 2013.11.13 Fix crash issue "[iOS] Detailed info query crash"
             if (TextRange2.length != 0) {
                 TextRange1.location = TextRange1.location + TextRange1.length;
                 TextRange1.length = TextRange2.location - TextRange1.location;
@@ -438,6 +440,8 @@
             // TAIL location
             BOOKS_SEARCH_LOG(@"Strong Intro KEY = %@", KeyStr);
             TextRange2 = [HtmlDataStr rangeOfString:[SearchDic objectForKey:KeyStr]];
+            
+            // [CASPER] : 2013.11.13 Fix crash issue "[iOS] Detailed info query crash"
             if (TextRange2.length != 0) {
                 TextRange1.location = TextRange1.location + TextRange1.length;
                 TextRange1.length = TextRange2.location - TextRange1.location;
