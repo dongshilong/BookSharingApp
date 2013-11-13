@@ -33,6 +33,9 @@
     _BookInfoObj = [[BookInfo alloc] initWithCoreDataObj:_book];
     // Google Analytics
     self.screenName = @"EditView";
+    
+    // 1. Init Scroller
+    [self EditBook_SetScrollerContentWithManagedObject:_book];
 }
 
 - (void)didReceiveMemoryWarning
@@ -41,12 +44,34 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+-(BOOL) EditBook_SetScrollerContentWithManagedObject:(NSManagedObject*) bookObject
+{
+    
+    [_Scroller setContentSize:CGSizeMake(320, 1000)];
+    [_Scroller setScrollEnabled:YES];
+    
+    // Assign Scrolling view
+    NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"EditBookInfoScroller" owner:self options:nil];
+    if (subviewArray == nil) {
+        VIEW_ERROR_LOG(@"CANNOT FIND DetailedScroller.xib");
+        return NO;
+    }
+    
+    
+
+    return YES;
+}
+
+
+
 - (IBAction)DeleteBtn:(id)sender {
     
     _TheBookIsDeleted = YES;
     _TheBookIsEdited = NO;
 
     if ((_BookInfoObj.BookSearverURL == nil) || ([[_BookInfoObj.BookSearverURL absoluteString] isEqualToString:BOOKS_CORE_DATA_DEFAULT_VALUE])) {
+        
         //([[_BookInfoObj.BookSearverURL absoluteString] isEqualToString:BOOKS_CORE_DATA_DEFAULT_VALUE])
         // TODO: To update coredata deleted flag, and wait to delete it during sync process
         

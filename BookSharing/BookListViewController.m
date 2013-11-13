@@ -358,6 +358,9 @@ BOOL GLOBAL_FORCE_SYNC = YES;
 {
     _LocalIndexPath = indexPath;
     
+    if (_PullToRefresh.refreshing){
+        [self performSelector:@selector(stopRefresh) withObject:nil afterDelay:0];
+    }
     
     // 2013.10.16 [CASPER] Fix front view behavior
     //                     front view go back when touched.

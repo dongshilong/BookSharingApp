@@ -67,6 +67,8 @@
 		10B049491820B60A006F2FC2 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10B049471820B60A006F2FC2 /* libGoogleAnalyticsServices.a */; };
 		10B0494D1820B9D6006F2FC2 /* libGoogleAnalytics_debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10B0494C1820B9D6006F2FC2 /* libGoogleAnalytics_debug.a */; };
 		10B0494F1820BA31006F2FC2 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 10B0494E1820BA31006F2FC2 /* libz.1.2.5.dylib */; };
+		10B0D3F91830A5EB00540B1D /* EditBookInfoScroller.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10B0D3F81830A5EB00540B1D /* EditBookInfoScroller.xib */; };
+		10B0D3FC1830A6D100540B1D /* EditBookInfoScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 10B0D3FB1830A6D100540B1D /* EditBookInfoScroller.m */; };
 		10CF3CAA181F6A8D004D8B74 /* NSMutableArray+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CF3CA9181F6A8D004D8B74 /* NSMutableArray+Stack.m */; };
 		10CF3CAD181F6ACB004D8B74 /* NSMutableArray+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CF3CAC181F6ACB004D8B74 /* NSMutableArray+Queue.m */; };
 		10E6B19717F4230800AD814E /* BooksHtml.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E6B19617F4230800AD814E /* BooksHtml.m */; };
@@ -218,6 +220,9 @@
 		10B049531820BA70006F2FC2 /* GAILogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
 		10B049541820BA70006F2FC2 /* GAITrackedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
 		10B049551820BA70006F2FC2 /* GAITracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		10B0D3F81830A5EB00540B1D /* EditBookInfoScroller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditBookInfoScroller.xib; sourceTree = "<group>"; };
+		10B0D3FA1830A6D100540B1D /* EditBookInfoScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditBookInfoScroller.h; sourceTree = "<group>"; };
+		10B0D3FB1830A6D100540B1D /* EditBookInfoScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditBookInfoScroller.m; sourceTree = "<group>"; };
 		10CF3CA8181F6A8D004D8B74 /* NSMutableArray+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Stack.h"; path = "Categories/NSMutableArray+Stack.h"; sourceTree = "<group>"; };
 		10CF3CA9181F6A8D004D8B74 /* NSMutableArray+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Stack.m"; path = "Categories/NSMutableArray+Stack.m"; sourceTree = "<group>"; };
 		10CF3CAB181F6ACB004D8B74 /* NSMutableArray+Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Queue.h"; path = "Categories/NSMutableArray+Queue.h"; sourceTree = "<group>"; };
@@ -417,6 +422,9 @@
 			children = (
 				10EF7B181817CD9B0076B839 /* EditBookInfoViewController.h */,
 				10EF7B191817CD9B0076B839 /* EditBookInfoViewController.m */,
+				10B0D3FB1830A6D100540B1D /* EditBookInfoScroller.m */,
+				10B0D3FA1830A6D100540B1D /* EditBookInfoScroller.h */,
+				10B0D3F81830A5EB00540B1D /* EditBookInfoScroller.xib */,
 				1012552517F2919B00D30132 /* DetailedViewController.h */,
 				1012552617F2919B00D30132 /* DetailedViewController.m */,
 				107FC4D017F825F300736AC8 /* DetailedScroller.xib */,
@@ -779,6 +787,7 @@
 				10469AE21814CEC500888186 /* photo-frame.png in Resources */,
 				1012552417F28A5100D30132 /* TableCell.xib in Resources */,
 				10B049451820B5EB006F2FC2 /* FacebookSDKOverrides.bundle in Resources */,
+				10B0D3F91830A5EB00540B1D /* EditBookInfoScroller.xib in Resources */,
 				1002C14818239BBB003003E5 /* iTunesArtwork in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -825,6 +834,7 @@
 				10EBD2B017F1835F002B49F0 /* AppDelegate.m in Sources */,
 				105FDBB418151226001E7AE6 /* SettingViewViewController.m in Sources */,
 				10E6B1A117F4276200AD814E /* TFHpple.m in Sources */,
+				10B0D3FC1830A6D100540B1D /* EditBookInfoScroller.m in Sources */,
 				10CF3CAA181F6A8D004D8B74 /* NSMutableArray+Stack.m in Sources */,
 				107FC4CF17F825DC00736AC8 /* DetailedScroller.m in Sources */,
 				10EBD2B517F183BC002B49F0 /* BookListViewController.m in Sources */,
