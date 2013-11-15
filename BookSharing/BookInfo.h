@@ -41,6 +41,8 @@
 #define BOOKS_WEB_DB_KEY_BOOK_TYPE                  @"booktype"
 #define BOOKS_WEB_DB_KEY_BOOK_ID                    @"bookid"
 #define BOOKS_WEB_DB_KEY_BOOK_SEARVER_URL           @"url"
+#define BOOKS_WEB_DB_KEY_BOOK_INFO_URL              @"bookinfourl" //[CASPER] 2013.11.15:Add new attr on server
+
 
 #define BOOKS_CORE_DATA_IS_DELETED                  @"IS_DELETED"
 #define BOOKS_CORE_DATA_NOT_DELETED                 @"NOT_DELETED"
