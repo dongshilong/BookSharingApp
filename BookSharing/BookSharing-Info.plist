@@ -14,13 +14,16 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>Icon-Spotlight-40</string>
-				<string>Icon-Small</string>
+				<string>Light -60</string>
+				<string>Light -Spotlight-40</string>
+				<string>Light -Small</string>
 				<string>Icon-60</string>
-				<string>Icon</string>
+				<string>Light </string>
 			</array>
 		</dict>
 	</dict>
+	<key>CFBundleIcons~ipad</key>
+	<dict/>
 	<key>CFBundleIdentifier</key>
 	<string>com.casperIOS.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
