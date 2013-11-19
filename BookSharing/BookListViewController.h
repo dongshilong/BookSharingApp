@@ -12,7 +12,7 @@
 #import "BookInfo.h"
 #import "NSMutableArray+Queue.h"
 
-//#define DEBUG_LIST_VIEW
+#define DEBUG_LIST_VIEW
 #ifdef DEBUG_LIST_VIEW
 #   define LIST_VIEW_LOG(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else

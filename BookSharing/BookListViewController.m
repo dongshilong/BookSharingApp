@@ -60,6 +60,7 @@ BOOL GLOBAL_FORCE_SYNC = YES;
     // 4. Setup UI activity
     self.navigationItem.title = @"Book List";
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:9.0 green:80.0 blue:26.0 alpha:0.8]];
     //self.clearsSelectionOnViewWillAppear = YES;
     
     
@@ -71,15 +72,15 @@ BOOL GLOBAL_FORCE_SYNC = YES;
 
     // Google Analytics
     self.screenName = @"ListView";
-
+    
     
     // [CASPER] : 2013/11/01 Setup Pull to refresh
     _PullToRefresh = [[UIRefreshControl alloc] init];
     [_PullToRefresh setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.5]];
     [_PullToRefresh addTarget:self action:@selector(SyncDataWithServer) forControlEvents:UIControlEventValueChanged];
     [_tableView addSubview:_PullToRefresh];
-
     [self SyncDataWithServer];
+
     
 }
 
@@ -88,6 +89,7 @@ BOOL GLOBAL_FORCE_SYNC = YES;
 
 -(void) viewWillAppear:(BOOL)animated
 {
+    
     if (InitedInViewDidLoaded) {
         
         // Everything is ready in ViewDidLoaded
@@ -99,12 +101,17 @@ BOOL GLOBAL_FORCE_SYNC = YES;
         // UI function should reloaded
         //_tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetch]];
         LIST_VIEW_LOG(@"RELOAD DATA");
+
         _tableData = [[NSMutableArray alloc] initWithArray:[_BookList Books_CoreDataFetchNoDeletedData]];
-        [_tableView reloadData];
+        if (0 != [_tableData count]) {
+            [_tableView reloadData];            
+        }
+
         
     }
     
     [_tableView deselectRowAtIndexPath:_LocalIndexPath animated:NO];
+    
     [super viewWillAppear:animated];
 }
 
@@ -464,15 +471,15 @@ shouldReloadTableForSearchString:(NSString *)searchString
 
 -(void) SyncDataWithServer
 {
-    
+
     if (_PullToRefresh.isRefreshing) {
+        
         GLOBAL_FORCE_SYNC = YES;
         LIST_VIEW_LOG(@"is Refreshing");
 
     }
-    
+
     if (GLOBAL_FORCE_SYNC) {
-        
         if (FBSession.activeSession.isOpen) {
             
             LIST_VIEW_LOG(@"Sync executing");
@@ -480,7 +487,6 @@ shouldReloadTableForSearchString:(NSString *)searchString
             [_BookList  Books_GetServerDataAndMerge];
  
         } else {
-            
             
             if (_PullToRefresh.refreshing){
                 
@@ -494,40 +500,49 @@ shouldReloadTableForSearchString:(NSString *)searchString
                 
             }
             
-
         }
         
         GLOBAL_FORCE_SYNC = NO;
         
     } else {
         
-        
         // 2. Check current time and update time (in core data)
         // if diff is over then 5 min, then sync
-        NSDate *CurrentTime = [NSDate date];
-        NSDate *UpdateTime = [_BookList Books_GetTheLastSyncTime];
-        NSTimeInterval secondsBetween = [CurrentTime timeIntervalSinceDate:UpdateTime];
+        if (FBSession.activeSession.isOpen) {
         
-        if (secondsBetween >= SYNC_THRESHOLD_SEC) {
-
-            if (FBSession.activeSession.isOpen) {
+            NSDate *CurrentTime = [NSDate date];
+            NSDate *UpdateTime = [_BookList Books_GetTheLastSyncTime];
+            
+            if (UpdateTime != nil) {
+                NSTimeInterval secondsBetween = [CurrentTime timeIntervalSinceDate:UpdateTime];
                 
-                LIST_VIEW_LOG(@"Update 5 min ago, execute update");
-                [self performSelector:@selector(DatabaseSyncNotification)];
-                [_BookList  Books_GetServerDataAndMerge];
+                if (secondsBetween >= SYNC_THRESHOLD_SEC) {
+                    
+                    LIST_VIEW_LOG(@"Update 5 min ago, execute update");
+                    [self performSelector:@selector(DatabaseSyncNotification)];
+                    [_BookList  Books_GetServerDataAndMerge];
+                
+                } else {
+                    
+                    LIST_VIEW_LOG(@"JUST SYNC - NO NEED to Sync");
+                
+                }
             
             } else {
                 
-                [self ExecuteNotLoginViewWhenRefreshing:NO];
+                LIST_VIEW_LOG(@"Never been sync before, execute sync");
+                
+                [self performSelector:@selector(DatabaseSyncNotification)];
+                [_BookList  Books_GetServerDataAndMerge];
+
 
             }
             
         } else {
             
-            LIST_VIEW_LOG(@"JUST SYNC - NO NEED to Sync");
-
-        }
+            [self ExecuteNotLoginViewWhenRefreshing:NO];
         
+        }
     }
 
 }

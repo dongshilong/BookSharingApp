@@ -127,6 +127,7 @@
     return BookInfoObj;
 }
 
+
 // 將 BookInfo 的 object 存入 Core Data
 -(BOOKLIST_STATUS) Books_SaveBookInfoObj : (BookInfo*) BookInfoObj InDatabase : (BOOKLIST_CORE_DATA_DB) BookListDB
 {
@@ -173,7 +174,7 @@
 {
     
     if ([Value count] != [Key count]) {
-        NSLog(@"ERROR in ([Value count] != [Key count]) %i - %i", [Value count], [Key count]);
+        BOOKS_DB_ERROR_LOG(@"ERROR in ([Value count] != [Key count]) %i - %i", [Value count], [Key count]);
         return BOOKSLIST_ERROR;
     }
     
@@ -195,7 +196,7 @@
     
     NSError *error = nil;
     if (![_context save:&error]) {
-        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+        BOOKS_DB_ERROR_LOG(@"Can't Save! %@ %@", error, [error localizedDescription]);
         return BOOKSLIST_ERROR;
     }
     
@@ -212,7 +213,7 @@
     NSError *error = nil;
     
     if (![_context save:&error]) {
-        NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
+        BOOKS_DB_ERROR_LOG(@"Can't Delete! %@ %@", error, [error localizedDescription]);
         return BOOKSLIST_ERROR;
     }    
 
@@ -226,7 +227,7 @@
     NSError *error = nil;
     // Save the object to persistent store
     if (![_context save:&error]) {
-        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+        BOOKS_DB_ERROR_LOG(@"Can't Save! %@ %@", error, [error localizedDescription]);
     }
     
     return BOOKSLIST_SUCCESS;
@@ -260,7 +261,7 @@
 -(NSMutableArray*) Books_CoreDataFetchNoDeletedData
 {
     NSMutableArray *BookList = [[NSMutableArray alloc] init];
-    //    NSLog(@"Books_CoreDataFetch");
+    //    BOOKS_DB_LOG(@"Books_CoreDataFetch");
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:BOOK_LIST_DB_ENTITY];
     BookList = [[_context executeFetchRequest:fetchRequest error:nil] mutableCopy];
     
@@ -274,7 +275,7 @@
             
         } else {
             
-            //NSLog(@"PUT INTO BOOKLIST = %@", [tempBook valueForKey:BOOKS_CORE_DATA_KEY_BOOK_NAME]);
+            //BOOKS_DB_LOG(@"PUT INTO BOOKLIST = %@", [tempBook valueForKey:BOOKS_CORE_DATA_KEY_BOOK_NAME]);
             
         }
         
@@ -327,7 +328,7 @@
 	if (![fetchedResultsController performFetch:&error])
 	{
 		// Handle error
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		BOOKS_DB_ERROR_LOG(@"Unresolved error %@, %@", error, [error userInfo]);
 		exit(-1);  // Fail
 	}
     
@@ -370,7 +371,7 @@
 	if (![fetchedResultsController performFetch:&error])
 	{
 		// Handle error
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		BOOKS_DB_ERROR_LOG(@"Unresolved error %@, %@", error, [error userInfo]);
 		exit(-1);  // Fail
 	}
 
@@ -413,7 +414,7 @@
 	if (![fetchedResultsController performFetch:&error])
 	{
 		// Handle error
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		BOOKS_DB_ERROR_LOG(@"Unresolved error %@, %@", error, [error userInfo]);
 		exit(-1);  // Fail
 	}
     
@@ -454,7 +455,7 @@
 	if (![fetchedResultsController performFetch:&error])
 	{
 		// Handle error
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		BOOKS_DB_ERROR_LOG(@"Unresolved error %@, %@", error, [error userInfo]);
 		exit(-1);  // Fail
 	}
     
@@ -495,7 +496,7 @@
 	if (![fetchedResultsController performFetch:&error])
 	{
 		// Handle error
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		BOOKS_DB_ERROR_LOG(@"Unresolved error %@, %@", error, [error userInfo]);
 		exit(-1);  // Fail
 	}
     
@@ -541,12 +542,12 @@
     }
 
     NSDate *UpdateTime = [NSDate date];
-    NSLog(@"Save Update Time = %@", UpdateTime);
+    BOOKS_DB_LOG(@"Save Update Time = %@", UpdateTime);
     [UpdateTimeObj setValue:UpdateTime forKey:@"lastUpdateTime"];
     
     NSError *error = nil;
     if (![_context save:&error]) {
-        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+        BOOKS_DB_ERROR_LOG(@"Can't Save! %@ %@", error, [error localizedDescription]);
         return BOOKSLIST_ERROR;
     }
     return BOOKSLIST_SUCCESS;
@@ -556,14 +557,19 @@
 // Get sync time for server
 -(NSDate*) Books_GetTheLastSyncTime
 {
-    //    NSLog(@"Books_CoreDataFetch");
+    //    BOOKS_DB_LOG(@"Books_CoreDataFetch");
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"SyncTime"];
-    NSManagedObject *UpdateTimeObj = [[_context executeFetchRequest:fetchRequest error:nil] objectAtIndex:0];
-    NSDate *UpdateTime = [UpdateTimeObj valueForKey:@"lastUpdateTime"];
-    NSLog(@"Get update time %@", UpdateTime);
-    
-    return UpdateTime;
+    if ([_context executeFetchRequest:fetchRequest error:nil] != nil) {
+        NSManagedObject *UpdateTimeObj = [[_context executeFetchRequest:fetchRequest error:nil] objectAtIndex:0];
+        NSDate *UpdateTime = [UpdateTimeObj valueForKey:@"lastUpdateTime"];
+        BOOKS_DB_LOG(@"Get update time %@", UpdateTime);
+        return UpdateTime;
 
+    } else {
+        
+        return  nil;
+        
+    }
 }
 
 
@@ -587,13 +593,13 @@
                                                  
                                           } else {
                                                  
-                                                 NSLog(@"TEST VIEW = READ SEARVER - NODATA");
+                                                 BOOKS_DB_LOG(@"TEST VIEW = READ SEARVER - NODATA");
                                               if (BOOKSLIST_SUCCESS == [self Books_SaveCurrentAsLastSyncTime]) {
                                                   
                                                   [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_END_NO_MERGE];
                                                   
                                               } else {
-                                                  NSLog(@"Save current time as sync time error");
+                                                  BOOKS_DB_LOG(@"Save current time as sync time error");
                                                   [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_ERROR];
 
                                               }
@@ -605,7 +611,7 @@
                                                                                         failure:^(NSURLRequest *request, NSHTTPURLResponse *response,NSError *error, id JSON)
                                          {
 
-                                             NSLog(@"NSError: %@",error.localizedDescription);
+                                             BOOKS_DB_ERROR_LOG(@"NSError: %@",error.localizedDescription);
                                              [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_ERROR];
 
                                          }];
@@ -665,7 +671,7 @@
         [Data reverseObjectEnumerator];
         for (int Count = 0; Count < [Data count]; Count++) {
             
-            //NSLog(@"%@",[[Data objectAtIndex:Count] valueForKey:BOOKS_WEB_DB_KEY_BOOK_ID]);
+            //BOOKS_DB_LOG(@"%@",[[Data objectAtIndex:Count] valueForKey:BOOKS_WEB_DB_KEY_BOOK_ID]);
             
             NSString *GuidStr = [[Data objectAtIndex:Count] valueForKey:BOOKS_WEB_DB_KEY_BOOK_ID];
             if (GuidStr != nil) {
@@ -690,7 +696,7 @@
                             
                             // If URL Attr is nil or NaN, the book is new one.
                             [TempBookObj setValue:[[Data objectAtIndex:Count] valueForKey:BOOKS_WEB_DB_KEY_BOOK_SEARVER_URL] forKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL];
-                            NSLog(@"New book update url = %@", [TempBookObj valueForKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL]);
+                            BOOKS_DB_LOG(@"New book update url = %@", [TempBookObj valueForKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL]);
                             [self Books_CoreDataUpdateWithoObject:TempBookObj];
                             
                         } else {
@@ -719,7 +725,7 @@
                         
                         if ([[TempBookObj valueForKey:BOOKS_CORE_DATA_KEY_BOOK_DELETED] isEqualToString:BOOKS_CORE_DATA_IS_DELETED]) {
                             
-                            NSLog(@"The book %@ is deleted and would not show in the list", [TempBookObj valueForKey:BOOKS_CORE_DATA_KEY_BOOK_ID]);
+                            BOOKS_DB_LOG(@"The book %@ is deleted and would not show in the list", [TempBookObj valueForKey:BOOKS_CORE_DATA_KEY_BOOK_ID]);
                             
                             // Put this book in delete queue list, and then fire delete request
                             if (_waitToDeleteBookArray == nil) {
@@ -738,13 +744,13 @@
                 
             } else {
                 
-                NSLog(@"GuidStr == nil");
+                BOOKS_DB_LOG(@"GuidStr == nil");
                 
             }
         }
     }
     
-    NSLog(@"Total %i books save into DB", countForMerge);
+    BOOKS_DB_LOG(@"Total %i books save into DB", countForMerge);
     
     if (BOOKSLIST_SUCCESS == [self Books_SaveCurrentAsLastSyncTime]) {
         
@@ -779,10 +785,10 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"POST"];
     
-    NSLog(@"Htttp Method %@ ", request.HTTPMethod);
+    BOOKS_DB_LOG(@"Htttp Method %@ ", request.HTTPMethod);
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-d H:m:s"];
-    NSLog(@"POST Date = %@", [formatter stringFromDate:BookInfoObj.BookInfoCreateTime]);
+    BOOKS_DB_LOG(@"POST Date = %@", [formatter stringFromDate:BookInfoObj.BookInfoCreateTime]);
     
     NSMutableDictionary *newAccount = [[NSMutableDictionary alloc]init];
     [newAccount setObject:BookInfoObj.BookName forKey:BOOKS_WEB_DB_KEY_BOOK_NAME];
@@ -836,7 +842,7 @@
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"DELETE"];
     
-    NSLog(@"Htttp Method %@ ", request.HTTPMethod);
+    BOOKS_DB_LOG(@"Htttp Method %@ ", request.HTTPMethod);
     NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
     
     // the connection created is successfully
@@ -869,12 +875,12 @@
     }
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:BookInfoObj.BookSearverURL];
-    NSLog(@"URL = %@", BookInfoObj.BookSearverURL);
+    BOOKS_DB_LOG(@"URL = %@", BookInfoObj.BookSearverURL);
     // Add header value and set http for POST requeest as JSON
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"PUT"];
 
-    NSLog(@"Htttp Method %@ ", request.HTTPMethod);
+    BOOKS_DB_LOG(@"Htttp Method %@ ", request.HTTPMethod);
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-d H:m:s"];
@@ -921,24 +927,24 @@
     switch (_ServerState) {
             
         case BOOKLIST_STATE_IDLE:
-            NSLog(@"BOOK LIST IDLE - Nothing happen");
+            BOOKS_DB_LOG(@"BOOK LIST IDLE - Nothing happen");
             break;
             
         case BOOKLIST_STATE_DELETING:
             
-            NSLog(@"BOOK LIST DELETING");
+            BOOKS_DB_LOG(@"BOOK LIST DELETING");
             if (([response statusCode] == 204) || ([response statusCode] == 404)) {
                 
-                NSLog(@"responseURL = %@", [response.URL absoluteString]);
+                BOOKS_DB_LOG(@"responseURL = %@", [response.URL absoluteString]);
                 NSArray *TempBookObjArray = [self Books_CoreDataSearchWithBookSearverURL:response.URL inDatabase:BOOK_LIST];
                 
                 if (([TempBookObjArray count] != 1) || ([TempBookObjArray count] == 0)) {
                     
-                    NSLog(@"[TempBookObjArray count] = %i ERROR", [TempBookObjArray count]);
+                    BOOKS_DB_LOG(@"[TempBookObjArray count] = %i ERROR", [TempBookObjArray count]);
                     
                 } else {
                     
-                    NSLog(@"delete book in core data");
+                    BOOKS_DB_LOG(@"delete book in core data");
                     NSManagedObject *bookObj = [TempBookObjArray objectAtIndex:0];
                     [self Books_CoreDataDelete:bookObj];
                     
@@ -948,7 +954,7 @@
             
         case BOOKLIST_STATE_POSTING:
             
-            NSLog(@"BOOK LIST POSTING");
+            BOOKS_DB_LOG(@"BOOK LIST POSTING");
             _ServerState = BOOKLIST_STATE_IDLE;
             
             break;
@@ -956,7 +962,7 @@
             
         case BOOKLIST_STATE_UPDATING:
             
-            NSLog(@"BOOK LIST UPDATING");
+            BOOKS_DB_LOG(@"BOOK LIST UPDATING");
             _ServerState = BOOKLIST_STATE_IDLE;
             
             break;
@@ -998,7 +1004,7 @@
     if ([response isKindOfClass:[NSHTTPURLResponse class]])
     {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
-        NSLog(@"did receive responced %d - %@", [httpResponse statusCode], [httpResponse.URL absoluteString]);
+        BOOKS_DB_LOG(@"did receive responced %d - %@", [httpResponse statusCode], [httpResponse.URL absoluteString]);
         [self Books_HandleResponseWithHttpResponse:httpResponse];
     }
 }
