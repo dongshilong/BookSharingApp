@@ -50,6 +50,8 @@
     
     if (self != nil) {
         
+        
+        
         //BookInfo *BookInfoObj = [[BookInfo alloc] init];
         BookName = [bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_NAME];
         BookAuthor = [bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_AUTHOR];

@@ -10,6 +10,18 @@
 #import "AFJSONRequestOperation.h"
 #import "BookInfo.h"
 
+
+
+//#define DEBUG_BOOK_DATABASE
+#ifdef DEBUG_BOOK_DATABASE
+#   define BOOKS_DB_LOG(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#   define BOOKS_DB_LOG(...)
+#endif
+
+#define BOOKS_DB_ERROR_LOG(fmt, ...) NSLog((@"ERROR !! %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+
 #define BOOK_LIST_DB_ENTITY                         @"Book" 
 #define BOOK_HISTORY_DB_ENTITY                      @"BookHistory"
 

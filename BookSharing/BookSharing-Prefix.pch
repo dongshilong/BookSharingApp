@@ -25,7 +25,6 @@
 #define IPHONE_SCREEN_4_INCH_HEIGHT     568
 
 //#define DEBUG_VIEW
-//#define DEBUG_BOOK_DATABASE
 //#define DEBUG_FB_SESSION
 
 //#define DEBUG_BOOK_SEARCH
@@ -45,15 +44,6 @@
 #endif
 
 #define VIEW_ERROR_LOG(fmt, ...) NSLog((@"ERROR !! %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-
-
-#ifdef DEBUG_BOOK_DATABASE
-#   define BOOKS_DB_LOG(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-#else
-#   define BOOKS_DB_LOG(...)
-#endif
-
-#define BOOKS_DB_ERROR_LOG(fmt, ...) NSLog((@"ERROR !! %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
 #ifdef DEBUG_FB_SESSION
