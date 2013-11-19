@@ -60,7 +60,7 @@ BOOL GLOBAL_FORCE_SYNC = YES;
     // 4. Setup UI activity
     self.navigationItem.title = @"Book List";
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:9.0 green:80.0 blue:26.0 alpha:0.8]];
+    //[self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:9.0 green:80.0 blue:26.0 alpha:0.8]];
     //self.clearsSelectionOnViewWillAppear = YES;
     
     
