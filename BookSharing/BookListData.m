@@ -794,6 +794,7 @@
     [newAccount setObject:BookInfoObj.BookInfoStrongIntro forKey:BOOKS_WEB_DB_KEY_BOOK_STRONG_INTRO];
     [newAccount setObject:BookInfoObj.BookInfoIntro forKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
     [newAccount setObject:BookInfoObj.BookInfoGUID forKey:BOOKS_WEB_DB_KEY_BOOK_ID];
+    [newAccount setObject:[BookInfoObj.BookInfoURL absoluteString] forKey:BOOKS_WEB_DB_KEY_BOOK_INFO_URL]; //[CASPER] 2013.11.15:Add new attr on server
 
     NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONWritingPrettyPrinted error:nil];
     

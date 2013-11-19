@@ -61,7 +61,8 @@
         BookInfoGUID = [bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_ID];
         BookSearverURL = [NSURL URLWithString:[bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_SEARVER_URL]];
         BookCoverHDURL = [NSURL URLWithString:[bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_IMG_URL]];
-        
+        BookInfoURL = [NSURL URLWithString:[bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_INFO_URL]]; //[CASPER] 2013.11.15:Add new attr on server
+
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"YYYY-MM-d H:m:s"];
         NSDate *CreateTimeDate = [dateFormatter dateFromString:[bookJSONData valueForKey:BOOKS_WEB_DB_KEY_BOOK_CREATE_T]];
