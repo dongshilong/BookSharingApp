@@ -21,9 +21,11 @@ static NSString *const kTrackingId = @"UA-44954174-1";
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{    
+{
+    
     // Override point for customization after application launch.
     // Google analytics
+    [application setStatusBarStyle:UIStatusBarStyleLightContent];
     self.tracker = [[GAI sharedInstance] trackerWithName:@"BookSharingIOS" trackingId:kTrackingId];
     
     self.loginViewController = [[SettingViewViewController alloc] initWithNibName:@"SettingViewViewController" bundle:nil];

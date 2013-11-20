@@ -23,17 +23,16 @@ BOOL GLOBAL_FORCE_SYNC = YES;
 @implementation BookListViewController
 @synthesize tableView = _tableView;
 
-/*
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self)
+    {
+        
     }
+    
     return self;
 }
-*/
-
 
 - (void)viewDidLoad
 {
@@ -58,11 +57,26 @@ BOOL GLOBAL_FORCE_SYNC = YES;
     
     
     // 4. Setup UI activity
-    self.navigationItem.title = @"Book List";
+    //self.navigationItem.title = @"Book List";
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    //[self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:9.0 green:80.0 blue:26.0 alpha:0.8]];
-    //self.clearsSelectionOnViewWillAppear = YES;
     
+    //UIViewControllerBasedStatusBarAppearance = YES;
+    
+    UIColor *BarColor = [UIColor colorWithRed:(9/255.0) green:(80/255.0) blue:(26/255.0) alpha:1.0];
+    self.navigationController.navigationBar.barTintColor = BarColor;
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize:20.0];
+    label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor lightGrayColor]; // change this color
+    self.navigationItem.titleView = label;
+    label.text = @"Book List";
+    [label sizeToFit];
+    
+    [self.tableView setSeparatorColor:BarColor];
+
     
     // Hide Search Bar at the beginning
     CGRect Bounds = _tableView.bounds;
@@ -236,11 +250,11 @@ BOOL GLOBAL_FORCE_SYNC = YES;
         
         switch (section) {
             case 0:
-                sectionStr = @"book name";
+                sectionStr = @"BOOK NAME";
                 break;
                 
             case 1:
-                sectionStr = @"book author";
+                sectionStr = @"BOOK AUTHOR";
                 break;
                 
             default:

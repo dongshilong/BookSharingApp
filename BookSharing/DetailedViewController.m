@@ -30,6 +30,22 @@
     [super viewDidLoad];
     _BookAlreadyHave = NO;
     
+    UIColor *BarColor = [UIColor colorWithRed:(9/255.0) green:(80/255.0) blue:(26/255.0) alpha:1.0];
+    self.navigationController.navigationBar.barTintColor = BarColor;
+
+    
+    // this will appear as the title in the navigation bar
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize:20.0];
+    label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+    label.textAlignment = NSTextAlignmentCenter;
+    // ^-Use UITextAlignmentCenter for older SDKs.
+    label.textColor = [UIColor lightGrayColor]; // change this color
+    self.navigationItem.titleView = label;
+    label.text = @"Book List";
+    [label sizeToFit];
+    
     
     
     // Set flag and init models

@@ -29,12 +29,32 @@
     [super viewDidLoad];
 
     // Setup UI activity
-    self.navigationItem.title = @"Setting";
+    //self.navigationItem.title = @"Setting";
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
     _sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
     // Set the gesture
+    
+    
+    UIColor *BarColor = [UIColor colorWithRed:(9/255.0) green:(80/255.0) blue:(26/255.0) alpha:1.0];
+    self.navigationController.navigationBar.barTintColor = BarColor;
+    //self.navigationController.navigationBar.titleTextAttributes = @{UITextAttributeTextColor : [UIColor whiteColor]};
+    
+    // this will appear as the title in the navigation bar
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize:20.0];
+    label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+    label.textAlignment = NSTextAlignmentCenter;
+    // ^-Use UITextAlignmentCenter for older SDKs.
+    label.textColor = [UIColor lightGrayColor]; // change this color
+    self.navigationItem.titleView = label;
+    label.text = @"Setting";
+    [label sizeToFit];
+    
+    
+
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 }
 

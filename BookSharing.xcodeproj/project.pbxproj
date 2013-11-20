@@ -420,13 +420,13 @@
 		10905AA817FEAFB1002E416C /* DetailedInfoView */ = {
 			isa = PBXGroup;
 			children = (
+				1012552517F2919B00D30132 /* DetailedViewController.h */,
+				1012552617F2919B00D30132 /* DetailedViewController.m */,
 				10EF7B181817CD9B0076B839 /* EditBookInfoViewController.h */,
 				10EF7B191817CD9B0076B839 /* EditBookInfoViewController.m */,
 				10B0D3FB1830A6D100540B1D /* EditBookInfoScroller.m */,
 				10B0D3FA1830A6D100540B1D /* EditBookInfoScroller.h */,
 				10B0D3F81830A5EB00540B1D /* EditBookInfoScroller.xib */,
-				1012552517F2919B00D30132 /* DetailedViewController.h */,
-				1012552617F2919B00D30132 /* DetailedViewController.m */,
 				107FC4D017F825F300736AC8 /* DetailedScroller.xib */,
 				107FC4CD17F825DC00736AC8 /* DetailedScroller.h */,
 				107FC4CE17F825DC00736AC8 /* DetailedScroller.m */,
