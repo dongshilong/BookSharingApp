@@ -155,13 +155,17 @@ BOOL GLOBAL_FORCE_SYNC = YES;
     NotLoginView = [[[NSBundle mainBundle] loadNibNamed:@"BookListNotLoginAlert" owner:self options:nil] objectAtIndex:0];
     [NotLoginView setCenter:CGPointMake(screenBounds.size.width / 2, (screenBounds.size.height + NotLoginView.frame.size.height))];
     
+    
+    // Set round corner
+    /*
     NotLoginView.layer.masksToBounds = YES;
     NotLoginView.layer.opaque = NO;
     NotLoginView.layer.cornerRadius = 4.0f;
+     */
     [_tableView addSubview:NotLoginView];
     
     NotLoginView.alpha = 0.2;
-    [UIView animateWithDuration:2.0
+    [UIView animateWithDuration:1.0
                      animations:^{
                          
                          if (Refreshing) {
@@ -169,6 +173,7 @@ BOOL GLOBAL_FORCE_SYNC = YES;
                               NotLoginView.center = CGPointMake(screenBounds.size.width/2, screenBounds.size.height - NotLoginView.frame.size.height - 50);
                              
                          } else {
+                             
                               NotLoginView.center = CGPointMake(screenBounds.size.width/2, screenBounds.size.height - NotLoginView.frame.size.height - 20);
                          }
                          
@@ -176,7 +181,7 @@ BOOL GLOBAL_FORCE_SYNC = YES;
                          NotLoginView.alpha = 0.8;
                      }
                      completion:^(BOOL finished){
-                         [UIView animateWithDuration:2.0
+                         [UIView animateWithDuration:1.0
                                           animations:^{
                                               NotLoginView.center = CGPointMake(screenBounds.size.width/2, screenBounds.size.height + NotLoginView.frame.size.height);;
                                               NotLoginView.alpha = 0.2;
@@ -185,7 +190,9 @@ BOOL GLOBAL_FORCE_SYNC = YES;
                                               [NotLoginView removeFromSuperview];
                                               
                                           }];
-                     }];}
+                     }];
+
+}
 
 
 #pragma mark - Get Data Sync Notification
