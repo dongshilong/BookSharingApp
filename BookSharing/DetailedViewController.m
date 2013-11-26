@@ -123,15 +123,20 @@
     self.screenName = @"Detailed Info View";
     
     // Facebook
+    
     if (FBSession.activeSession.isOpen) {
+    
         [[FBRequest requestForMe] startWithCompletionHandler:
          ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
              if (!error) {
+                 _FacebookName = user.name;
+                 _FacebookID = user.id;
                  //_ProfileName.text = user.name;
                  //self.userProfileImage.profileID = [user objectForKey:@"id"];
-                 NSLog(@"%@ - %@", user.name, [user objectForKey:@"id"]);
+                 //NSLog(@"%@ - %@", user.name, [user objectForKey:@"id"]);
              }
          }];
+     
     } else {
         DETAILED_VIEW_LOG(@"Facebook Test is NOT open");
     }
@@ -242,9 +247,30 @@
                  }
                  
                  [self RemoveLoadingView];
+                 
              }
          }
          
+     }];
+}
+
+-(void) CheckBookDataNotify
+{
+    
+    // Regist BOOK_INDO_NOTIFY_ID Notify center
+    [[NSNotificationCenter defaultCenter] addObserverForName:BOOKLIST_NOTIFY_ID
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *notification)
+     {
+         
+         NSDictionary *dict = notification.userInfo;
+         if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_POST_DONE]) {
+             
+             NSLog(@"BOOKLIST_DATABASE_POST_DONE");
+             [_BookDataBase Books_CoreDataSetBookUploaded:_book];
+            
+         }
      }];
 }
 
@@ -290,6 +316,22 @@
     
     
 }
+
+
+-(void) BookNotLoginViewAlert
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"NOT LOGIN YET~"
+                                                    message:@"Data would not be backed up if not login to Facebook."
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    
+    //將Alerts顯示於畫面上
+    [alert show];
+    
+    
+}
+
 
 // 點了 OK 後要執行的 Method
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
@@ -424,17 +466,27 @@
 {
     // Search Book In DB With ISBN
     DETAILED_VIEW_LOG(@"Save %@ to data base", _BookInfoObj.BookName);
-    if (BOOKSLIST_SUCCESS != [_BookDataBase Books_SaveBookInfoObj:_BookInfoObj InDatabase:BOOK_LIST]) {
+    if (BOOKSLIST_SUCCESS != [_BookDataBase Books_SaveBookInfoObj:_BookInfoObj InDatabase:BOOK_LIST andSetUploadedAs:NO]) {
         VIEW_ERROR_LOG(@"SAVE ERROR");
     }
     
-    // Set Force Sync
-    extern BOOL GLOBAL_FORCE_SYNC;
-    GLOBAL_FORCE_SYNC = YES;
+    if (FBSession.activeSession.isOpen) {
+        
+        // Set Force Sync
+        extern BOOL GLOBAL_FORCE_SYNC;
+        GLOBAL_FORCE_SYNC = YES;
+        
+        [self performSelector:@selector(CheckBookDataNotify)];
+        [_BookDataBase Books_FirePOSTConnectionToServerWithBookInfo:_BookInfoObj WithFBName:_FacebookName AndFBId:_FacebookID];
+        
+        
+        [self BookSaveViewAlert];
+        
+    } else {
+        
+        [self BookNotLoginViewAlert];
+    }
     
-    [_BookDataBase Books_FirePOSTConnectionToServerWithBookInfo:_BookInfoObj];
-    
-    [self BookSaveViewAlert];
     
 }
 

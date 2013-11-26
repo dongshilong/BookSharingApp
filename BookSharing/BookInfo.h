@@ -24,6 +24,7 @@
 #define BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL         @"bookServerURL"
 #define BOOKS_CORE_DATA_KEY_BOOK_IMG_URL            @"bookCoverUrlLarge"
 #define BOOKS_CORE_DATA_KEY_BOOK_DELETED            @"bookDeleted"
+#define BOOKS_CORE_DATA_KEY_BOOK_UPLOADED           @"uploaded"
 
 
 
@@ -42,6 +43,8 @@
 #define BOOKS_WEB_DB_KEY_BOOK_ID                    @"bookid"
 #define BOOKS_WEB_DB_KEY_BOOK_SEARVER_URL           @"url"
 #define BOOKS_WEB_DB_KEY_BOOK_INFO_URL              @"bookinfourl" //[CASPER] 2013.11.15:Add new attr on server
+#define BOOKS_WEB_DB_KEY_FB_USER_NAME               @"fbName"      //[CASPER] 2013.11.26:Add new attr for FB
+#define BOOKS_WEB_DB_KEY_FB_USER_ID                 @"fbId"
 
 
 #define BOOKS_CORE_DATA_IS_DELETED                  @"IS_DELETED"

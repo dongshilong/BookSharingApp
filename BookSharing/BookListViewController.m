@@ -243,7 +243,11 @@ BOOL GLOBAL_FORCE_SYNC = YES;
              [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 
         
+         } else if ([[dict objectForKey:BOOKLIST_NOTIFY_KEY] isEqualToString:BOOKLIST_DATABASE_POST_DONE]) {
+             
+             NSLog(@"BOOKLIST_DATABASE_POST_DONE");
          }
+
      }];
 }
 

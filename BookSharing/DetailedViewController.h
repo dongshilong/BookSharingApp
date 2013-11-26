@@ -50,6 +50,8 @@ typedef enum {
 @property (weak, nonatomic)             BookInfoHeader      *BookInfoHeaderView;
 @property (strong, nonatomic)           DetailedScroller    *BookInfoDetailedView;
 @property (weak, nonatomic)             Searching           *SearchingView;
+@property (strong, atomic)              NSString            *FacebookName;
+@property (strong, atomic)              NSString            *FacebookID;
 
 
 @property (strong, atomic)      NSString        *NotificationState_OLD;

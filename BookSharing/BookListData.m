@@ -17,7 +17,11 @@
 #import "BookListViewController.h"
 #import "NSMutableArray+Queue.h"
 
-@implementation BookListData
+@implementation BookListData {
+    NSManagedObject *PrivateBookObj;
+    BOOL InternalPost;
+}
+
 //@synthesize fetchedResultsController;
 
 -(BookListData*) init{
@@ -40,11 +44,13 @@
                        @"bookAuthorIntro",
                        BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL,
                        BOOKS_CORE_DATA_KEY_BOOK_DELETED,
+                       BOOKS_CORE_DATA_KEY_BOOK_UPLOADED, // 2013.12.14 [CASPER] add attr uploaded
                        nil];
         
         _waitToGetImgCoverArray = [[NSMutableArray alloc] init];
         AppDelegate *theAppDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
         _context = [theAppDelegate managedObjectContext];
+        InternalPost = NO;
 
     }
     
@@ -129,9 +135,11 @@
 
 
 // 將 BookInfo 的 object 存入 Core Data
--(BOOKLIST_STATUS) Books_SaveBookInfoObj : (BookInfo*) BookInfoObj InDatabase : (BOOKLIST_CORE_DATA_DB) BookListDB
+-(BOOKLIST_STATUS) Books_SaveBookInfoObj : (BookInfo*) BookInfoObj InDatabase : (BOOKLIST_CORE_DATA_DB) BookListDB andSetUploadedAs : (BOOL) Uploaded
 {
+    
     if (BookInfoObj.BookInfoCreateTime == nil) {
+        
         
         // For New Data
         NSUUID *Guid = [[NSUUID alloc] init];
@@ -140,7 +148,7 @@
         BookInfoObj.BookInfoCreateTime = date;
         BookInfoObj.BookInfoUpdateTime = date;
         BookInfoObj.BookInfoGUID = [Guid UUIDString];
-        
+        NSLog(@"BOOKINFO %@", BookInfoObj.BookInfoCreateTime);
     }
     
     
@@ -163,6 +171,7 @@
                               BookInfoObj.BookInfoAuthorIntro,
                               [BookInfoObj.BookSearverURL absoluteString],
                               DeletedString,
+                              [NSNumber numberWithBool:Uploaded], // [CASPER] 2013.11.26 Add for uploaded
                               nil];
     
     return [self Books_CoreDataSave:[self Books_GetCoreDataKey] andValue:CoreDataValue InDatabase:BookListDB];
@@ -202,6 +211,24 @@
     
     return BOOKSLIST_SUCCESS;
 }
+
+// 2013.12.14 [CASPER] add attr uploaded
+// UPDATE Core Data uploaded flag
+-(BOOKLIST_STATUS) Books_CoreDataSetBookUploaded : (NSManagedObject*) Book
+{
+
+    [Book setValue:[NSNumber numberWithBool:YES] forKey:BOOKS_CORE_DATA_KEY_BOOK_UPLOADED];
+    
+    NSError *error = nil;
+    // Save the object to persistent store
+    if (![_context save:&error]) {
+        BOOKS_DB_ERROR_LOG(@"Can't Save! %@ %@", error, [error localizedDescription]);
+    }
+    
+    return BOOKSLIST_SUCCESS;
+    
+}
+
 
 
 // 刪除 Core Data 中特定的資料
@@ -293,6 +320,53 @@
     return [self Books_CoreDataUpdateWithoObject:Book];
 
 }
+
+// 在 Book 中搜尋 未上傳的 BOOK
+-(NSArray*) Books_CoreDataSearchBookNotUploadedInDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB
+{
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSString *BookCoreDataEntityName;
+    if (BookListDB == BOOK_LIST) {
+        
+        BookCoreDataEntityName = BOOK_LIST_DB_ENTITY;
+        
+    } else if (BookListDB == BOOK_HISTORY) {
+        
+        BookCoreDataEntityName = BOOK_HISTORY_DB_ENTITY;
+    }
+    
+	// NSSortDescriptor tells defines how to sort the fetched results
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:BOOKS_CORE_DATA_KEY_BOOK_UPLOADED ascending:YES];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+	[fetchRequest setSortDescriptors:sortDescriptors];
+	
+    // fetchRequest needs to know what entity to fetch
+	NSEntityDescription *entity = [NSEntityDescription entityForName:BookCoreDataEntityName inManagedObjectContext:_context];
+	[fetchRequest setEntity:entity];
+    
+    NSFetchedResultsController  *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_context sectionNameKeyPath:nil cacheName:@"Root"];
+    
+    
+    //NSPredicate *predicate =[NSPredicate predicateWithFormat:@"uploaded contains[cd] %@", [BookSearverURL absoluteString]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uploaded == NO"];
+
+    [fetchedResultsController.fetchRequest setPredicate:predicate];
+    
+	NSError *error = nil;
+	if (![fetchedResultsController performFetch:&error])
+	{
+		// Handle error
+		BOOKS_DB_ERROR_LOG(@"Unresolved error %@, %@", error, [error userInfo]);
+		exit(-1);  // Fail
+	}
+    
+    return fetchedResultsController.fetchedObjects;
+    
+}
+
+
+
 
 // 在 Book 中搜尋 Book Server URL
 -(NSArray*) Books_CoreDataSearchWithBookSearverURL : (NSURL*) BookSearverURL inDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB
@@ -559,6 +633,7 @@
 {
     //    BOOKS_DB_LOG(@"Books_CoreDataFetch");
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"SyncTime"];
+    
     if ([_context executeFetchRequest:fetchRequest error:nil] != nil) {
         NSManagedObject *UpdateTimeObj = [[_context executeFetchRequest:fetchRequest error:nil] objectAtIndex:0];
         NSDate *UpdateTime = [UpdateTimeObj valueForKey:@"lastUpdateTime"];
@@ -576,6 +651,31 @@
 // 取得 Server 上的 DATA，與 Core Data Merge
 -(void) Books_GetServerDataAndMerge
 {
+    
+    // check not uploaded item
+    NSArray *NotUploadedItem = [self Books_CoreDataSearchBookNotUploadedInDatabase:BOOK_LIST];
+    if ([NotUploadedItem count] != 0) {
+        
+        PrivateBookObj = [NotUploadedItem firstObject];
+
+        BookInfo *PostBook = [[BookInfo alloc] initWithCoreDataObj:PrivateBookObj];
+        
+        [[FBRequest requestForMe] startWithCompletionHandler:
+         ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+             if (!error) {
+                 
+                 InternalPost = YES;
+                 [self Books_FirePOSTConnectionToServerWithBookInfo:PostBook WithFBName:user.name AndFBId:user.id];
+                 
+             }
+         }];
+        
+        return;
+    } else {
+
+        NSLog(@"ALL DATA UPLOADED");
+    }
+    
     // Sync Start
     [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_SYNC_START];
     
@@ -679,9 +779,11 @@
                 
                 if([IDFound count] == 0) {
                     
+                    // server : o
+                    // local  : x
                     countForMerge++;
                     BookInfo *BookInfoObj = [[BookInfo alloc] initWithJSONObj:[Data objectAtIndex:Count]];
-                    [self Books_SaveBookInfoObj:BookInfoObj InDatabase:BOOK_LIST];
+                    [self Books_SaveBookInfoObj:BookInfoObj InDatabase:BOOK_LIST andSetUploadedAs:YES];
                     
                     // Add to queue, and list view will filled it out when loading
                     [_waitToGetImgCoverArray enqueue:BookInfoObj];
@@ -690,6 +792,8 @@
                     
                     if ([IDFound count] == 1) {
                         
+                        // server : o
+                        // local  : o
                         // Check url attr
                         NSManagedObject *TempBookObj = [IDFound objectAtIndex:0];
                         if ([[TempBookObj valueForKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL] isEqualToString:BOOKS_CORE_DATA_DEFAULT_VALUE]) {
@@ -711,6 +815,7 @@
 
                             if (NSOrderedSame != [BookUpdateTimeDateServer compare:BookUpdateTimeDateLocal]) {
                                 if (NSOrderedAscending == [BookUpdateTimeDateServer compare:BookUpdateTimeDateLocal]) {
+                                    
                                     // Local is newer
                                     // TODO: the local data is not yet update to server
                                     
@@ -776,7 +881,7 @@
 }
 
 // 將 Book Data 丟上 Server
--(BOOKLIST_STATUS) Books_FirePOSTConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj
+-(BOOKLIST_STATUS) Books_FirePOSTConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj 
 {
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://booksharingapps.herokuapp.com/bookinfos.json"]];
@@ -788,6 +893,7 @@
     BOOKS_DB_LOG(@"Htttp Method %@ ", request.HTTPMethod);
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-d H:m:s"];
+    BOOKS_DB_LOG(@"create time = %@", BookInfoObj.BookInfoCreateTime);
     BOOKS_DB_LOG(@"POST Date = %@", [formatter stringFromDate:BookInfoObj.BookInfoCreateTime]);
     
     NSMutableDictionary *newAccount = [[NSMutableDictionary alloc]init];
@@ -802,6 +908,21 @@
     [newAccount setObject:BookInfoObj.BookInfoGUID forKey:BOOKS_WEB_DB_KEY_BOOK_ID];
     [newAccount setObject:[BookInfoObj.BookInfoURL absoluteString] forKey:BOOKS_WEB_DB_KEY_BOOK_INFO_URL]; //[CASPER] 2013.11.15:Add new attr on server
 
+    
+    
+    
+    [[FBRequest requestForMe] startWithCompletionHandler:
+     ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+         if (!error) {
+             
+             
+             [newAccount setObject:user.name forKey:BOOKS_WEB_DB_KEY_FB_USER_NAME];
+             [newAccount setObject:user.id forKey:BOOKS_WEB_DB_KEY_FB_USER_ID];
+             
+             
+         }
+     }];
+   
     NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONWritingPrettyPrinted error:nil];
     
     
@@ -825,6 +946,63 @@
     }
     return BOOKSLIST_SUCCESS;
 }
+
+
+-(BOOKLIST_STATUS) Books_FirePOSTConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj WithFBName : (NSString *) FBName AndFBId : (NSString *) FBId
+{
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://booksharingapps.herokuapp.com/bookinfos.json"]];
+    
+    // Add header value and set http for POST requeest as JSON
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPMethod:@"POST"];
+    
+    BOOKS_DB_LOG(@"Htttp Method %@ ", request.HTTPMethod);
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYY-MM-d H:m:s"];
+    BOOKS_DB_LOG(@"POST Date = %@", [formatter stringFromDate:BookInfoObj.BookInfoCreateTime]);
+    
+    NSMutableDictionary *newAccount = [[NSMutableDictionary alloc]init];
+    [newAccount setObject:BookInfoObj.BookName forKey:BOOKS_WEB_DB_KEY_BOOK_NAME];
+    [newAccount setObject:BookInfoObj.BookAuthor forKey:BOOKS_WEB_DB_KEY_BOOK_AUTHOR];
+    [newAccount setObject:BookInfoObj.BookISBN forKey:BOOKS_WEB_DB_KEY_BOOK_ISBN];
+    [newAccount setObject:[BookInfoObj.BookCoverHDURL absoluteString] forKey:BOOKS_WEB_DB_KEY_BOOK_IMG_URL];
+    [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoCreateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_CREATE_T];
+    [newAccount setObject:[formatter stringFromDate:BookInfoObj.BookInfoUpdateTime] forKey:BOOKS_WEB_DB_KEY_BOOK_UPDATE_T];
+    [newAccount setObject:BookInfoObj.BookInfoStrongIntro forKey:BOOKS_WEB_DB_KEY_BOOK_STRONG_INTRO];
+    [newAccount setObject:BookInfoObj.BookInfoIntro forKey:BOOKS_WEB_DB_KEY_BOOK_INTRO];
+    [newAccount setObject:BookInfoObj.BookInfoGUID forKey:BOOKS_WEB_DB_KEY_BOOK_ID];
+    [newAccount setObject:[BookInfoObj.BookInfoURL absoluteString] forKey:BOOKS_WEB_DB_KEY_BOOK_INFO_URL]; //[CASPER] 2013.11.15:Add new attr on server
+    
+    [newAccount setObject:FBName forKey:BOOKS_WEB_DB_KEY_FB_USER_NAME];
+    [newAccount setObject:FBId forKey:BOOKS_WEB_DB_KEY_FB_USER_ID];
+    
+
+        NSData *newAccountJSONData = [NSJSONSerialization dataWithJSONObject:newAccount options:NSJSONWritingPrettyPrinted error:nil];
+    
+    
+    //let the NSData object be the data of the request
+    [request setHTTPBody:newAccountJSONData];
+    
+    //create connection with the request and the connection will be sented immediately
+    NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    
+    // the connection created is successfully
+    if (connection) {
+        
+        _receivedData = [[NSMutableData alloc] init];
+        _ServerState = BOOKLIST_STATE_POSTING;
+        return BOOKSLIST_SUCCESS;
+        
+    } else {
+        
+        return BOOKSLIST_ERROR;
+        
+    }
+    return BOOKSLIST_SUCCESS;
+}
+
+
 
 // 發送 DELETE CMD 給 Server
 -(BOOKLIST_STATUS) Books_FireDELETEConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj
@@ -955,6 +1133,18 @@
         case BOOKLIST_STATE_POSTING:
             
             BOOKS_DB_LOG(@"BOOK LIST POSTING");
+            if (InternalPost) {
+                
+                [self Books_CoreDataSetBookUploaded:PrivateBookObj];
+                [self Books_GetServerDataAndMerge];
+                BOOKS_DB_LOG(@"posting %@", PrivateBookObj);
+                
+            } else {
+                
+                [self Books_SendStatusNotificationWithValue:BOOKLIST_DATABASE_POST_DONE];
+
+            }
+            
             _ServerState = BOOKLIST_STATE_IDLE;
             
             break;
@@ -974,6 +1164,8 @@
 
 
 #pragma mark - delege meethod of NSURLConnection
+
+
 -(void) Books_SendNotificationToViewController:(id) Object withSinglevalue:(NSString*) Value andSingleKey:(NSString*) Key
 {
     
@@ -995,7 +1187,8 @@
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    // Send Notification to tell ViewController the data is done uploaded.  
+    // Send Notification to tell ViewController the data is done uploaded.
+    
     [connection cancel];
 }
 

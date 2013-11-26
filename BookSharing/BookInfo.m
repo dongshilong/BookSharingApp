@@ -40,6 +40,8 @@
         BookInfoGUID = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_ID];
         BookSearverURL = [NSURL URLWithString:[bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_SERVER_URL]];
         BookCoverHDURL = [NSURL URLWithString:[bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_COVER_URL_LARGE]];
+        BookInfoCreateTime = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_CREATE_T];
+        BookInfoUpdateTime = [bookCoreData valueForKey:BOOKS_CORE_DATA_KEY_BOOK_UPDATE_T];
     }
     
     return self;

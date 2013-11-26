@@ -275,6 +275,7 @@
         [[FBRequest requestForMe] startWithCompletionHandler:
          ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
              if (!error) {
+                 
                  _FbUserNameLab.text = user.name;
                  [self SetupFBNameLabelWithUserName:user.name];
                  self.userProfileImage.profileID = [user objectForKey:@"id"];

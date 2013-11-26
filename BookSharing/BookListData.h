@@ -12,7 +12,7 @@
 
 
 
-//#define DEBUG_BOOK_DATABASE
+#define DEBUG_BOOK_DATABASE
 #ifdef DEBUG_BOOK_DATABASE
 #   define BOOKS_DB_LOG(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
@@ -33,6 +33,8 @@
 #define BOOKLIST_DATABASE_SYNC_ERROR                @"BOOKLIST_DATABASE_SYNC_ERROR"
 #define BOOKLIST_DATABASE_GET_IMAGE_COVER_START     @"BOOKLIST_DATABASE_GET_IMAGE_COVER_START"
 #define BOOKLIST_DATABASE_GET_IMAGE_COVER_END       @"BOOKLIST_DATABASE_GET_IMAGE_COVER_END"
+#define BOOKLIST_DATABASE_POST_DONE                 @"BOOKLIST_DATABASE_POST_DONE"
+
 
 @interface BookListData : NSObject {
     NSArray *CoreDataKey;
@@ -74,13 +76,15 @@ typedef enum {
 -(NSMutableArray*) Books_CoreDataFetchDataInDataBase:(BOOKLIST_CORE_DATA_DB) BookListDB;
 -(NSMutableArray*) Books_CoreDataFetchNoDeletedData;
 -(BOOKLIST_STATUS) Books_CoreDataDelete : (NSManagedObject*) Book;
+-(BOOKLIST_STATUS) Books_CoreDataSetBookUploaded : (NSManagedObject*) Book;
 -(BOOKLIST_STATUS) Books_CoreDataUpdateWithoObject : (NSManagedObject*) Book;
--(BOOKLIST_STATUS) Books_SaveBookInfoObj : (BookInfo*) BookInfoObj InDatabase : (BOOKLIST_CORE_DATA_DB) BookListDB;
+-(BOOKLIST_STATUS) Books_SaveBookInfoObj : (BookInfo*) BookInfoObj InDatabase : (BOOKLIST_CORE_DATA_DB) BookListDB andSetUploadedAs : (BOOL) Uploaded;
 -(BOOKLIST_STATUS) Books_CoreDataSetThisBookAsDeleted : (NSManagedObject *) Book;
 -(SearchEngine) WhereThisBookFromWithCoreData:(NSManagedObject *) book;
 
 
 // Search Book Name in Core Data with KeyWord
+-(NSArray*) Books_CoreDataSearchBookNotUploadedInDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB; // [CASPER] 2013.11.26 Check for the book not uploaded
 -(NSArray*) Books_CoreDataSearchWithBookName : (NSString*) BookNameString inDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB;
 -(NSArray*) Books_CoreDataSearchWithBookAuthor : (NSString*) SearchString inDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB;
 -(NSArray*) Books_CoreDataSearchWithBookISBN : (NSString*) SearchString inDatabase:(BOOKLIST_CORE_DATA_DB) BookListDB;
@@ -91,6 +95,8 @@ typedef enum {
 -(void) Books_GetServerDataAndMerge;
 //-(BOOKLIST_STATUS) Books_MergeDataWithCoreData:(NSArray*) ServerData andForceSyncData:(NSArray*) ForceSyncData;
 -(BOOKLIST_STATUS) Books_FirePOSTConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj;
+-(BOOKLIST_STATUS) Books_FirePOSTConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj WithFBName : (NSString *) FBName AndFBId : (NSString *) FBId;
+
 -(BOOKLIST_STATUS) Books_FireDELETEConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj;
 -(BOOKLIST_STATUS) Books_FirePUTConnectionToServerWithBookInfo : (BookInfo *)BookInfoObj;
 -(NSDate*) Books_GetTheLastSyncTime;
